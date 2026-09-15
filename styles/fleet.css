@@ -16,32 +16,35 @@
   gap: 1.75rem;
 }
 
-/* Escalonamento por posição na grade — cada card da linha entra
-   um pouco depois do vizinho. Discreto de propósito: é o ritmo da
+/* Escalonamento por coluna: cada card entra um pouco depois do
+   vizinho da esquerda. Discreto de propósito — é o ritmo da
    fileira, não uma coreografia.
 
-   O atraso vale SÓ para a transição de entrada (opacity e
-   transform). Se ficasse na propriedade `transition` genérica do
-   card, ele também atrasaria a reação do hover — que é aprovada
-   e não deve mudar. */
+   A declaração abaixo é necessária porque `.js .rv` (base.css)
+   sobrescreveria a transição do card e as animações de hover
+   aprovadas (borda e sombra) passariam a reagir de uma vez, sem
+   suavidade. Aqui as quatro propriedades convivem: as duas de
+   entrada e as duas de hover.
+
+   A ORDEM importa: `transition-delay` é casado por posição, então
+   os atrasos seguem exatamente esta lista — opacity, transform,
+   border-color, box-shadow. */
+.js .fleet__grid .vcard {
+  transition:
+    opacity 0.85s var(--e-out),
+    transform 0.85s var(--e-out),
+    border-color var(--t-med),
+    box-shadow var(--t-med);
+}
+
+/* As duas primeiras propriedades (entrada) recebem o atraso; as
+   duas de hover ficam em zero, para reagirem na hora. */
 .js .fleet__grid .vcard:nth-child(3n + 2) {
-  transition-delay: 0s, 0.08s, 0.08s, 0s;
+  transition-delay: 0.08s, 0.08s, 0s, 0s;
 }
 
 .js .fleet__grid .vcard:nth-child(3n) {
-  transition-delay: 0s, 0.16s, 0.16s, 0s;
-}
-
-.js .fleet__grid .vcard:nth-child(6n + 4) {
-  transition-delay: 0s, 0.08s, 0.08s, 0s;
-}
-
-.js .fleet__grid .vcard:nth-child(6n + 5) {
-  transition-delay: 0s, 0.16s, 0.16s, 0s;
-}
-
-.js .fleet__grid .vcard:nth-child(6n) {
-  transition-delay: 0s, 0.24s, 0.24s, 0s;
+  transition-delay: 0.16s, 0.16s, 0s, 0s;
 }
 
 /* ---------- Card de veículo ---------- */

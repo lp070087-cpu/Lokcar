@@ -358,7 +358,6 @@
       btn.className = 'bk__prot';
       btn.setAttribute('role', 'radio');
       btn.setAttribute('aria-checked', String(p.id === state.protecao));
-      btn.setAttribute('data-prot', p.id);
 
       var preco = p.valorDia > 0
         ? '+ ' + formatBRL(p.valorDia).replace(',00', '') + ' /dia'
@@ -398,7 +397,6 @@
 
       var label = document.createElement('label');
       label.className = 'bk__add' + (marcado ? ' is-on' : '');
-      label.setAttribute('data-add', a.id);
 
       var preco = a.sobConsulta
         ? CFG.textos.rotuloSobConsulta
@@ -540,7 +538,6 @@
       btn.type = 'button';
       btn.className = 'bk__calDay';
       btn.textContent = String(dia);
-      btn.setAttribute('data-date', toISODate(data));
 
       var ehFrom = mesmoDia(data, state.from);
       var ehTo = mesmoDia(data, state.to);
@@ -640,14 +637,11 @@
       if (state.days > 0) {
         els.hint.textContent = 'Período de ' + formatDias(state.days) +
           ' — ' + formatBR(state.from) + ' a ' + formatBR(state.to) + '.';
-        els.hint.classList.remove('is-warn');
       } else if (state.from) {
         els.hint.textContent = 'Retirada em ' + formatDiaCurto(state.from) +
           '. Falta escolher a devolução.';
-        els.hint.classList.remove('is-warn');
       } else {
         els.hint.textContent = 'Escolha as duas datas no calendário para calcular o período.';
-        els.hint.classList.remove('is-warn');
       }
     }
   };
@@ -693,7 +687,7 @@
     /* Desconto aplicado */
     var rowDesc = els.sumDiscount.closest('.bk__summaryRow');
     if (c.pct > 0 && c.desconto > 0) {
-      els.sumDiscount.textContent = '− ' + formatBRL(c.desconto) + '  (' + c.pct + '%)';
+      els.sumDiscount.textContent = '− ' + formatBRL(c.desconto) + ' (' + c.pct + '%)';
       if (rowDesc) rowDesc.classList.remove('is-empty');
     } else {
       els.sumDiscount.textContent = c.dias > 0 ? 'Nenhum desconto neste período' : '—';
@@ -729,8 +723,11 @@
       els.sumAdds.textContent = 'Nenhum serviço adicional';
     }
 
-    /* Subtotal e total estimado */
-    if (c.dias > 0 || state.model) {
+    /* Subtotal e total estimado.
+       Só aparece número quando existe período escolhido: sem
+       datas, "R$ 0,00" passaria a impressão de reserva sem custo
+       em vez de cálculo ainda não feito. */
+    if (c.dias > 0) {
       els.sumSubtotal.textContent = formatBRL(c.subtotal);
       els.sumTotal.textContent = formatBRL(c.total);
     } else {

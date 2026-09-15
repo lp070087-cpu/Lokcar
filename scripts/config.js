@@ -21,41 +21,21 @@ window.LOKCAR_CONFIG = (function () {
 
   /* ----------------------------------------------------------
      1 · VEÍCULOS
-     O campo `id` precisa bater EXATAMENTE com o atributo
-     data-model usado nos cards da frota e no seletor da reserva.
-     `a partir de` e `até` são a faixa de diária demonstrativa.
+
+     A CHAVE precisa bater exatamente com o atributo data-model
+     usado no index.html (tanto nos cards da frota quanto no
+     seletor da reserva). Se um nome for escrito diferente aqui,
+     o card daquele carro fica sem preço e sem seleção.
+
+     `diariaMin` e `diariaMax` formam a faixa exibida no card.
      ---------------------------------------------------------- */
   var veiculos = {
-    'Porsche 911': {
-      categoria: 'Esportivo',
-      diariaMin: 700,
-      diariaMax: 900
-    },
-    'Porsche Cayenne': {
-      categoria: 'SUV de luxo',
-      diariaMin: 700,
-      diariaMax: 900
-    },
-    'Mercedes-Benz Classe C': {
-      categoria: 'Sedan executivo',
-      diariaMin: 400,
-      diariaMax: 600
-    },
-    'Audi A5 Sportback': {
-      categoria: 'Sportback',
-      diariaMin: 400,
-      diariaMax: 600
-    },
-    'Jaguar E-Pace': {
-      categoria: 'SUV compacto',
-      diariaMin: 400,
-      diariaMax: 600
-    },
-    'Chevrolet Onix Plus': {
-      categoria: 'Sedan',
-      diariaMin: 150,
-      diariaMax: 220
-    }
+    'Porsche 911':            { diariaMin: 700, diariaMax: 900 },
+    'Porsche Cayenne':        { diariaMin: 700, diariaMax: 900 },
+    'Mercedes-Benz Classe C': { diariaMin: 400, diariaMax: 600 },
+    'Audi A5 Sportback':      { diariaMin: 400, diariaMax: 600 },
+    'Hyundai HB20':           { diariaMin: 150, diariaMax: 220 },
+    'Chevrolet Onix Plus':    { diariaMin: 150, diariaMax: 220 }
   };
 
   /* Valor usado na SIMULAÇÃO do total.
@@ -141,16 +121,20 @@ window.LOKCAR_CONFIG = (function () {
 
   /* ----------------------------------------------------------
      5 · TEXTOS DE APOIO
-     Centralizados para você ajustar o tom em um lugar só.
+
+     Só o que o código realmente lê. Rótulos fixos de interface
+     ("a partir de", "/dia") e o aviso de demonstração continuam
+     escritos no index.html de propósito: são texto de página, e
+     mantê-los lá deixa a marcação legível para quem for editar
+     o site à mão.
+
+     IMPORTANTE: este arquivo NÃO guarda nome, descrição, preço
+     nem categoria de veículo. Isso é conteúdo editorial e vive
+     no index.html — assim o proprietário edita o site inteiro
+     (inclusive os carros) sem abrir um arquivo de script.
      ---------------------------------------------------------- */
   var textos = {
-    moedaPrefixo: 'R$',
-    rotuloFaixa: 'a partir de',
-    rotuloPorDia: '/dia',
-    rotuloSobConsulta: 'Sob consulta',
-    avisoDemonstrativo:
-      'Valores estimados para demonstração. A diária final, a caução e as condições ' +
-      'são confirmadas pela nossa equipe no momento da reserva.'
+    rotuloSobConsulta: 'Sob consulta'
   };
 
   /* ----------------------------------------------------------
@@ -166,11 +150,19 @@ window.LOKCAR_CONFIG = (function () {
     return diariaParaCalculo === 'max' ? v.diariaMax : v.diariaMin;
   };
 
+  /* Devolve o MAIOR percentual cujo minDias o período alcança.
+     Percorre a lista inteira de propósito: assim a ordem em que
+     as faixas estiverem escritas não muda o resultado. */
   var getDesconto = function (dias) {
+    var melhor = 0;
+
     for (var i = 0; i < descontos.length; i++) {
-      if (dias >= descontos[i].minDias) return descontos[i].percentual;
+      if (dias >= descontos[i].minDias && descontos[i].percentual > melhor) {
+        melhor = descontos[i].percentual;
+      }
     }
-    return 0;
+
+    return melhor;
   };
 
   var getProtecao = function (id) {

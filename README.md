@@ -42,9 +42,11 @@ lokcar-site/
 ├── assets/
 │   └── favicon.svg         # ícone da aba (logo recriada em SVG)
 ├── scripts/
-│   └── app.js              # header, menu mobile, reveal no scroll, demo da reserva
+│   ├── config.js           # TODOS os números da simulação (ver abaixo)
+│   └── app.js              # intro, header, menu mobile, reveal, demo da reserva
 └── styles/
     ├── base.css            # tokens, reset, tipografia, botões, utilidades
+    ├── intro.css           # abertura cinematográfica da marca
     ├── header.css          # navegação fixa + menu mobile
     ├── hero.css            # hero + faixa de diferenciais
     ├── fleet.css           # grade de veículos
@@ -58,6 +60,12 @@ lokcar-site/
 As imagens **não foram duplicadas**: o site lê diretamente a pasta `../Public/`
 existente na raiz do projeto. Isso mantém uma única fonte de verdade para os
 arquivos originais.
+
+Se um arquivo for renomeado ou removido de `../Public/`, o site perde aquela
+imagem — inclusive as fotos dos veículos. Como o caminho da imagem é escrito
+dentro de cada card do `index.html`, trocar ou tirar um carro da frota é uma
+edição no HTML: basta apontar o `<img src>` para o arquivo novo e ajustar o
+`data-model` (que é o que liga o card ao preço no `config.js`).
 
 ---
 
@@ -107,19 +115,76 @@ logo original (SVG, PDF ou PNG em alta), basta substituir os dois blocos
 
 ---
 
+## A abertura
+
+Ao abrir o site, uma **abertura curta da marca** (cerca de 3 segundos) centraliza
+o nome LOKCAR sobre o fundo escuro e sai em fade, entregando a página no estado
+normal — o banner não é tocado em momento nenhum. Não é uma tela de carregamento:
+não há barra de progresso nem percentual, é uma assinatura da marca.
+
+Durante a abertura, as animações de entrada do banner ficam **pausadas** e só
+começam quando ela termina, para as duas não competirem. Quem tem a preferência
+de sistema "reduzir movimento" ativada não vê a abertura — vai direto ao site.
+
+---
+
 ## A demonstração de reserva
 
 A seção **"Como funciona"** é uma demonstração visual do futuro sistema, com
-front-end real funcionando:
+front-end real funcionando, em cinco etapas:
 
-- seleção de veículo (sincronizada com os cards da frota)
-- datas de retirada e devolução, com validação de intervalo
-- cálculo automático do período em diárias
-- resumo que se atualiza ao vivo
+1. **Veículo** — cards da frota. Clicar em qualquer card leva à reserva com
+   aquele carro já selecionado, sem recarregar a página.
+2. **Período** — calendário visual (não há digitação de data). Primeiro a
+   retirada, depois a devolução; a faixa mostra o resultado no formato
+   "18 set → 21 set" com a contagem de dias. Devolução antes da retirada é
+   impossível: clicar num dia anterior reinicia a escolha a partir dele.
+3. **Proteção** — quatro opções (nenhuma, Simples, Básica, Completa).
+4. **Adicionais** — lavagens e entrega/retirada, em interruptores.
+5. **Resumo** — veículo, período, dias, diárias, desconto, proteção, adicionais,
+   subtotal e total estimado, atualizando a cada escolha, em formato brasileiro
+   (`R$ 1.812,00`).
 
-**Não há backend.** O botão "Enviar solicitação" monta a mensagem com os dados
-escolhidos e abre o WhatsApp da locadora. É deliberadamente honesto: a interface
-deixa claro que a confirmação ainda é feita pela equipe.
+**Não há backend.** O botão "Enviar solicitação" monta a mensagem com tudo o que
+foi escolhido e abre o WhatsApp da locadora. A interface deixa claro que a
+confirmação é feita pela equipe.
+
+### Os valores são demonstrativos
+
+Os números que aparecem na tela — diárias, descontos, proteções e adicionais —
+**não são a tabela comercial da Lok Car**. Foram criados apenas para a
+demonstração funcionar e precisam ser confirmados pelo proprietário antes de o
+site ir ao ar.
+
+As proteções são apenas nomes e valores. Não há descrição de cobertura,
+franquia, indenização ou promessa de seguro em nenhum ponto do site.
+
+---
+
+## Onde mexer nos valores
+
+**Todo número da simulação está em um único arquivo:** `scripts/config.js`.
+
+| O que você quer mudar | Onde |
+|---|---|
+| Faixa de diária de um carro | objeto `veiculos` |
+| Percentual de desconto por quantidade de dias | array `descontos` |
+| Opções e valores de proteção | array `protecoes` |
+| Serviços adicionais e preços | array `adicionais` |
+
+Três observações importantes:
+
+- A **chave** de cada veículo em `veiculos` precisa ser escrita exatamente igual
+  ao atributo `data-model` do card no `index.html`. Se divergir, aquele carro
+  fica sem preço e sem seleção.
+- O desconto vale pela **maior** faixa alcançada; a ordem em que as faixas estão
+  escritas não altera o resultado.
+- O que é **conteúdo** (nome do carro, categoria, descrição da proteção, textos
+  da página) fica no `index.html`, para que o proprietário edite o site sem
+  abrir um arquivo de script. O `config.js` guarda apenas os **números**.
+
+Para conferir a regra de desconto: 1 dia 0%, 2 dias 3%, 3 dias 5%, 4 a 6 dias
+7%, 7 dias ou mais 10%.
 
 ---
 
