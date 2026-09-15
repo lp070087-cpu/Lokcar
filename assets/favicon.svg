@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="LOK CAR">
+  <rect width="64" height="64" rx="12" fill="#0A0C11"/>
+  <g fill="none" stroke="#E11D2E" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M9 42 C9 34 13.5 30.5 21 29.3 L36 22.5 C42 16 48.5 13 56 13 L56 42 L9 42 Z" transform="translate(0,4) scale(0.98)"/>
+    <path d="M25 30 L33 24 L40 24 L40 30 Z" fill="#E11D2E" fill-opacity="0.34" stroke="none"/>
+    <circle cx="23" cy="49" r="7.5"/>
+    <circle cx="23" cy="49" r="2.8" fill="#E11D2E" fill-opacity="0.5" stroke="none"/>
+    <circle cx="48" cy="49" r="7.5"/>
+    <circle cx="48" cy="49" r="2.8" fill="#E11D2E" fill-opacity="0.5" stroke="none"/>
+  </g>
+</svg>

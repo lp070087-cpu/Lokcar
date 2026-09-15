@@ -1,0 +1,175 @@
+/* ============================================================
+   LOK CAR — footer.css
+   Rodapé minimalista, coerente com a identidade: colunas
+   separadas por 1px, redes em círculos de contorno.
+   ============================================================ */
+
+.ftr {
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  padding: 5rem 0 2.5rem;
+}
+
+.ftr__grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+  gap: 3rem;
+}
+
+/* ---------- Marca ---------- */
+.ftr__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.ftr__logo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #fff;
+  line-height: 1;
+}
+
+.ftr__logoMark {
+  width: 62px;
+  height: auto;
+  color: var(--accent);
+}
+
+.ftr__wordmark {
+  font-family: var(--f-display);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: #fff;
+  margin-top: 0.4rem;
+  text-indent: 0.2em;
+}
+
+.ftr__wordmarkSub {
+  font-size: 0.5rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+  margin-top: 0.3rem;
+  text-indent: 0.3em;
+}
+
+.ftr__tagline {
+  max-width: 260px;
+  font-size: 0.86rem;
+  line-height: 1.7;
+  color: var(--tx-3);
+  font-style: italic;
+}
+
+/* ---------- Colunas ---------- */
+.ftr__col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.ftr__colTitle {
+  font-family: var(--f-sans);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.ftr__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.ftr__link,
+.ftr__text {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--tx-2);
+}
+
+.ftr__link {
+  transition: color var(--t-med), padding-left var(--t-med);
+}
+
+.ftr__link:hover {
+  color: var(--accent);
+  padding-left: 0.25rem;
+}
+
+/* ---------- Redes ---------- */
+.ftr__socialWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 3.5rem;
+}
+
+.ftr__social {
+  display: flex;
+  gap: 1rem;
+}
+
+.ftr__socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--tx-2);
+  transition: border-color var(--t-med), color var(--t-med), transform var(--t-med);
+}
+
+.ftr__socialLink:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.ftr__socialIcon {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Base ---------- */
+.ftr__bottom {
+  margin-top: 3.5rem;
+}
+
+.ftr__divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line), transparent);
+  margin-bottom: 2rem;
+}
+
+.ftr__bottomRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.ftr__copy,
+.ftr__note {
+  font-size: 0.76rem;
+  line-height: 1.6;
+  color: var(--tx-3);
+}
+
+.ftr__note {
+  max-width: 400px;
+  text-align: right;
+}

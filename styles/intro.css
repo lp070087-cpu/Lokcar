@@ -1,0 +1,206 @@
+/* ============================================================
+   LOK CAR — intro.css
+   Abertura de marca (2–4s): a tela abre no escuro, a marca se
+   desenha e o site aparece por baixo. Não é tela de carregamento
+   — não há barra, porcentagem nem aviso de espera. É assinatura.
+
+   Enquanto a abertura roda, o corpo recebe .intro-on, que
+   SEGURA as entradas do hero. Quando a abertura sai, elas rodam
+   — e o site aparece "nascendo", não já pronto.
+
+   Nada aqui altera o hero: composição, imagem, textos e cores
+   continuam exatamente os mesmos. Só o instante de entrada muda.
+   ============================================================ */
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 2500; /* acima do header (1000) e do menu (1002) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  overflow: hidden;
+  /* sai por volta de 2,9s no total */
+  animation: introOut 0.85s var(--e-out) 2.05s both;
+}
+
+@keyframes introOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* ---------- Fundo: mesmo vocabulário do hero ---------- */
+.intro__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.intro__glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(760px, 118vw);
+  height: min(760px, 118vw);
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(225, 29, 46, 0.16) 0%, transparent 66%);
+  opacity: 0;
+  animation: introGlow 2.6s var(--e-out) 0.35s both;
+}
+
+@keyframes introGlow {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.82); }
+  45%  { opacity: 1; }
+  100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+}
+
+.intro__grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.55;
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0 118px, rgba(255, 255, 255, 0.028) 118px 119px),
+    repeating-linear-gradient(0deg,  transparent 0 118px, rgba(255, 255, 255, 0.028) 118px 119px);
+  mask-image: radial-gradient(circle at 50% 50%, #000 0%, transparent 76%);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0%, transparent 76%);
+}
+
+/* ---------- Palco ---------- */
+.intro__stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.35rem;
+  padding: 2rem;
+  text-align: center;
+  animation: introStage 1.3s var(--e-out) 0.1s both;
+}
+
+@keyframes introStage {
+  from { opacity: 0; transform: translateY(16px) scale(0.975); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- A marca ---------- */
+.intro__mark {
+  width: clamp(180px, 40vw, 280px);
+  color: var(--tx);
+}
+
+/* O contorno do carro se desenha: assinatura, não spinner.
+   Os estilos base (.logoCar__*) vêm de base.css — aqui só
+   acrescentamos o traçado progressivo. */
+.intro__mark .logoCar__body {
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+  animation: introDraw 1.55s var(--e-out) 0.25s forwards;
+}
+
+.intro__mark .logoCar__glass {
+  opacity: 0;
+  animation: introGlass 0.75s var(--e-out) 1.15s forwards;
+}
+
+.intro__mark .logoCar__tyre {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: introDraw 0.85s var(--e-out) 0.95s forwards;
+}
+
+.intro__mark .logoCar__rim {
+  opacity: 0;
+  animation: introRim 0.6s var(--e-out) 1.55s forwards;
+}
+
+@keyframes introDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes introGlass {
+  to { opacity: 0.34; }
+}
+
+@keyframes introRim {
+  to { opacity: 0.5; }
+}
+
+/* ---------- Assinatura ---------- */
+.intro__word {
+  font-family: var(--f-display);
+  font-size: clamp(1.9rem, 7.5vw, 3.3rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--tx);
+  /* o text-indent compensa o espaço que o letter-spacing deixa
+     à direita da última letra, mantendo o conjunto centrado */
+  letter-spacing: 0.34em;
+  text-indent: 0.34em;
+  animation: introWord 1.6s var(--e-out) 0.3s both;
+}
+
+@keyframes introWord {
+  from { opacity: 0; letter-spacing: 0.66em; text-indent: 0.66em; }
+  to   { opacity: 1; letter-spacing: 0.34em; text-indent: 0.34em; }
+}
+
+.intro__line {
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0;
+  animation: introLine 1.1s var(--e-out) 0.9s forwards;
+}
+
+@keyframes introLine {
+  from { width: 0; opacity: 0; }
+  to   { width: clamp(130px, 28vw, 230px); opacity: 1; }
+}
+
+.intro__sub {
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+  animation: introFade 1s var(--e-out) 1.1s both;
+}
+
+@keyframes introFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   Enquanto a abertura roda
+   ============================================================ */
+
+/* Trava a rolagem: o site ainda não foi "apresentado".
+   Só vale quando o JS está ativo — sem JS, nada trava. */
+.js body.intro-on {
+  overflow: hidden;
+}
+
+/* Segura as entradas do hero. Pausadas no quadro zero, elas
+   ficam invisíveis atrás da abertura; quando .intro-on sai,
+   rodam na ordem escalonada original. */
+.intro-on .hero__media img,
+.intro-on .hero__label,
+.intro-on .hero__headline,
+.intro-on .hero__sub,
+.intro-on .hero__actions,
+.intro-on .hero__meta,
+.intro-on .hero__scroll {
+  animation-play-state: paused;
+}
+
+/* Movimento reduzido: sem cerimônia de abertura. O JS remove o
+   nó na hora; a regra existe para o caso de o CSS carregar antes. */
+@media (prefers-reduced-motion: reduce) {
+  .intro {
+    display: none;
+  }
+}

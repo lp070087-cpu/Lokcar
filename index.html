@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="no-js">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>LOK CAR | Locadora de Veículos — Reserva do Paiva, PE</title>
+<meta name="description" content="LOK CAR Locadora de Veículos. Alugue o carro dos seus sonhos com estilo, conforto e atendimento personalizado. Reserva do Paiva / Empresarial Novo Mundo — Cabo de Santo Agostinho, PE. Desde 2014." />
+<meta name="theme-color" content="#0A0C11" />
+<meta name="author" content="LOK CAR Locadora de Veículos" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="LOK CAR | Locadora de Veículos" />
+<meta property="og:description" content="Alugue o carro dos seus sonhos com estilo e conforto. Vamos até você. Desde 2014." />
+<meta property="og:locale" content="pt_BR" />
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/favicon.svg" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="styles/base.css" />
+<link rel="stylesheet" href="styles/intro.css" />
+<link rel="stylesheet" href="styles/header.css" />
+<link rel="stylesheet" href="styles/hero.css" />
+<link rel="stylesheet" href="styles/fleet.css" />
+<link rel="stylesheet" href="styles/booking.css" />
+<link rel="stylesheet" href="styles/brand.css" />
+<link rel="stylesheet" href="styles/cta.css" />
+<link rel="stylesheet" href="styles/footer.css" />
+<link rel="stylesheet" href="styles/responsive.css" />
+</head>
+
+<body class="intro-on">
+
+<!-- ============================================================
+     ABERTURA DE MARCA
+     Assinatura de 2–4s antes de o site aparecer. Não é tela de
+     carregamento: não há barra nem aviso de espera. O JS remove
+     este bloco ao terminar (e imediatamente com movimento
+     reduzido ativo); se o JS não rodar, ele se retira sozinho
+     pelo CSS.
+     ============================================================ -->
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro__bg">
+    <div class="intro__glow"></div>
+    <div class="intro__grid"></div>
+  </div>
+
+  <div class="intro__stage">
+    <svg class="intro__mark" viewBox="0 0 260 74" aria-hidden="true" focusable="false">
+      <g class="logoCar">
+        <path class="logoCar__body" d="M14 60 C14 47 21 41 33 39 L61 28 C71 17 83 11 99 11 L167 11 C185 11 199 17 211 27 L235 33 C247 37 251 45 251 55 L251 60 L14 60 Z" />
+        <path class="logoCar__glass" d="M74 28 L96 16 L140 16 L140 28 Z" />
+        <path class="logoCar__glass" d="M147 28 L147 16 L166 16 C180 16 191 21 201 29 Z" />
+        <circle class="logoCar__tyre" cx="72" cy="60" r="14" />
+        <circle class="logoCar__rim" cx="72" cy="60" r="5.5" />
+        <circle class="logoCar__tyre" cx="201" cy="60" r="14" />
+        <circle class="logoCar__rim" cx="201" cy="60" r="5.5" />
+      </g>
+    </svg>
+    <span class="intro__word">LOKCAR</span>
+    <span class="intro__line"></span>
+    <span class="intro__sub">Locadora de Veículos</span>
+  </div>
+</div>
+
+<a class="skip-link" href="#frota">Ir para a frota</a>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="hdr" id="hdr">
+  <nav class="hdr__nav" aria-label="Navegação principal">
+
+    <button class="hdr__burger" id="burger" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu">
+      <span class="hdr__burgerLine"></span>
+    </button>
+
+    <ul class="hdr__links hdr__links--left">
+      <li><a class="hdr__link" href="#frota">Frota</a></li>
+      <li><a class="hdr__link" href="#reservar">Como funciona</a></li>
+      <li><a class="hdr__link" href="#lokcar">A Lok Car</a></li>
+    </ul>
+
+    <a class="hdr__logo" href="#inicio" aria-label="LOK CAR — Locadora de Veículos">
+      <svg class="hdr__logoMark" viewBox="0 0 260 74" role="img" aria-hidden="true" focusable="false">
+        <g class="logoCar">
+          <path class="logoCar__body" d="M14 60 C14 47 21 41 33 39 L61 28 C71 17 83 11 99 11 L167 11 C185 11 199 17 211 27 L235 33 C247 37 251 45 251 55 L251 60 L14 60 Z" />
+          <path class="logoCar__glass" d="M74 28 L96 16 L140 16 L140 28 Z" />
+          <path class="logoCar__glass" d="M147 28 L147 16 L166 16 C180 16 191 21 201 29 Z" />
+          <circle class="logoCar__tyre" cx="72" cy="60" r="14" />
+          <circle class="logoCar__rim" cx="72" cy="60" r="5.5" />
+          <circle class="logoCar__tyre" cx="201" cy="60" r="14" />
+          <circle class="logoCar__rim" cx="201" cy="60" r="5.5" />
+        </g>
+      </svg>
+      <span class="hdr__wordmark">LOK CAR</span>
+      <span class="hdr__wordmarkSub">Locadora de Veículos</span>
+    </a>
+
+    <ul class="hdr__links hdr__links--right">
+      <li><a class="hdr__link" href="#contato">Contato</a></li>
+      <li>
+        <a class="hdr__phone" href="https://wa.me/5581997530453" target="_blank" rel="noopener">
+          <span class="hdr__phoneDot" aria-hidden="true"></span>
+          (81) 99753-0453
+        </a>
+      </li>
+      <li>
+        <a class="hdr__cta" href="#reservar" data-open-cal>Consultar disponibilidade</a>
+      </li>
+    </ul>
+
+    <!-- Mobile -->
+    <div class="hdr__mobile" id="mobileMenu">
+      <ul class="hdr__mobileList">
+        <li><a class="hdr__mobileLink" href="#inicio">Início</a></li>
+        <li><a class="hdr__mobileLink" href="#frota">Frota</a></li>
+        <li><a class="hdr__mobileLink" href="#reservar">Como funciona</a></li>
+        <li><a class="hdr__mobileLink" href="#lokcar">A Lok Car</a></li>
+        <li><a class="hdr__mobileLink" href="#contato">Contato</a></li>
+      </ul>
+      <div class="hdr__mobileFoot">
+        <a class="btn btn--solid hdr__mobileCta" href="https://wa.me/5581997530453" target="_blank" rel="noopener">
+          <span>Falar no WhatsApp</span>
+        </a>
+        <p class="hdr__mobileMeta">
+          (81) 99753-0453<br />
+          Reserva do Paiva · Empresarial Novo Mundo<br />
+          Cabo de Santo Agostinho — PE
+        </p>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+<!-- ============================================================
+     1 · HERO
+     ============================================================ -->
+<section class="hero" id="inicio">
+  <div class="hero__media">
+    <img
+      src="../Public/porsche%20cayenne%20preta%20de%20lado.webp"
+      alt="Veículo premium de perfil disponível para locação na LOK CAR"
+      fetchpriority="high" decoding="async" />
+    <div class="hero__scrim" aria-hidden="true"></div>
+    <div class="hero__glow hero__glow--red" aria-hidden="true"></div>
+    <div class="hero__glow hero__glow--navy" aria-hidden="true"></div>
+  </div>
+
+  <div class="hero__grid" aria-hidden="true"></div>
+
+  <div class="hero__inner">
+    <div class="hero__content">
+      <span class="label hero__label">Locadora de Veículos · Desde 2014</span>
+
+      <h1 class="hero__headline">
+        Alugue o carro<br />
+        dos seus <em>sonhos</em>.
+      </h1>
+
+      <p class="hero__sub">
+        Veículos top de linha, atendimento personalizado e reserva simples.
+        Aqui você escolhe, confirma e sai dirigindo.
+      </p>
+
+      <div class="hero__actions">
+        <a class="btn btn--accent" href="#frota"><span>Ver a frota</span></a>
+        <a class="btn btn--ghost" href="#reservar"><span>Como funciona</span></a>
+      </div>
+
+      <ul class="hero__meta">
+        <li class="hero__metaItem">
+          <span class="hero__metaKey">Onde estamos</span>
+          <span class="hero__metaVal">Reserva do Paiva · Empresarial Novo Mundo — PE</span>
+        </li>
+        <li class="hero__metaItem">
+          <span class="hero__metaKey">Nosso diferencial</span>
+          <span class="hero__metaVal">Vamos até você</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <a class="hero__scroll" href="#frota" aria-label="Rolar para a frota">
+    <span class="hero__scrollText">Explorar</span>
+    <span class="hero__scrollLine" aria-hidden="true"></span>
+  </a>
+</section>
+
+<!-- ============================================================
+     BARRA DE DIFERENCIAIS (real)
+     ============================================================ -->
+<section class="strip" aria-label="Diferenciais da LOK CAR">
+  <div class="strip__inner">
+    <dl class="strip__list">
+      <div class="strip__item">
+        <dt>Desde 2014</dt>
+        <dd>Uma década alugando carros em Pernambuco</dd>
+      </div>
+      <div class="strip__item">
+        <dt>Vamos até você</dt>
+        <dd>Entrega e coleta combinadas com a nossa equipe</dd>
+      </div>
+      <div class="strip__item">
+        <dt>Atendimento personalizado</dt>
+        <dd>Você fala direto com quem cuida da sua reserva</dd>
+      </div>
+      <div class="strip__item">
+        <dt>Melhores opções</dt>
+        <dd>Não importa o seu pedido, temos o carro certo</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<!-- ============================================================
+     2 · FROTA
+     ============================================================ -->
+<section class="fleet" id="frota">
+  <div class="container">
+
+    <div class="secHead">
+      <span class="label">A frota</span>
+      <h2 class="secTitle">Escolha o seu.</h2>
+      <p class="secSub">
+        Dos compactos aos utilitários esportivos. Uma seleção do que está nas ruas com a Lok Car —
+        consulte a disponibilidade do modelo e do período que você precisa.
+      </p>
+    </div>
+
+    <div class="fleet__grid">
+
+      <article class="vcard rv" data-model="Porsche 911">
+        <a class="vcard__media" href="#reservar" aria-label="Porsche 911 — consultar disponibilidade">
+          <img src="../Public/porsche%20preta.jpg" alt="Porsche 911 preto" loading="lazy" decoding="async" />
+          <span class="vcard__shine" aria-hidden="true"></span>
+        </a>
+        <div class="vcard__body">
+          <span class="vcard__type">Esportivo</span>
+          <h3 class="vcard__name">Porsche 911</h3>
+          <div class="vcard__price">
+            <span class="vcard__priceFrom">a partir de</span>
+            <span class="vcard__priceVal" data-price-for="Porsche 911">R$ 700–900</span>
+            <span class="vcard__priceUnit">/dia</span>
+          </div>
+          <div class="vcard__foot">
+            <a class="vcard__link" href="#reservar">
+              <span>Tenho interesse</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="vcard rv" data-model="Porsche Cayenne">
+        <a class="vcard__media" href="#reservar" aria-label="Porsche Cayenne — consultar disponibilidade">
+          <img src="../Public/porsche%20cayenne%20preta.webp" alt="Porsche Cayenne preto" loading="lazy" decoding="async" />
+          <span class="vcard__shine" aria-hidden="true"></span>
+        </a>
+        <div class="vcard__body">
+          <span class="vcard__type">SUV de luxo</span>
+          <h3 class="vcard__name">Porsche Cayenne</h3>
+          <div class="vcard__price">
+            <span class="vcard__priceFrom">a partir de</span>
+            <span class="vcard__priceVal" data-price-for="Porsche Cayenne">R$ 700–900</span>
+            <span class="vcard__priceUnit">/dia</span>
+          </div>
+          <div class="vcard__foot">
+            <a class="vcard__link" href="#reservar">
+              <span>Tenho interesse</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="vcard rv" data-model="Mercedes-Benz Classe C">
+        <a class="vcard__media" href="#reservar" aria-label="Mercedes-Benz Classe C — consultar disponibilidade">
+          <img src="../Public/mercedes%20preta.jpg" alt="Mercedes-Benz Classe C preto" loading="lazy" decoding="async" />
+          <span class="vcard__shine" aria-hidden="true"></span>
+        </a>
+        <div class="vcard__body">
+          <span class="vcard__type">Sedan executivo</span>
+          <h3 class="vcard__name">Mercedes-Benz Classe C</h3>
+          <div class="vcard__price">
+            <span class="vcard__priceFrom">a partir de</span>
+            <span class="vcard__priceVal" data-price-for="Mercedes-Benz Classe C">R$ 400–600</span>
+            <span class="vcard__priceUnit">/dia</span>
+          </div>
+          <div class="vcard__foot">
+            <a class="vcard__link" href="#reservar">
+              <span>Tenho interesse</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="vcard rv" data-model="Audi A5 Sportback">
+        <a class="vcard__media" href="#reservar" aria-label="Audi A5 Sportback — consultar disponibilidade">
+          <img src="../Public/audi%20preta.jpg" alt="Audi A5 Sportback preto" loading="lazy" decoding="async" />
+          <span class="vcard__shine" aria-hidden="true"></span>
+        </a>
+        <div class="vcard__body">
+          <span class="vcard__type">Sportback</span>
+          <h3 class="vcard__name">Audi A5 Sportback</h3>
+          <div class="vcard__price">
+            <span class="vcard__priceFrom">a partir de</span>
+            <span class="vcard__priceVal" data-price-for="Audi A5 Sportback">R$ 400–600</span>
+            <span class="vcard__priceUnit">/dia</span>
+          </div>
+          <div class="vcard__foot">
+            <a class="vcard__link" href="#reservar">
+              <span>Tenho interesse</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="vcard rv" data-model="Jaguar E-Pace">
+        <a class="vcard__media" href="#reservar" aria-label="Jaguar E-Pace — consultar disponibilidade">
+          <img src="../Public/OIP.jpg" alt="Jaguar E-Pace branco" loading="lazy" decoding="async" />
+          <span class="vcard__shine" aria-hidden="true"></span>
+        </a>
+        <div class="vcard__body">
+          <span class="vcard__type">SUV compacto</span>
+          <h3 class="vcard__name">Jaguar E-Pace</h3>
+          <div class="vcard__price">
+            <span class="vcard__priceFrom">a partir de</span>
+            <span class="vcard__priceVal" data-price-for="Jaguar E-Pace">R$ 400–600</span>
+            <span class="vcard__priceUnit">/dia</span>
+          </div>
+          <div class="vcard__foot">
+            <a class="vcard__link" href="#reservar">
+              <span>Tenho interesse</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="vcard rv" data-model="Chevrolet Onix Plus">
+        <a class="vcard__media" href="#reservar" aria-label="Chevrolet Onix Plus — consultar disponibilidade">
+          <img src="../Public/Onix-Plus-Branco.jpg" alt="Chevrolet Onix Plus branco" loading="lazy" decoding="async" />
+          <span class="vcard__shine" aria-hidden="true"></span>
+        </a>
+        <div class="vcard__body">
+          <span class="vcard__type">Sedan</span>
+          <h3 class="vcard__name">Chevrolet Onix Plus</h3>
+          <div class="vcard__price">
+            <span class="vcard__priceFrom">a partir de</span>
+            <span class="vcard__priceVal" data-price-for="Chevrolet Onix Plus">R$ 150–220</span>
+            <span class="vcard__priceUnit">/dia</span>
+          </div>
+          <div class="vcard__foot">
+            <a class="vcard__link" href="#reservar">
+              <span>Tenho interesse</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="fleet__foot">
+      <p class="fleet__note">
+        A frota é atualizada conforme entrada e saída de veículos.
+        Confirme o modelo e o período direto com a nossa equipe.
+        <span class="fleet__noteDim">
+          As diárias mostradas são estimativas de demonstração — a tabela
+          final é informada no atendimento.
+        </span>
+      </p>
+      <a class="btn btn--outline" href="https://wa.me/5581997530453?text=Ol%C3%A1%2C%20quero%20consultar%20a%20disponibilidade%20da%20frota." target="_blank" rel="noopener">
+        <span>Consultar disponibilidade</span>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     3 · EXPERIÊNCIA DE LOCAÇÃO (demonstração)
+     ============================================================ -->
+<section class="bk" id="reservar">
+  <div class="container">
+
+    <div class="secHead secHead--left">
+      <span class="label">Como funciona</span>
+      <h2 class="secTitle">Da escolha à chave, em cinco passos.</h2>
+      <p class="secSub">
+        É assim que a reserva vai funcionar no novo site da Lok Car. Escolha o carro,
+        informe o período e monte a sua reserva — o resto combinamos com você.
+      </p>
+    </div>
+
+    <div class="bk__steps rv" role="list">
+      <div class="bk__step" role="listitem">
+        <span class="bk__stepNum">01</span>
+        <span class="bk__stepLabel">Escolher o veículo</span>
+      </div>
+      <div class="bk__step" role="listitem">
+        <span class="bk__stepNum">02</span>
+        <span class="bk__stepLabel">Selecionar o período</span>
+      </div>
+      <div class="bk__step" role="listitem">
+        <span class="bk__stepNum">03</span>
+        <span class="bk__stepLabel">Escolher a proteção</span>
+      </div>
+      <div class="bk__step" role="listitem">
+        <span class="bk__stepNum">04</span>
+        <span class="bk__stepLabel">Somar os adicionais</span>
+      </div>
+      <div class="bk__step" role="listitem">
+        <span class="bk__stepNum">05</span>
+        <span class="bk__stepLabel">Enviar a solicitação</span>
+      </div>
+    </div>
+
+    <div class="bk__panel rv">
+
+      <!-- coluna esquerda: formulário -->
+      <div class="bk__form">
+
+        <div class="bk__field" role="group" aria-labelledby="bkStep1">
+          <p class="bk__legend" id="bkStep1"><span class="bk__legendNum">01</span> Escolha o veículo</p>
+          <div class="bk__picker" id="bkPicker" role="radiogroup" aria-label="Escolha o veículo">
+            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Porsche 911" data-img="../Public/porsche%20preta.jpg">
+              <img src="../Public/porsche%20preta.jpg" alt="" loading="lazy" />
+              <span class="bk__pickName">Porsche 911</span>
+            </button>
+            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Porsche Cayenne" data-img="../Public/porsche%20cayenne%20preta.webp">
+              <img src="../Public/porsche%20cayenne%20preta.webp" alt="" loading="lazy" />
+              <span class="bk__pickName">Porsche Cayenne</span>
+            </button>
+            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Mercedes-Benz Classe C" data-img="../Public/mercedes%20preta.jpg">
+              <img src="../Public/mercedes%20preta.jpg" alt="" loading="lazy" />
+              <span class="bk__pickName">Mercedes-Benz Classe C</span>
+            </button>
+            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Audi A5 Sportback" data-img="../Public/audi%20preta.jpg">
+              <img src="../Public/audi%20preta.jpg" alt="" loading="lazy" />
+              <span class="bk__pickName">Audi A5 Sportback</span>
+            </button>
+            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Jaguar E-Pace" data-img="../Public/OIP.jpg">
+              <img src="../Public/OIP.jpg" alt="" loading="lazy" />
+              <span class="bk__pickName">Jaguar E-Pace</span>
+            </button>
+            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Chevrolet Onix Plus" data-img="../Public/Onix-Plus-Branco.jpg">
+              <img src="../Public/Onix-Plus-Branco.jpg" alt="" loading="lazy" />
+              <span class="bk__pickName">Chevrolet Onix Plus</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="bk__field" role="group" aria-labelledby="bkStep2">
+          <p class="bk__legend" id="bkStep2"><span class="bk__legendNum">02</span> Selecione o período</p>
+
+          <!-- Faixa do período escolhido: "18 set → 21 set · 3 dias" -->
+          <div class="bk__period" id="bkPeriod">
+            <span class="bk__periodSide">
+              <span class="bk__periodKey">Retirada</span>
+              <span class="bk__periodVal" id="bkPeriodFrom">—</span>
+            </span>
+            <span class="bk__periodArrow" aria-hidden="true">→</span>
+            <span class="bk__periodSide">
+              <span class="bk__periodKey">Devolução</span>
+              <span class="bk__periodVal" id="bkPeriodTo">—</span>
+            </span>
+            <span class="bk__periodDays" id="bkPeriodDays">—</span>
+          </div>
+
+          <button class="bk__calToggle" type="button" id="bkCalToggle" aria-expanded="false" aria-controls="bkCalendar">
+            <span id="bkCalToggleLabel">Abrir calendário</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="4.5" width="18" height="16" rx="2" />
+              <path d="M3 9.5h18M8 2.5v4M16 2.5v4" />
+            </svg>
+          </button>
+
+          <!-- Calendário visual: sem digitação manual -->
+          <div class="bk__calendar" id="bkCalendar" hidden>
+            <div class="bk__calHead">
+              <button class="bk__calNav" type="button" id="bkCalPrev" aria-label="Mês anterior">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+              </button>
+              <span class="bk__calMonth" id="bkCalMonth" aria-live="polite">—</span>
+              <button class="bk__calNav" type="button" id="bkCalNext" aria-label="Próximo mês">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+              </button>
+            </div>
+
+            <div class="bk__calWeek" aria-hidden="true">
+              <span>dom</span><span>seg</span><span>ter</span><span>qua</span><span>qui</span><span>sex</span><span>sáb</span>
+            </div>
+
+            <div class="bk__calGrid" id="bkCalGrid" role="grid" aria-labelledby="bkCalMonth"></div>
+
+            <div class="bk__calFoot">
+              <span class="bk__calHint" id="bkCalHint">
+                Escolha o dia da retirada. Depois, o dia da devolução.
+              </span>
+              <button class="bk__calClear" type="button" id="bkCalClear">Limpar</button>
+            </div>
+          </div>
+
+          <p class="bk__hint" id="bkDateHint">Escolha as duas datas no calendário para calcular o período.</p>
+        </div>
+
+        <div class="bk__field" role="group" aria-labelledby="bkStep3">
+          <p class="bk__legend" id="bkStep3"><span class="bk__legendNum">03</span> Proteção do veículo</p>
+          <div class="bk__prots" id="bkProts" role="radiogroup" aria-label="Proteção do veículo"></div>
+          <p class="bk__hint">
+            Valores por dia, estimados para esta demonstração. Não descrevem
+            cobertura, franquia ou indenização — as condições são informadas pela equipe.
+          </p>
+        </div>
+
+        <div class="bk__field" role="group" aria-labelledby="bkStep4">
+          <p class="bk__legend" id="bkStep4"><span class="bk__legendNum">04</span> Serviços adicionais</p>
+          <div class="bk__adds" id="bkAdds"></div>
+        </div>
+
+        <div class="bk__field" role="group" aria-labelledby="bkStep5">
+          <p class="bk__legend" id="bkStep5"><span class="bk__legendNum">05</span> Seus dados de contato</p>
+          <div class="bk__dates">
+            <div class="bk__input">
+              <label class="bk__inputLabel" for="bkName">Nome</label>
+              <input class="bk__text" type="text" id="bkName" name="nome" placeholder="Como podemos te chamar" autocomplete="name" />
+            </div>
+            <div class="bk__input">
+              <label class="bk__inputLabel" for="bkPhone">WhatsApp</label>
+              <input class="bk__text" type="tel" id="bkPhone" name="telefone" placeholder="(81) 90000-0000" autocomplete="tel" inputmode="tel" />
+            </div>
+          </div>
+        </div>
+
+        <div class="bk__submit">
+          <a class="btn btn--accent bk__send" id="bkSend" href="https://wa.me/5581997530453" target="_blank" rel="noopener" aria-disabled="true">
+            <span>Enviar solicitação</span>
+          </a>
+          <p class="bk__disclaimer">
+            Demonstração do futuro sistema. Nesta versão a solicitação é montada aqui e
+            enviada pelo WhatsApp da Lok Car — ainda não há reserva automática.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- coluna direita: resumo ao vivo -->
+      <aside class="bk__summary" aria-live="polite">
+        <span class="bk__summaryTag">Resumo da reserva</span>
+
+        <div class="bk__summaryMedia" id="bkSumMedia">
+          <span class="bk__summaryEmpty">Nenhum veículo selecionado</span>
+        </div>
+
+        <dl class="bk__summaryList">
+          <div class="bk__summaryRow">
+            <dt>Veículo</dt>
+            <dd id="bkSumModel">—</dd>
+          </div>
+          <div class="bk__summaryRow">
+            <dt>Período</dt>
+            <dd id="bkSumPeriod">—</dd>
+          </div>
+          <div class="bk__summaryRow">
+            <dt>Quantidade de dias</dt>
+            <dd id="bkSumDays">—</dd>
+          </div>
+          <div class="bk__summaryRow">
+            <dt>Diárias</dt>
+            <dd id="bkSumDiarias">—</dd>
+          </div>
+          <div class="bk__summaryRow bk__summaryRow--off">
+            <dt>Desconto aplicado</dt>
+            <dd id="bkSumDiscount">—</dd>
+          </div>
+          <div class="bk__summaryRow bk__summaryRow--stack">
+            <dt>Proteção selecionada</dt>
+            <dd id="bkSumProt">—</dd>
+          </div>
+          <div class="bk__summaryRow bk__summaryRow--stack">
+            <dt>Serviços adicionais</dt>
+            <dd id="bkSumAdds">—</dd>
+          </div>
+          <div class="bk__summaryRow bk__summaryRow--sub">
+            <dt>Subtotal</dt>
+            <dd id="bkSumSubtotal">—</dd>
+          </div>
+          <div class="bk__summaryRow bk__summaryRow--total">
+            <dt>Total estimado</dt>
+            <dd id="bkSumTotal">—</dd>
+          </div>
+        </dl>
+
+        <p class="bk__summaryFoot">
+          Valores estimados para demonstração. A diária final, a caução e as
+          condições são confirmadas pela nossa equipe no momento da reserva.
+        </p>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4 · DESTAQUE DA MARCA
+     ============================================================ -->
+<section class="brand" id="lokcar">
+  <div class="container">
+
+    <div class="brand__grid">
+
+      <div class="brand__media rv rvImg">
+        <div class="brand__frame">
+          <img src="../Public/porsche%20cayenne%20preta%20parte%20de%20tras.webp"
+               alt="Traseira de veículo premium da frota Lok Car" loading="lazy" decoding="async" />
+        </div>
+        <div class="brand__badge">
+          <span class="brand__badgeNum">2014</span>
+          <span class="brand__badgeTxt">Desde</span>
+        </div>
+      </div>
+
+      <div class="brand__text rv">
+        <span class="label">A Lok Car</span>
+        <h2 class="secTitle">Não importa o seu pedido — sempre teremos as melhores opções.</h2>
+        <p class="brand__p">
+          Desde 2014 a Lok Car coloca carros de verdade na mão de quem precisa resolver
+          a vida e de quem quer aproveitar a estrada com conforto. Nosso diferencial é
+          simples: <strong>vamos até você</strong>.
+        </p>
+        <p class="brand__p">
+          Você fala direto com a nossa equipe, monta o período que faz sentido pro seu
+          roteiro e retira o veículo com o atendimento personalizado que virou a nossa marca
+          na Reserva do Paiva e no Empresarial Novo Mundo.
+        </p>
+
+        <ul class="brand__list">
+          <li class="brand__listItem">
+            <span class="brand__listMark" aria-hidden="true"></span>
+            <span><strong>Reserva pelo WhatsApp</strong> — sem formulário longo, sem fila, sem burocracia.</span>
+          </li>
+          <li class="brand__listItem">
+            <span class="brand__listMark" aria-hidden="true"></span>
+            <span><strong>Períodos flexíveis</strong> — diárias, finais de semana, férias ou uso corporativo.</span>
+          </li>
+          <li class="brand__listItem">
+            <span class="brand__listMark" aria-hidden="true"></span>
+            <span><strong>Entrega combinada</strong> — acertamos o ponto de encontro com você.</span>
+          </li>
+        </ul>
+
+        <a class="btn btn--outline brand__cta" href="https://wa.me/5581997530453" target="_blank" rel="noopener">
+          <span>Falar com a Lok Car</span>
+        </a>
+      </div>
+
+    </div>
+
+    <div class="brand__more rv">
+      <span class="brand__moreLabel">Também disponível na frota</span>
+      <div class="brand__moreGrid brand__moreGrid--um">
+        <figure class="brand__moreItem">
+          <img src="../Public/onix.png" alt="Chevrolet Onix branco" loading="lazy" decoding="async" />
+          <figcaption>Chevrolet Onix · Hatch</figcaption>
+        </figure>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     5 · CTA FINAL
+     ============================================================ -->
+<section class="cta" id="contato">
+  <div class="cta__glow" aria-hidden="true"></div>
+  <div class="cta__grid" aria-hidden="true"></div>
+
+  <div class="container cta__inner">
+    <span class="label">Sua próxima reserva</span>
+    <h2 class="cta__headline">Vem pra Lok Car.</h2>
+    <p class="cta__sub">
+      Diga o modelo e o período que você precisa. A gente confirma a disponibilidade
+      e combina a retirada com você.
+    </p>
+
+    <div class="cta__actions">
+      <a class="btn btn--accent cta__main" href="https://wa.me/5581997530453?text=Ol%C3%A1%2C%20quero%20reservar%20um%20carro." target="_blank" rel="noopener">
+        <span>Reservar pelo WhatsApp</span>
+      </a>
+      <a class="btn btn--ghost" href="tel:+5581997530453"><span>(81) 99753-0453</span></a>
+    </div>
+
+    <ul class="cta__facts">
+      <li>
+        <span class="cta__factKey">Telefone</span>
+        <span class="cta__factVal">(81) 99753-0453</span>
+      </li>
+      <li>
+        <span class="cta__factKey">Instagram</span>
+        <a class="cta__factVal cta__factLink" href="https://www.instagram.com/lokcar_locadorape/" target="_blank" rel="noopener">@lokcar_locadorape</a>
+      </li>
+      <li>
+        <span class="cta__factKey">Localização</span>
+        <span class="cta__factVal">Reserva do Paiva · Empresarial Novo Mundo<br />Cabo de Santo Agostinho — PE</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="ftr">
+  <div class="container">
+
+    <div class="ftr__grid">
+
+      <div class="ftr__brand">
+        <a class="ftr__logo" href="#inicio" aria-label="LOK CAR — Locadora de Veículos">
+          <svg class="ftr__logoMark" viewBox="0 0 260 74" role="img" aria-hidden="true" focusable="false">
+            <g class="logoCar">
+              <path class="logoCar__body" d="M14 60 C14 47 21 41 33 39 L61 28 C71 17 83 11 99 11 L167 11 C185 11 199 17 211 27 L235 33 C247 37 251 45 251 55 L251 60 L14 60 Z" />
+              <path class="logoCar__glass" d="M74 28 L96 16 L140 16 L140 28 Z" />
+              <path class="logoCar__glass" d="M147 28 L147 16 L166 16 C180 16 191 21 201 29 Z" />
+              <circle class="logoCar__tyre" cx="72" cy="60" r="14" />
+              <circle class="logoCar__rim" cx="72" cy="60" r="5.5" />
+              <circle class="logoCar__tyre" cx="201" cy="60" r="14" />
+              <circle class="logoCar__rim" cx="201" cy="60" r="5.5" />
+            </g>
+          </svg>
+          <span class="ftr__wordmark">LOK CAR</span>
+          <span class="ftr__wordmarkSub">Locadora de Veículos</span>
+        </a>
+        <p class="ftr__tagline">Alugue o carro dos seus sonhos com estilo e conforto.</p>
+      </div>
+
+      <nav class="ftr__col" aria-label="Navegação do rodapé">
+        <h2 class="ftr__colTitle">Navegar</h2>
+        <ul class="ftr__list">
+          <li><a class="ftr__link" href="#inicio">Início</a></li>
+          <li><a class="ftr__link" href="#frota">Frota</a></li>
+          <li><a class="ftr__link" href="#reservar">Como funciona</a></li>
+          <li><a class="ftr__link" href="#lokcar">A Lok Car</a></li>
+        </ul>
+      </nav>
+
+      <div class="ftr__col">
+        <h2 class="ftr__colTitle">Contato</h2>
+        <ul class="ftr__list">
+          <li><a class="ftr__link" href="tel:+5581997530453">(81) 99753-0453</a></li>
+          <li><a class="ftr__link" href="https://wa.me/5581997530453" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a class="ftr__link" href="https://www.instagram.com/lokcar_locadorape/" target="_blank" rel="noopener">@lokcar_locadorape</a></li>
+        </ul>
+      </div>
+
+      <div class="ftr__col">
+        <h2 class="ftr__colTitle">Onde estamos</h2>
+        <ul class="ftr__list">
+          <li><span class="ftr__text">Reserva do Paiva</span></li>
+          <li><span class="ftr__text">Empresarial Novo Mundo</span></li>
+          <li><span class="ftr__text">Cabo de Santo Agostinho — PE</span></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="ftr__socialWrap">
+      <ul class="ftr__social">
+        <li>
+          <a class="ftr__socialLink" href="https://www.instagram.com/lokcar_locadorape/" target="_blank" rel="noopener" aria-label="Instagram da Lok Car">
+            <svg class="ftr__socialIcon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" stroke="none" />
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a class="ftr__socialLink" href="https://wa.me/5581997530453" target="_blank" rel="noopener" aria-label="WhatsApp da Lok Car">
+            <svg class="ftr__socialIcon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20.5 11.6a8.4 8.4 0 0 1-12.4 7.4L3.5 20.5l1.6-4.5a8.4 8.4 0 1 1 15.4-4.4Z" />
+              <path d="M8.6 8.2c.3-.1.6 0 .8.3l.7 1.2c.2.3.1.6-.1.8l-.5.5c-.2.2-.2.4-.1.6.5 1 1.3 1.8 2.3 2.3.2.1.5.1.6-.1l.5-.5c.2-.2.5-.3.8-.1l1.2.7c.3.2.4.5.3.8-.3.8-1.1 1.3-2 1.2-2.9-.4-5.2-2.7-5.6-5.6-.1-.9.4-1.7 1.1-2.1Z" />
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a class="ftr__socialLink" href="tel:+5581997530453" aria-label="Telefone da Lok Car">
+            <svg class="ftr__socialIcon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7.5 3.5h-3a1.5 1.5 0 0 0-1.5 1.6c.6 8 7 14.4 15 15a1.5 1.5 0 0 0 1.6-1.5v-3a1.5 1.5 0 0 0-1.2-1.5l-2.8-.6a1.5 1.5 0 0 0-1.5.6l-1 1.3a12.6 12.6 0 0 1-5.5-5.5l1.3-1a1.5 1.5 0 0 0 .6-1.5l-.6-2.8A1.5 1.5 0 0 0 7.5 3.5Z" />
+            </svg>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="ftr__bottom">
+      <div class="ftr__divider" aria-hidden="true"></div>
+      <div class="ftr__bottomRow">
+        <p class="ftr__copy">© <span id="ftrYear">2026</span> LOK CAR Locadora de Veículos — Desde 2014. Todos os direitos reservados.</p>
+        <p class="ftr__note">Proposta visual de site e sistema de reservas. Demonstração — sem reserva automática nesta versão.</p>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- WhatsApp flutuante -->
+<a class="waBtn" href="https://wa.me/5581997530453" target="_blank" rel="noopener" aria-label="Falar com a Lok Car no WhatsApp">
+  <span class="waBtn__inner">
+    <svg class="waBtn__icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M20.5 11.6a8.4 8.4 0 0 1-12.4 7.4L3.5 20.5l1.6-4.5a8.4 8.4 0 1 1 15.4-4.4Z" />
+      <path d="M8.6 8.2c.3-.1.6 0 .8.3l.7 1.2c.2.3.1.6-.1.8l-.5.5c-.2.2-.2.4-.1.6.5 1 1.3 1.8 2.3 2.3.2.1.5.1.6-.1l.5-.5c.2-.2.5-.3.8-.1l1.2.7c.3.2.4.5.3.8-.3.8-1.1 1.3-2 1.2-2.9-.4-5.2-2.7-5.6-5.6-.1-.9.4-1.7 1.1-2.1Z" />
+    </svg>
+  </span>
+</a>
+
+<script src="scripts/config.js" defer></script>
+<script src="scripts/app.js" defer></script>
+</body>
+</html>

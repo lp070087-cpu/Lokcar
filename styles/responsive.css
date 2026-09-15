@@ -1,0 +1,590 @@
+/* ============================================================
+   LOK CAR — responsive.css
+   Carregado por último. Breakpoints:
+     1200px  notebook pequeno
+     1024px  tablet paisagem
+      968px  troca para menu mobile (mesmo ponto da referência)
+      768px  tablet retrato
+      600px  celular
+      400px  celular estreito
+   Regra fixa: nada pode gerar rolagem horizontal.
+   ============================================================ */
+
+@media (max-width: 1200px) {
+  :root {
+    --sec-y: 6.5rem;
+    --gut: 1.75rem;
+  }
+
+  .hdr__nav {
+    gap: 2rem;
+  }
+
+  .hdr__links {
+    gap: 1.6rem;
+  }
+
+  .hdr__link,
+  .hdr__phone {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+  }
+
+  .hdr__cta {
+    padding: 0.62rem 1rem;
+    font-size: 0.64rem;
+    letter-spacing: 0.1em;
+  }
+
+  .hdr__wordmark {
+    font-size: 1.05rem;
+  }
+
+  .hdr__logoMark {
+    width: 66px;
+  }
+
+  .brand__grid {
+    gap: 3.5rem;
+  }
+}
+
+/* Faixa estreita do desktop (970–1150px): as quatro zonas do
+   header já não cabem com folga antes do menu mobile entrar.
+   Some apenas o telefone — navegação e CTA permanecem. */
+@media (max-width: 1150px) and (min-width: 969px) {
+  .hdr__phone {
+    display: none;
+  }
+
+  .hdr__links {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .fleet__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bk__panel {
+    grid-template-columns: 1fr;
+  }
+
+  .bk__form {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .bk__summary {
+    padding: 2.5rem 2.75rem;
+  }
+
+  .bk__summaryFoot {
+    margin-top: 1.5rem;
+  }
+
+  .brand__grid {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+
+  .brand__text {
+    max-width: 640px;
+  }
+
+  .brand__badge {
+    left: 1.5rem;
+  }
+
+  .brand__moreGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Tablet: marca ocupa a linha toda, as três colunas de
+     conteúdo ficam lado a lado — sem span inconsistente. */
+  .ftr__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+  }
+
+  .ftr__brand {
+    grid-column: 1 / -1;
+  }
+
+  .ftr__col:last-child {
+    grid-column: auto;
+  }
+
+  .strip__list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem 0;
+  }
+
+  .strip__item:nth-child(odd) {
+    border-left: none;
+    padding-left: 0;
+  }
+}
+
+/* ---------- Menu mobile ---------- */
+@media (max-width: 968px) {
+  .hdr__links {
+    display: none;
+  }
+
+  .hdr__burger {
+    display: flex;
+  }
+
+  .hdr__mobile {
+    display: flex;
+  }
+
+  .hdr__nav {
+    justify-content: center;
+  }
+
+  .hero__scroll {
+    display: none;
+  }
+
+  .cta__facts {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 460px;
+  }
+
+  .cta__facts li {
+    padding: 0;
+    border-left: none;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .cta__facts li:first-child {
+    padding-top: 0;
+    border-top: none;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --sec-y: 5.5rem;
+    --gut: 1.5rem;
+  }
+
+  .hdr {
+    padding: 1.1rem 1.25rem;
+  }
+
+  .hdr.is-scrolled {
+    padding: 0.75rem 1.25rem;
+  }
+
+  .hdr__logoMark {
+    width: 62px;
+  }
+
+  .hdr__wordmark {
+    font-size: 1rem;
+  }
+
+  .hdr__mobile {
+    padding: 6.5rem 1.5rem 2.5rem;
+  }
+
+  .hdr__mobileLink {
+    font-size: 1.55rem;
+  }
+
+  /* Hero: menos respiro. Em telas estreitas o texto cobre a imagem
+     inteira, então o enquadramento volta ao centro e o scrim fica
+     mais denso — legibilidade primeiro. */
+  .hero__media img {
+    object-position: 50% 50%;
+    filter: brightness(0.55) contrast(1.06) saturate(0.9);
+  }
+
+  .hero__scrim {
+    background:
+      linear-gradient(180deg, rgba(10, 12, 17, 0.86) 0%, rgba(10, 12, 17, 0.62) 38%, rgba(10, 12, 17, 0.95) 100%),
+      linear-gradient(90deg, rgba(10, 12, 17, 0.7) 0%, transparent 70%);
+  }
+
+  .hero__inner {
+    padding: calc(var(--hdr-h) + 2rem) 1.5rem 4.5rem;
+  }
+
+  .hero__headline {
+    font-size: clamp(2.4rem, 9vw, 3.4rem);
+  }
+
+  .hero__sub {
+    margin-bottom: 2rem;
+  }
+
+  .hero__actions {
+    margin-bottom: 2.5rem;
+  }
+
+  .hero__actions .btn {
+    flex: 1 1 auto;
+    min-width: 160px;
+  }
+
+  .hero__meta {
+    flex-direction: column;
+  }
+
+  .hero__metaItem,
+  .hero__metaItem + .hero__metaItem {
+    flex: 1 1 auto;
+    padding: 1.15rem 0 0;
+    border-right: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .hero__metaItem:first-child {
+    border-top: none;
+    padding-top: 1.15rem;
+  }
+
+  .secHead {
+    margin-bottom: 3rem;
+  }
+
+  /* Frota: um card por linha, mídia mais baixa */
+  .fleet__grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .vcard__media {
+    aspect-ratio: 16 / 11;
+  }
+
+  .fleet__foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.75rem;
+  }
+
+  .fleet__foot .btn {
+    width: 100%;
+  }
+
+  /* Reserva */
+  .bk__steps {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Cinco etapas em duas colunas deixam um buraco na última
+     linha; a quinta ocupa a largura toda para fechar o bloco. */
+  .bk__step:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .bk__step {
+    padding: 1.25rem 1.15rem;
+  }
+
+  .bk__step:nth-child(odd) {
+    border-left: none;
+  }
+
+  .bk__step:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+  }
+
+  .bk__stepLabel {
+    font-size: 0.92rem;
+  }
+
+  .bk__form {
+    padding: 2rem 1.5rem;
+  }
+
+  .bk__summary {
+    padding: 2rem 1.5rem;
+  }
+
+  .bk__picker {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bk__dates {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  /* Período empilhado: retirada em cima, devolução embaixo */
+  .bk__period {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 1rem 1.1rem;
+  }
+
+  .bk__periodArrow {
+    display: none;
+  }
+
+  .bk__periodSide {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .bk__periodDays {
+    justify-self: start;
+  }
+
+  .bk__calendar {
+    padding: 1rem;
+  }
+
+  /* Alvos de toque do calendário ficam menores no celular, mas
+     nunca abaixo de ~38px de altura confortável */
+  .bk__calDay {
+    min-height: 38px;
+    font-size: 0.8rem;
+  }
+
+  .bk__prots {
+    grid-template-columns: 1fr;
+  }
+
+  .bk__add {
+    align-items: flex-start;
+  }
+
+  .bk__send {
+    max-width: none;
+  }
+
+  .bk__summaryMedia {
+    aspect-ratio: 16 / 10;
+  }
+
+  /* Marca */
+  .brand__frame::after {
+    transform: translate(10px, 10px);
+  }
+
+  .brand__badge {
+    left: 1rem;
+    bottom: 1.25rem;
+    padding: 0.9rem 1.15rem;
+  }
+
+  .brand__badgeNum {
+    font-size: 1.25rem;
+  }
+
+  .brand__more {
+    margin-top: 5rem;
+    padding-top: 2.5rem;
+  }
+
+  .brand__moreGrid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  /* Com uma coluna só, o card volta a ocupar a linha inteira. */
+  .brand__moreGrid--um .brand__moreItem {
+    grid-column: auto;
+  }
+
+  /* CTA */
+  .cta {
+    padding: 6.5rem 0;
+  }
+
+  .cta__actions {
+    margin-bottom: 3.5rem;
+    width: 100%;
+  }
+
+  .cta__actions .btn {
+    flex: 1 1 auto;
+    min-width: 100%;
+  }
+
+  /* Footer */
+  .ftr {
+    padding: 4rem 0 2rem;
+  }
+
+  /* Celular grande / tablet retrato: marca em cima, contatos
+     em duas colunas. */
+  .ftr__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+
+  .ftr__brand {
+    grid-column: 1 / -1;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .ftr__tagline {
+    max-width: 100%;
+  }
+
+  /* "Onde estamos" sozinho na última linha, sem coluna vazia ao lado */
+  .ftr__col:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .ftr__bottomRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ftr__note {
+    text-align: left;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --sec-y: 4.5rem;
+    --gut: 1.25rem;
+    --hdr-h: 76px;
+  }
+
+  .strip {
+    padding: 2.5rem 1.25rem;
+  }
+
+  .strip__list {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .strip__item {
+    padding: 1.25rem 0 1.25rem;
+    border-left: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .strip__item:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .strip__item:last-child {
+    padding-bottom: 0;
+  }
+
+  .secTitle {
+    font-size: clamp(1.75rem, 7vw, 2.25rem);
+  }
+
+  /* Botões ocupam a largura toda: área de toque confortável */
+  .hero__actions .btn,
+  .cta__actions .btn {
+    min-width: 100%;
+  }
+
+  .bk__steps {
+    grid-template-columns: 1fr;
+  }
+
+  .bk__step {
+    border-left: none;
+    border-top: 1px solid var(--line);
+    padding: 1.1rem 0;
+  }
+
+  .bk__step:first-child {
+    border-top: none;
+  }
+
+  .bk__form,
+  .bk__summary {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .bk__panel {
+    border-left: none;
+    border-right: none;
+  }
+
+  .vcard__body {
+    padding: 1.35rem 1.25rem 1.2rem;
+  }
+
+  .brand__moreItem figcaption {
+    padding: 0.9rem 1.1rem 1rem;
+  }
+
+  .cta__headline {
+    font-size: clamp(2.25rem, 11vw, 3rem);
+  }
+
+  .ftr__grid {
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+  }
+
+  .ftr__brand,
+  .ftr__col:last-child {
+    grid-column: auto;
+  }
+
+  .ftr__socialWrap {
+    margin-top: 2.5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  /* Sete colunas em tela estreita: menos respiro interno para os
+     números não encostarem na borda da célula. */
+  .bk__calendar {
+    padding: 0.75rem;
+  }
+
+  .bk__calWeek,
+  .bk__calGrid {
+    gap: 1px;
+  }
+
+  .bk__calDay {
+    min-height: 34px;
+    font-size: 0.76rem;
+  }
+
+  .bk__calWeek span {
+    font-size: 0.54rem;
+    letter-spacing: 0.06em;
+  }
+
+  .bk__calFoot {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .bk__picker {
+    grid-template-columns: 1fr;
+  }
+
+  .bk__pick {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  .bk__pick img {
+    width: 84px;
+    flex-shrink: 0;
+    aspect-ratio: 4 / 3;
+  }
+
+  .hdr__wordmarkSub {
+    display: none;
+  }
+}

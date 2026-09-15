@@ -1,0 +1,482 @@
+/* ============================================================
+   LOK CAR — base.css
+   Tokens, reset, tipografia, primitivos (container, botões,
+   rótulos, reveal). Direção de arte herdada da referência:
+   fundo quase preto, um único acento, bordas de 1px, ritmo amplo.
+   ============================================================ */
+
+:root {
+  /* --- Superfícies --- */
+  --bg:            #0A0C11;
+  --bg-alt:        #0D1017;
+  --bg-card:       #12161F;
+  --bg-elev:       #171C27;
+
+  /* --- Acento (vermelho LOK CAR) --- */
+  --accent:        #E11D2E;
+  --accent-hover:  #F5303F;
+  --accent-deep:   #A8121F;
+  --accent-a08:    rgba(225, 29, 46, 0.08);
+  --accent-a18:    rgba(225, 29, 46, 0.18);
+  --accent-a30:    rgba(225, 29, 46, 0.30);
+  --accent-a55:    rgba(225, 29, 46, 0.55);
+
+  /* --- Azul institucional (usado com muita parcimônia) --- */
+  --navy:          #16305C;
+
+  /* --- Texto --- */
+  --tx:            #FFFFFF;
+  --tx-2:          #A7AEBC;
+  --tx-3:          #6E7788;
+
+  /* --- Linhas --- */
+  --line:          #232936;
+  --line-soft:     #1A1F29;
+  --line-accent:   rgba(225, 29, 46, 0.35);
+
+  /* --- Tipografia --- */
+  --f-display: 'Archivo', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-sans:    'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /* --- Métricas --- */
+  --wrap:      1200px;
+  --wrap-wide: 1400px;
+  --gut:       2rem;
+  --sec-y:     8rem;
+
+  /* --- Movimento --- */
+  --e-out:  cubic-bezier(0.4, 0, 0.2, 1);
+  --t-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  --t-med:  0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --t-fast: 0.15s ease-in-out;
+
+  /* Altura de referência do header fixo — usada no scroll-padding
+     e no respiro do topo do hero. Generosa de propósito. */
+  --hdr-h: 96px;
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* impede que a âncora pare debaixo do header fixo */
+  scroll-padding-top: var(--hdr-h);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--f-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--tx);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* rede de segurança contra overflow horizontal */
+  overflow-x: hidden;
+}
+
+body.is-locked {
+  overflow: hidden;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+address {
+  font-style: normal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--f-display);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+::selection {
+  background-color: var(--accent);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #262D3B;
+  border-radius: 6px;
+  border: 2px solid var(--bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* ---------- Primitivos ---------- */
+
+.container {
+  width: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--gut);
+}
+
+/* Rótulo minúsculo em caixa alta — vocabulário da referência */
+.label {
+  display: inline-block;
+  font-family: var(--f-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Cabeçalho de seção padrão (centrado) */
+.secHead {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 4rem;
+}
+
+.secHead--left {
+  text-align: left;
+  margin-inline: 0;
+  max-width: 620px;
+}
+
+.secTitle {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--tx);
+  margin: 1rem 0 1rem;
+}
+
+.secSub {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--tx-2);
+}
+
+/* ---------- Botões ---------- */
+.btn {
+  --btn-pad-y: 1.05rem;
+  --btn-pad-x: 2.1rem;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: var(--btn-pad-y) var(--btn-pad-x);
+  font-family: var(--f-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+  transition: color var(--t-med), background-color var(--t-med),
+              border-color var(--t-med), transform var(--t-med);
+  min-height: 48px;
+}
+
+.btn > span {
+  position: relative;
+  z-index: 2;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* Preenchido com o acento */
+.btn--accent {
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid var(--accent);
+}
+
+.btn--accent::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  transform: skewX(-25deg);
+  pointer-events: none;
+}
+
+.btn--accent:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.btn--accent:hover::after {
+  animation: shine 0.65s var(--e-out);
+}
+
+/* Contorno claro */
+.btn--outline {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--tx);
+}
+
+.btn--outline:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Fantasma sobre imagem */
+.btn--ghost {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #fff;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.btn--ghost:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.btn--solid {
+  background: var(--tx);
+  color: var(--bg);
+  border: 1px solid var(--tx);
+}
+
+.btn--solid:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* Estado desabilitado (demo aguardando preenchimento) */
+.btn[aria-disabled='true'] {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+@keyframes shine {
+  0%   { left: -100%; }
+  100% { left: 150%; }
+}
+
+/* ---------- Reveal no scroll ---------- */
+/* Só esconde se o JS estiver ativo: sem JS, tudo visível. */
+.js .rv {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.85s var(--e-out), transform 0.85s var(--e-out);
+  will-change: opacity, transform;
+}
+
+.js .rv.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Imagens que "revelam" devagar ao entrar na tela. Aplicado ao
+   quadro da marca — não às fotos dos cards, que já têm o zoom do
+   hover. */
+.js .rvImg img {
+  opacity: 0;
+  transform: scale(1.05);
+  transition: opacity 0.95s var(--e-out), transform 1.1s var(--e-out);
+}
+
+/* Depois de revelada, a imagem volta ao estado neutro. O hover
+   de cada bloco (brand.css) reassume o scale a partir daí — a
+   especificidade dele é equivalente e o arquivo carrega depois. */
+.js .rvImg.is-in img {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ---------- Acessibilidade ---------- */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 3000;
+  padding: 1rem 1.5rem;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Preferência de movimento reduzido ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .js .rv {
+    opacity: 1;
+    transform: none;
+  }
+
+  .js .rvImg img {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- WhatsApp flutuante ---------- */
+.waBtn {
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+  z-index: 900;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  background: var(--bg-card);
+  border: 1px solid var(--accent-a30);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+  transition: transform var(--t-med), box-shadow var(--t-med), border-color var(--t-med);
+}
+
+.waBtn:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.5);
+  border-color: var(--accent);
+}
+
+.waBtn__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+.waBtn__icon {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Logo (conjunto de símbolos reutilizável) ---------- */
+/* O <g class="logoCar"> é apenas um agrupador semântico do SVG;
+   a cor vem de `currentColor`, definida no contêiner (.hdr__logo
+   / .ftr__logo). Por isso não há regra própria para ele. */
+.logoCar__body {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3.4;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.logoCar__glass {
+  fill: currentColor;
+  opacity: 0.34;
+}
+
+.logoCar__tyre {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3.4;
+}
+
+.logoCar__rim {
+  fill: currentColor;
+  opacity: 0.5;
+}

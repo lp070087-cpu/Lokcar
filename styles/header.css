@@ -1,0 +1,303 @@
+/* ============================================================
+   LOK CAR — header.css
+   Navegação fixa com logo centralizado e links divididos,
+   seguindo a composição da referência. Transparente no topo,
+   escurece com blur ao rolar.
+   ============================================================ */
+
+.hdr {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 1000;
+  padding: 1.5rem 2rem;
+  background: transparent;
+  transition: background-color var(--t-med), padding var(--t-med),
+              box-shadow var(--t-med), backdrop-filter var(--t-med);
+}
+
+.hdr.is-scrolled {
+  padding: 0.85rem 2rem;
+  background: rgba(10, 12, 17, 0.88);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: 0 1px 0 var(--line-soft), 0 14px 40px rgba(0, 0, 0, 0.42);
+}
+
+.hdr__nav {
+  position: relative;
+  max-width: var(--wrap-wide);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+}
+
+/* flex: 1 1 0 (e não flex: 1) — com a base em 0 as duas alas
+   dividem a sobra em partes iguais e nunca esticam o header
+   além da largura disponível. min-width: 0 libera o encolhimento. */
+.hdr__links {
+  display: flex;
+  align-items: center;
+  gap: 2.25rem;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.hdr__links--left {
+  justify-content: flex-end;
+}
+
+.hdr__links--right {
+  justify-content: flex-start;
+}
+
+.hdr__link {
+  position: relative;
+  display: inline-block;
+  padding: 0.3rem 0;
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tx-2);
+  white-space: nowrap;
+  transition: color var(--t-med);
+}
+
+.hdr__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width var(--t-med);
+}
+
+.hdr__link:hover {
+  color: var(--tx);
+}
+
+.hdr__link:hover::after {
+  width: 100%;
+}
+
+/* ---------- Logo central ---------- */
+.hdr__logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  color: #fff;
+  line-height: 1;
+}
+
+.hdr__logoMark {
+  width: 74px;
+  height: auto;
+  color: var(--accent);
+  transition: transform var(--t-med);
+}
+
+.hdr__logo:hover .hdr__logoMark {
+  transform: translateY(-2px);
+}
+
+.hdr__wordmark {
+  font-family: var(--f-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: #fff;
+  margin-top: 0.4rem;
+  text-indent: 0.2em; /* compensa o letter-spacing final */
+}
+
+.hdr__wordmarkSub {
+  font-family: var(--f-sans);
+  font-size: 0.52rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+  margin-top: 0.3rem;
+  text-indent: 0.32em;
+}
+
+/* ---------- Telefone + CTA ---------- */
+.hdr__phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tx-2);
+  white-space: nowrap;
+  transition: color var(--t-med);
+}
+
+.hdr__phone::after {
+  display: none;
+}
+
+.hdr__phone:hover {
+  color: var(--tx);
+}
+
+.hdr__phoneDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0 var(--accent-a55);
+  animation: phonePulse 2.4s var(--e-out) infinite;
+}
+
+@keyframes phonePulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-a55); }
+  50%      { box-shadow: 0 0 0 6px rgba(225, 29, 46, 0); }
+}
+
+.hdr__cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.7rem 1.35rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--line-accent);
+  white-space: nowrap;
+  transition: background-color var(--t-med), color var(--t-med), border-color var(--t-med);
+}
+
+.hdr__cta::after {
+  display: none;
+}
+
+.hdr__cta:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ---------- Botão hambúrguer ---------- */
+.hdr__burger {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  z-index: 1002;
+}
+
+.hdr__burgerLine,
+.hdr__burgerLine::before,
+.hdr__burgerLine::after {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #fff;
+  transition: transform var(--t-med), background-color var(--t-med), top var(--t-med);
+}
+
+.hdr__burgerLine {
+  position: relative;
+}
+
+.hdr__burgerLine::before,
+.hdr__burgerLine::after {
+  content: '';
+  position: absolute;
+  left: 0;
+}
+
+.hdr__burgerLine::before { top: -8px; }
+.hdr__burgerLine::after  { top: 8px; }
+
+.hdr__burger.is-open .hdr__burgerLine {
+  background: transparent;
+}
+
+.hdr__burger.is-open .hdr__burgerLine::before {
+  top: 0;
+  transform: rotate(45deg);
+  background: var(--accent);
+}
+
+.hdr__burger.is-open .hdr__burgerLine::after {
+  top: 0;
+  transform: rotate(-45deg);
+  background: var(--accent);
+}
+
+/* ---------- Menu mobile ---------- */
+.hdr__mobile {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  padding: 7rem 2rem 3rem;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-12px);
+  transition: opacity var(--t-med), transform var(--t-med), visibility var(--t-med);
+}
+
+.hdr__mobile.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.hdr__mobileList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.hdr__mobileLink {
+  display: block;
+  padding: 0.85rem 0;
+  font-family: var(--f-display);
+  font-size: 1.85rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--tx);
+  border-bottom: 1px solid var(--line-soft);
+  transition: color var(--t-med), padding-left var(--t-med);
+}
+
+.hdr__mobileLink:hover {
+  color: var(--accent);
+  padding-left: 0.4rem;
+}
+
+.hdr__mobileFoot {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.hdr__mobileCta {
+  width: 100%;
+}
+
+.hdr__mobileMeta {
+  font-size: 0.82rem;
+  line-height: 1.8;
+  color: var(--tx-3);
+}

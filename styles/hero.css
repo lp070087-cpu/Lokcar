@@ -1,0 +1,284 @@
+/* ============================================================
+   LOK CAR — hero.css
+   Hero de tela cheia com fotografia real de fundo, scrim em
+   camadas, grid técnico discreto e entradas escalonadas.
+   ============================================================ */
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--bg);
+  isolation: isolate;
+}
+
+/* ---------- Mídia ---------- */
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* O veículo está no centro da foto. Deslocar o enquadramento um
+     pouco para a esquerda empurra o carro para a direita do quadro,
+     afastando-o do bloco de texto — sem cortá-lo em nenhum formato,
+     porque a sobra horizontal disponível é pequena. */
+  object-position: 42% 46%;
+  /* a foto do veículo é clara: escurecemos e dessaturamos de leve
+     para o texto branco vencer sem perder o brilho da lataria */
+  filter: brightness(0.62) contrast(1.08) saturate(0.9);
+  transform: scale(1.04);
+  animation: heroZoom 2.4s var(--e-out) both;
+}
+
+@keyframes heroZoom {
+  from { transform: scale(1.12); opacity: 0; }
+  to   { transform: scale(1.04); opacity: 1; }
+}
+
+/* Scrim: escurece da esquerda para a direita e de baixo para cima */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      100deg,
+      rgba(10, 12, 17, 0.97) 0%,
+      rgba(10, 12, 17, 0.9) 28%,
+      rgba(10, 12, 17, 0.62) 55%,
+      rgba(10, 12, 17, 0.34) 78%,
+      rgba(10, 12, 17, 0.55) 100%
+    ),
+    linear-gradient(180deg, rgba(10, 12, 17, 0.72) 0%, transparent 26%, transparent 62%, rgba(10, 12, 17, 0.94) 100%);
+}
+
+/* Brilhos muito discretos, apenas para dar profundidade */
+.hero__glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero__glow--red {
+  width: 46vw;
+  height: 46vw;
+  max-width: 620px;
+  max-height: 620px;
+  left: -12vw;
+  bottom: -16vw;
+  background: radial-gradient(circle, rgba(225, 29, 46, 0.13) 0%, transparent 68%);
+}
+
+.hero__glow--navy {
+  width: 40vw;
+  height: 40vw;
+  max-width: 540px;
+  max-height: 540px;
+  right: -8vw;
+  top: -10vw;
+  background: radial-gradient(circle, rgba(22, 48, 92, 0.22) 0%, transparent 70%);
+}
+
+/* Grid técnico — o mesmo motivo de "linhas" da referência,
+   em escala bem baixa para não virar textura suja */
+.hero__grid {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0 118px, rgba(255, 255, 255, 0.028) 118px 119px),
+    repeating-linear-gradient(0deg,  transparent 0 118px, rgba(255, 255, 255, 0.028) 118px 119px);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 74%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 74%, transparent 100%);
+}
+
+/* ---------- Conteúdo ---------- */
+.hero__inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: var(--wrap-wide);
+  margin-inline: auto;
+  padding: calc(var(--hdr-h) + 3rem) 2rem 6rem;
+}
+
+.hero__content {
+  max-width: 660px;
+}
+
+.hero__label {
+  animation: fadeUp 0.9s var(--e-out) 0.15s both;
+}
+
+.hero__headline {
+  font-size: clamp(2.6rem, 6.2vw, 5rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  color: #fff;
+  margin: 1.5rem 0 1.75rem;
+  animation: fadeUp 1s var(--e-out) 0.28s both;
+}
+
+.hero__headline em {
+  font-style: normal;
+  color: var(--accent);
+  position: relative;
+}
+
+.hero__sub {
+  max-width: 480px;
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  line-height: 1.75;
+  color: var(--tx-2);
+  margin-bottom: 2.75rem;
+  animation: fadeUp 1s var(--e-out) 0.42s both;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-bottom: 3.5rem;
+  animation: fadeUp 1s var(--e-out) 0.56s both;
+}
+
+/* ---------- Meta (localização / diferencial) ---------- */
+.hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  animation: fadeUp 1s var(--e-out) 0.7s both;
+}
+
+.hero__metaItem {
+  flex: 1 1 240px;
+  min-width: 0;
+  padding: 1.35rem 1.75rem 0 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hero__metaItem:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+.hero__metaItem + .hero__metaItem {
+  padding-left: 1.75rem;
+}
+
+.hero__metaKey {
+  display: block;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.55rem;
+}
+
+.hero__metaVal {
+  display: block;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: #E4E7EC;
+}
+
+/* ---------- Indicador de scroll ---------- */
+.hero__scroll {
+  position: absolute;
+  right: 2.5rem;
+  bottom: 2.5rem;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  animation: fadeUp 1s var(--e-out) 0.9s both;
+}
+
+.hero__scrollText {
+  font-size: 0.64rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+  writing-mode: vertical-rl;
+  transition: color var(--t-med);
+}
+
+.hero__scrollLine {
+  width: 1px;
+  height: 54px;
+  background: linear-gradient(180deg, var(--accent), transparent);
+  animation: scrollPulse 2.2s var(--e-out) infinite;
+}
+
+.hero__scroll:hover .hero__scrollText {
+  color: var(--accent);
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.32; transform: scaleY(1); }
+  50%      { opacity: 1;    transform: scaleY(1.18); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   Faixa de diferenciais (dados reais)
+   ============================================================ */
+.strip {
+  background: var(--bg-alt);
+  border-block: 1px solid var(--line-soft);
+  padding: 3.25rem 2rem;
+}
+
+.strip__inner {
+  max-width: var(--wrap);
+  margin-inline: auto;
+}
+
+.strip__list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+
+.strip__item {
+  padding: 0 2rem;
+  border-left: 1px solid var(--line);
+}
+
+.strip__item:first-child {
+  border-left: none;
+  padding-left: 0;
+}
+
+.strip__item dt {
+  font-family: var(--f-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--tx);
+  margin-bottom: 0.5rem;
+}
+
+.strip__item dd {
+  font-size: 0.83rem;
+  line-height: 1.65;
+  color: var(--tx-3);
+}

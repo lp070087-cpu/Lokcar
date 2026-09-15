@@ -1,0 +1,228 @@
+/* ============================================================
+   LOK CAR — fleet.css
+   Grade de veículos. Cards contidos, com 1px de borda e mídia
+   em fundo claro (o recorte original de catálogo), mantendo a
+   foto real sem retoques.
+   ============================================================ */
+
+.fleet {
+  padding: var(--sec-y) 0;
+  background: var(--bg);
+}
+
+.fleet__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+
+/* Escalonamento por posição na grade — cada card da linha entra
+   um pouco depois do vizinho. Discreto de propósito: é o ritmo da
+   fileira, não uma coreografia.
+
+   O atraso vale SÓ para a transição de entrada (opacity e
+   transform). Se ficasse na propriedade `transition` genérica do
+   card, ele também atrasaria a reação do hover — que é aprovada
+   e não deve mudar. */
+.js .fleet__grid .vcard:nth-child(3n + 2) {
+  transition-delay: 0s, 0.08s, 0.08s, 0s;
+}
+
+.js .fleet__grid .vcard:nth-child(3n) {
+  transition-delay: 0s, 0.16s, 0.16s, 0s;
+}
+
+.js .fleet__grid .vcard:nth-child(6n + 4) {
+  transition-delay: 0s, 0.08s, 0.08s, 0s;
+}
+
+.js .fleet__grid .vcard:nth-child(6n + 5) {
+  transition-delay: 0s, 0.16s, 0.16s, 0s;
+}
+
+.js .fleet__grid .vcard:nth-child(6n) {
+  transition-delay: 0s, 0.24s, 0.24s, 0s;
+}
+
+/* ---------- Card de veículo ---------- */
+.vcard {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  transition: border-color var(--t-med), transform var(--t-med), box-shadow var(--t-med);
+}
+
+.vcard:hover {
+  border-color: var(--line-accent);
+  transform: translateY(-6px);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.42);
+}
+
+.vcard__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  /* fundo neutro claro, coerente com os recortes de catálogo */
+  background: linear-gradient(160deg, #F4F5F7 0%, #DDE1E6 100%);
+}
+
+/* As imagens do acervo são recortes de catálogo sobre fundo claro,
+   em resoluções variadas. "contain" preserva o veículo inteiro sem
+   ampliar (e sem borrar) o arquivo original. */
+.vcard__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 5%;
+  transition: transform var(--t-slow);
+}
+
+.vcard:hover .vcard__media img {
+  transform: scale(1.06);
+}
+
+.vcard__shine {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 62%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.85s var(--e-out);
+}
+
+.vcard:hover .vcard__shine {
+  transform: translateX(100%);
+}
+
+.vcard__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.6rem 1.6rem 1.4rem;
+}
+
+.vcard__type {
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+
+.vcard__name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--tx);
+  line-height: 1.25;
+}
+
+/* ---------- Diária demonstrativa ---------- */
+/* Nasce no HTML já preenchida (assim aparece sem JS) e é
+   reescrita pelo app.js a partir da config central. */
+.vcard__price {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.9rem;
+}
+
+.vcard__priceFrom {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+}
+
+.vcard__priceVal {
+  font-family: var(--f-display);
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--tx);
+  transition: color var(--t-med);
+}
+
+.vcard__priceUnit {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--tx-3);
+}
+
+.vcard:hover .vcard__priceVal {
+  color: var(--accent);
+}
+
+.vcard__foot {
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+
+.vcard__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tx-2);
+  transition: color var(--t-med);
+}
+
+.vcard__link svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform var(--t-med);
+}
+
+.vcard:hover .vcard__link {
+  color: var(--accent);
+}
+
+.vcard:hover .vcard__link svg {
+  transform: translateX(5px);
+}
+
+/* ---------- Fechamento da seção ---------- */
+.fleet__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 4rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--line-soft);
+}
+
+.fleet__note {
+  max-width: 560px;
+  font-size: 0.86rem;
+  line-height: 1.7;
+  color: var(--tx-3);
+}
+
+.fleet__noteDim {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: #565E6C;
+}
