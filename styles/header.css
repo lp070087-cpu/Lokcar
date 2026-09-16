@@ -94,25 +94,21 @@
   line-height: 1;
 }
 
-.hdr__logoMark {
-  width: 74px;
-  height: auto;
-  color: var(--accent);
-  transition: transform var(--t-med);
-}
-
-.hdr__logo:hover .hdr__logoMark {
-  transform: translateY(-2px);
-}
-
+/* Sem o desenho de carro acima da palavra, o `margin-top` que
+   separava os dois some: o nome passa a ser o topo do logo, e o
+   conjunto fica opticamente centrado na barra. */
 .hdr__wordmark {
   font-family: var(--f-display);
   font-size: 1.15rem;
   font-weight: 800;
   letter-spacing: 0.2em;
   color: #fff;
-  margin-top: 0.4rem;
   text-indent: 0.2em; /* compensa o letter-spacing final */
+  transition: color var(--t-med);
+}
+
+.hdr__logo:hover .hdr__wordmark {
+  color: var(--accent);
 }
 
 .hdr__wordmarkSub {

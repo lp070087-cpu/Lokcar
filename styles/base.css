@@ -441,30 +441,8 @@ h1, h2, h3, h4, h5, h6 {
   stroke-linejoin: round;
 }
 
-/* ---------- Logo (conjunto de símbolos reutilizável) ---------- */
-/* O <g class="logoCar"> é apenas um agrupador semântico do SVG;
-   a cor vem de `currentColor`, definida no contêiner (.hdr__logo
-   / .ftr__logo). Por isso não há regra própria para ele. */
-.logoCar__body {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 3.4;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-}
-
-.logoCar__glass {
-  fill: currentColor;
-  opacity: 0.34;
-}
-
-.logoCar__tyre {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 3.4;
-}
-
-.logoCar__rim {
-  fill: currentColor;
-  opacity: 0.5;
-}
+/* ---------- Logo ----------
+   O logo é só tipografia: "LOK CAR" e "Locadora de Veículos",
+   empilhados e centralizados. O desenho vetorial de carro que
+   existia acima do nome foi removido a pedido — não há mais
+   símbolo para estilizar aqui. */

@@ -94,9 +94,11 @@
 }
 
 /* O último bloco não leva borda nem margem extra: quem fecha
-   a coluna é o .bk__submit. (Não usar :last-child aqui — o
-   último filho do form é o próprio bloco de envio.) */
-.bk__field:nth-of-type(5) {
+   a coluna é o .bk__submit. A classe é explícita de propósito —
+   com :nth-of-type o bloco do formulário mudava de posição toda
+   vez que uma etapa nova entrava no meio, e a borda ia parar no
+   lugar errado. */
+.bk__field--last {
   border-bottom: none;
   margin-bottom: 0;
   padding-bottom: 1.5rem;
@@ -212,6 +214,18 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--tx-3);
+}
+
+/* Marca de campo opcional, dentro do próprio rótulo. Classe
+   própria: `.bk__opt` é o cartão de rádio de retirada/devolução, e
+   um rótulo com aquele nome herdaria moldura, padding e flex. */
+.bk__optTag {
+  margin-left: 0.45rem;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--tx-3);
+  opacity: 0.75;
 }
 
 /* O período não usa mais <input type="date">: quem escolhe as
@@ -612,6 +626,34 @@
   gap: 0.6rem;
 }
 
+/* Linha do adicional: o card clicável e, quando houver, o controle
+   de quantidade. Um só conjunto de moldura e fundo — o controle não
+   é um segundo cartão flutuando ao lado. */
+.bk__addRow {
+  display: flex;
+  align-items: stretch;
+  gap: 0.6rem;
+}
+
+.bk__addRow .bk__add {
+  flex: 1;
+  min-width: 0;
+}
+
+.bk__addRow .bk__addQtd {
+  padding: 0 0.9rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+}
+
+/* Classe posta pelo JS, e não `:has()`: o estado ligado já é
+   recalculado no render, e assim o realce não depende de suporte
+   a seletor de última geração. */
+.bk__addRow.is-on .bk__addQtd {
+  border-color: var(--line-accent);
+  background: var(--bg-elev);
+}
+
 .bk__add {
   position: relative; /* âncora do input invisível */
   display: flex;
@@ -804,6 +846,14 @@
   border-bottom: none;
 }
 
+/* Obrigatório: o `display: flex` acima vence o `[hidden]` do
+   navegador (mesma especificidade, folha do autor por cima), e as
+   linhas de endereço e taxa continuariam na tela depois de
+   escondidas pelo JS. */
+.bk__summaryRow[hidden] {
+  display: none;
+}
+
 .bk__summaryRow dt {
   flex-shrink: 0;
   font-size: 0.66rem;
@@ -898,4 +948,562 @@
   font-size: 0.74rem;
   line-height: 1.7;
   color: var(--tx-3);
+}
+
+/* ============================================================
+   RETIRADA E DEVOLUÇÃO
+
+   Duas decisões no mesmo passo. Cada uma é um par de cards
+   selecionáveis. A opção que pede endereço abre o formulário
+   logo abaixo; a outra fecha e mostra a nota da unidade.
+   ============================================================ */
+
+.bk__ask {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tx-2);
+  margin-bottom: 0.9rem;
+}
+
+/* Rótulo só para leitor de tela: o texto visível já é o <p>
+   acima, e repetir a pergunta no meio do grupo sonoro atrapalha. */
+.bk__srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.bk__escolha {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.bk__opt {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 1.05rem 1.15rem;
+  text-align: left;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: border-color var(--t-med), background-color var(--t-med);
+}
+
+.bk__opt:hover {
+  border-color: #333B4A;
+  background: var(--bg-elev);
+}
+
+.bk__opt[aria-checked='true'] {
+  border-color: var(--accent);
+  background: var(--bg-elev);
+}
+
+/* Ponto de rádio desenhado — nada de input nativo do sistema,
+   que quebraria a paleta escura. */
+.bk__optDot {
+  position: relative;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 0.15rem;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  transition: border-color var(--t-med), background-color var(--t-med);
+}
+
+.bk__opt[aria-checked='true'] .bk__optDot {
+  border-color: var(--accent);
+}
+
+.bk__optDot::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  background: var(--accent);
+  transform: scale(0);
+  transition: transform var(--t-med);
+}
+
+.bk__opt[aria-checked='true'] .bk__optDot::after {
+  transform: scale(1);
+}
+
+.bk__optText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.bk__optName {
+  font-family: var(--f-display);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--tx-2);
+  transition: color var(--t-med);
+}
+
+.bk__opt[aria-checked='true'] .bk__optName {
+  color: var(--tx);
+}
+
+.bk__optDesc {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--tx-3);
+}
+
+/* Nota de apoio logo abaixo do par (unidade, endereço repetido…) */
+.bk__nota {
+  display: block;
+  margin-top: 0.9rem;
+  padding: 0.85rem 1rem;
+  font-size: 0.76rem;
+  line-height: 1.6;
+  color: var(--tx-2);
+  background: var(--bg);
+  border-left: 2px solid var(--line-accent);
+}
+
+.bk__nota[hidden] {
+  display: none;
+}
+
+/* Fio que separa as duas decisões do mesmo passo */
+.bk__split {
+  height: 1px;
+  margin: 1.9rem 0;
+  border: none;
+  background: var(--line-soft);
+}
+
+/* ---------- Endereço ---------- */
+.bk__addr {
+  margin-top: 1.1rem;
+  padding: 1.25rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+}
+
+.bk__addr[hidden] {
+  display: none;
+}
+
+.bk__addrTag {
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+  margin-bottom: 1rem;
+}
+
+/* CEP, número e UF são curtos; rua, bairro, cidade e referência
+   ocupam o resto. Grade nomeada de 4 colunas, para o campo
+   estreito nunca sobrar nem faltar linha. */
+.bk__addrGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.bk__addrGrid[hidden] {
+  display: none;
+}
+
+.bk__input--cep  { grid-column: span 1; }
+.bk__input--rua  { grid-column: span 3; }
+.bk__input--ref  { grid-column: 1 / -1; }
+
+.bk__same {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.bk__same[hidden] {
+  display: none;
+}
+
+.bk__sameInput {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bk__sameBox {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  transition: border-color var(--t-med), background-color var(--t-med);
+}
+
+.bk__sameBox svg {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  transition: opacity var(--t-fast);
+}
+
+.bk__sameInput:checked + .bk__sameBox {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.bk__sameInput:checked + .bk__sameBox svg {
+  opacity: 1;
+}
+
+.bk__sameInput:focus-visible + .bk__sameBox {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.bk__sameText {
+  font-size: 0.8rem;
+  color: var(--tx-2);
+}
+
+/* ============================================================
+   FICHA DO VEÍCULO SELECIONADO
+   Nasce escondida. Só aparece com carro escolhido.
+   ============================================================ */
+
+.bk__info {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  margin-top: 1.4rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--line-accent);
+}
+
+.bk__info[hidden] {
+  display: none;
+}
+
+.bk__infoMedia {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+  border-right: 1px solid var(--line);
+  aspect-ratio: 4 / 3;
+}
+
+.bk__infoMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.bk__infoBody {
+  padding: 1.2rem 1.35rem;
+  min-width: 0;
+}
+
+.bk__infoTag {
+  display: block;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+  margin-bottom: 0.5rem;
+}
+
+.bk__infoName {
+  font-family: var(--f-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--tx);
+  margin-bottom: 1rem;
+}
+
+/* Quatro pares rótulo/valor em duas colunas. `auto-fit` com
+   minmax deixa cair para uma coluna sozinho quando aperta. */
+.bk__infoFacts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.85rem 1.25rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.bk__infoFacts dt {
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+  margin-bottom: 0.25rem;
+}
+
+.bk__infoFacts dd {
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--tx);
+}
+
+.bk__infoPrice {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.bk__infoPriceKey {
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+}
+
+.bk__infoPriceVal {
+  font-family: var(--f-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.bk__infoNote {
+  margin-top: 0.9rem;
+  font-size: 0.7rem;
+  line-height: 1.55;
+  color: var(--tx-3);
+}
+
+/* ============================================================
+   O QUE A LOCAÇÃO INCLUI
+   Lista demonstrativa, avisada como tal — não é contrato.
+   ============================================================ */
+
+.bk__inc {
+  padding: 1.4rem 1.5rem;
+  margin-bottom: 2.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+}
+
+.bk__incTag {
+  font-family: var(--f-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tx);
+  margin-bottom: 1.1rem;
+}
+
+.bk__incList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.7rem 1.5rem;
+  list-style: none;
+}
+
+.bk__incItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--tx-2);
+}
+
+/* O ✓ é desenhado, não é emoji nem glifo de fonte: assim ele
+   nunca vira caixinha em sistema sem a fonte certa. */
+.bk__incMark {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  margin-top: 0.2rem;
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.bk__incNote {
+  margin-top: 1.1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line-soft);
+  font-size: 0.7rem;
+  line-height: 1.6;
+  color: var(--tx-3);
+}
+
+/* ---------- Detalhes da proteção ---------- */
+.bk__protMore {
+  margin-top: 0.2rem;
+  padding: 0;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--t-med);
+}
+
+.bk__protMore:hover {
+  color: var(--accent);
+}
+
+.bk__protDet {
+  display: none;
+  margin-top: 0.1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line-soft);
+  list-style: none;
+}
+
+.bk__prot.is-open .bk__protDet {
+  display: block;
+}
+
+.bk__protDet li {
+  position: relative;
+  padding-left: 0.85rem;
+  font-size: 0.73rem;
+  line-height: 1.55;
+  color: var(--tx-3);
+}
+
+.bk__protDet li + li {
+  margin-top: 0.4rem;
+}
+
+.bk__protDet li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 4px;
+  height: 1px;
+  background: var(--accent);
+}
+
+/* ---------- Quantidade nos adicionais ---------- */
+.bk__addQtd {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.bk__addStep {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  font-size: 0.95rem;
+  line-height: 1;
+  color: var(--tx-2);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: border-color var(--t-med), color var(--t-med);
+}
+
+.bk__addStep:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--tx);
+}
+
+.bk__addStep:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.bk__addQtdVal {
+  min-width: 1.4rem;
+  font-family: var(--f-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--tx);
+}
+
+/* ---------- Confirmação da demonstração ---------- */
+.bk__done {
+  margin: 1.4rem 0 1rem;
+  padding: 1.5rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--accent);
+}
+
+.bk__done[hidden] {
+  display: none;
+}
+
+.bk__doneTitle {
+  font-family: var(--f-display);
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--tx);
+  margin-bottom: 0.6rem;
+}
+
+.bk__doneText {
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: var(--tx-2);
+}
+
+.bk__doneActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.bk__doneBtn {
+  max-width: none;
+}
+
+/* O botão de envio agora é <button>: quando a solicitação ainda
+   não está pronta, ele precisa parecer — e estar — desligado.
+   `cursor` explícito porque `.btn` já traz `pointer`, e a regra
+   de `.btn` vem antes no cascade. */
+.bk__send[aria-disabled='true'] {
+  opacity: 0.42;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.bk__doneBtn[aria-disabled='true'] {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

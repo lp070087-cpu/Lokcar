@@ -113,11 +113,13 @@ profundidade, nunca como cor de interface.
 
 ## A logo
 
-A logo foi **recriada como SVG vetorial** (o perfil de carro em linhas, no topo da
-marca) porque os prints disponíveis não contêm o arquivo original. É um desenho
-próprio inspirado na marca — **não é o arquivo oficial**. Se a LOK CAR fornecer o
-logo original (SVG, PDF ou PNG em alta), basta substituir os dois blocos
-`<svg class="hdr__logoMark">` / `<svg class="ftr__logoMark">` no `index.html`.
+A logo hoje é **só tipografia**: o nome LOKCAR e a linha "LOCADORA DE VEÍCULOS",
+nas classes `.hdr__wordmark` / `.hdr__wordmarkSub` (header) e `.ftr__wordmark` /
+`.ftr__wordmarkSub` (rodapé). O desenho de carro que ficava acima do nome foi
+removido a pedido — era um desenho próprio inspirado na marca, não o arquivo
+oficial. Se a LOK CAR fornecer o logo original (SVG, PDF ou PNG em alta), basta
+inserir o arquivo nesses dois pontos e ajustar o espaço vertical entre o símbolo
+e o nome.
 
 ---
 

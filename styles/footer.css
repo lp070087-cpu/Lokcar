@@ -31,19 +31,12 @@
   line-height: 1;
 }
 
-.ftr__logoMark {
-  width: 62px;
-  height: auto;
-  color: var(--accent);
-}
-
 .ftr__wordmark {
   font-family: var(--f-display);
   font-size: 1.05rem;
   font-weight: 800;
   letter-spacing: 0.2em;
   color: #fff;
-  margin-top: 0.4rem;
   text-indent: 0.2em;
 }
 

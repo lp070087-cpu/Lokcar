@@ -25,6 +25,7 @@
 <link rel="stylesheet" href="styles/header.css" />
 <link rel="stylesheet" href="styles/hero.css" />
 <link rel="stylesheet" href="styles/fleet.css" />
+<link rel="stylesheet" href="styles/viewer.css" />
 <link rel="stylesheet" href="styles/booking.css" />
 <link rel="stylesheet" href="styles/brand.css" />
 <link rel="stylesheet" href="styles/cta.css" />
@@ -89,17 +90,8 @@
     </ul>
 
     <a class="hdr__logo" href="#inicio" aria-label="LOK CAR — Locadora de Veículos">
-      <svg class="hdr__logoMark" viewBox="0 0 260 74" role="img" aria-hidden="true" focusable="false">
-        <g class="logoCar">
-          <path class="logoCar__body" d="M14 60 C14 47 21 41 33 39 L61 28 C71 17 83 11 99 11 L167 11 C185 11 199 17 211 27 L235 33 C247 37 251 45 251 55 L251 60 L14 60 Z" />
-          <path class="logoCar__glass" d="M74 28 L96 16 L140 16 L140 28 Z" />
-          <path class="logoCar__glass" d="M147 28 L147 16 L166 16 C180 16 191 21 201 29 Z" />
-          <circle class="logoCar__tyre" cx="72" cy="60" r="14" />
-          <circle class="logoCar__rim" cx="72" cy="60" r="5.5" />
-          <circle class="logoCar__tyre" cx="201" cy="60" r="14" />
-          <circle class="logoCar__rim" cx="201" cy="60" r="5.5" />
-        </g>
-      </svg>
+      <!-- Só o nome. O desenho de carro que ficava acima dele saiu: a
+           marca passou a se apresentar pela palavra, sem pictograma. -->
       <span class="hdr__wordmark">LOK CAR</span>
       <span class="hdr__wordmarkSub">Locadora de Veículos</span>
     </a>
@@ -150,9 +142,13 @@
      ============================================================ -->
 <section class="hero" id="inicio">
   <div class="hero__media">
+    <!-- A imagem anterior do hero foi apagada da pasta Public/. Esta é
+         a foto de estúdio do Cayenne em três-quartos dianteiro: mesma
+         paisagem (tela cheia sem corte em pé), carro à direita — que é
+         onde o scrim já deixa a área mais limpa para o texto. -->
     <img
-      src="Public/porsche%20cayenne%20preta%20de%20lado.webp"
-      alt="Veículo premium de perfil disponível para locação na LOK CAR"
+      src="Public/porsche-bg-frente.jpg.webp"
+      alt="Porsche Cayenne preto em estúdio, três-quartos dianteiro"
       fetchpriority="high" decoding="async" />
     <div class="hero__scrim" aria-hidden="true"></div>
     <div class="hero__glow hero__glow--red" aria-hidden="true"></div>
@@ -266,7 +262,7 @@
 
       <article class="vcard rv" data-model="Porsche Cayenne">
         <a class="vcard__media" href="#reservar" aria-label="Porsche Cayenne — consultar disponibilidade">
-          <img src="Public/porsche%20cayenne%20preta.webp" alt="Porsche Cayenne preto" loading="lazy" decoding="async" />
+          <img src="Public/porsche-bg-lateral.jpg.webp" alt="Porsche Cayenne preto visto de lado" loading="lazy" decoding="async" />
           <span class="vcard__shine" aria-hidden="true"></span>
         </a>
         <div class="vcard__body">
@@ -394,7 +390,157 @@
 </section>
 
 <!-- ============================================================
-     3 · EXPERIÊNCIA DE LOCAÇÃO (demonstração)
+     3 · VISUALIZADOR DO VEÍCULO
+     ------------------------------------------------------------
+     Oito ângulos reais do Cayenne, fotografados em estúdio e
+     girando em volta do carro. Diferente da versão anterior, estes
+     arquivos já vêm com o cenário e a plataforma dentro da própria
+     foto — não há recorte nem fundo transparente, e por isso não
+     existe mais nenhuma camada de cenário por cima. A cena tem
+     autoplay lento; o primeiro gesto assume o controle.
+     ============================================================ -->
+<section class="pv" id="visualizador" aria-labelledby="pvTitle">
+  <div class="container">
+
+    <div class="pv__head">
+      <div>
+        <span class="label">Inspeção do veículo</span>
+        <h2 class="pv__title" id="pvTitle">Conheça o Cayenne por inteiro.</h2>
+      </div>
+      <p class="pv__note">
+        Oito ângulos fotografados do veículo real.
+        <strong>Gire à vontade</strong> — a volta é completa, de ponta a ponta.
+      </p>
+    </div>
+
+    <!-- Nada de `role="tab"`/`role="tablist"` aqui: não existem
+         painéis correspondentes, e declarar abas sem painel confunde
+         mais do que ajuda. São botões, e o ativo se anuncia com
+         `aria-current`. -->
+    <div class="pv__viewer" id="pv" role="group" aria-label="Visualizador do Porsche Cayenne">
+
+      <!-- A cena, em camadas, de baixo para cima:
+
+             1. `.pv__world`   os oito ângulos do carro
+             2. `.pv__sweep`   a passada de luz a cada troca de ângulo
+
+           Só isso. Antes daqui havia oito camadas de cenário
+           desenhadas em CSS — ambiente, piso, refletores, plataforma,
+           clarão, luz de contato e halo — porque os arquivos daquela
+           versão eram recortes com fundo transparente e precisavam de
+           um showroom construído por trás.
+
+           Os arquivos de agora NÃO são recortes: são fotos completas
+           de estúdio, com o fundo e a plataforma já gravados dentro
+           do quadro. Manter as camadas antigas por cima colocaria uma
+           segunda plataforma sobre a que já está na foto — exatamente
+           a borda fantasma que não pode existir. Por isso elas foram
+           removidas, e não apenas escondidas: o cenário que aparece é
+           o da imagem, sem uma camada sequer por cima do carro.
+
+           O recorte (`overflow: hidden`) fica só aqui, num lugar,
+           valendo para a imagem e para a varredura. -->
+      <div class="pv__stage" id="pvStage" tabindex="0" role="group"
+           aria-label="Visualizador do veículo. Arraste para girar o carro, role para aproximar. Use as setas do teclado para navegar e as teclas mais e menos para o zoom.">
+
+        <div class="pv__world" id="pvWorld">
+          <!-- UMA camada de imagem, e não duas.
+
+               A versão anterior usava duas (`--a` e `--b`)
+               sobrepostas, com a opacidade das duas escrita a cada
+               quadro para a virada ser uma dissolvência. Aquilo
+               funcionava porque os arquivos eram recortes com fundo
+               transparente: no meio da mistura viam-se os dois
+               carros pela metade, um dentro do outro.
+
+               Estes arquivos são fotos opacas. Misturar duas fotos
+               opacas não dissolve o carro — mostra dois carros ao
+               mesmo tempo, e o de trás aparece inteiro, com a
+               plataforma dele junto. Além disso, a troca aqui é um
+               CORTE controlado pelo deslocamento horizontal, que é
+               o que o pedido define. Uma camada só, então: o `src`
+               muda quando o ângulo muda, e o que se vê é sempre um
+               quadro inteiro e nítido.
+
+               O `src` já nasce no primeiro ângulo para a imagem
+               aparecer junto com o resto da página; o JS assume a
+               partir daí. -->
+          <img class="pv__car" id="pvCarA" src="Public/carro-01-frente.png.png"
+               alt="Porsche Cayenne preto, visto de frente" decoding="async" />
+        </div>
+
+        <span class="pv__sweep" aria-hidden="true"></span>
+
+        <!-- Dica de descoberta: some no primeiro gesto. -->
+        <p class="pv__hint" id="pvHint">
+          <span class="pv__hintDesktop">
+            <span class="pv__hintKey">Arraste</span> para girar
+            <span class="pv__hintDot" aria-hidden="true"></span>
+            <span class="pv__hintKey">Role</span> para aproximar
+          </span>
+          <span class="pv__hintMobile">
+            <span class="pv__hintKey">Deslize</span> para girar
+            <span class="pv__hintDot" aria-hidden="true"></span>
+            <span class="pv__hintKey">Pinça</span> para aproximar
+          </span>
+        </p>
+
+        <span class="pv__badge" id="pvLabel">Frente</span>
+      </div>
+
+      <!-- Controles: discretos, na altura dos olhos do canto. -->
+      <div class="pv__tools">
+        <button class="pv__tool" id="pvZoomIn" type="button" aria-label="Aproximar">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M12 5v14M5 12h14" />
+          </svg>
+        </button>
+        <button class="pv__tool" id="pvZoomOut" type="button" aria-label="Afastar">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M5 12h14" />
+          </svg>
+        </button>
+        <button class="pv__tool pv__tool--reset" id="pvReset" type="button" aria-label="Resetar visualização">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M20 12a8 8 0 1 1-2.7-6" />
+            <path d="M20 4v5h-5" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Marcas de posição: mostram em que ponto da volta a inspeção
+           está. Elas são um INDICADOR, não o jeito principal de andar
+           — quem gira o carro é o arrasto — mas continuam clicáveis
+           para quem prefere pular direto a um ângulo. -->
+      <div class="pv__dots" id="pvDots" data-index="0" aria-label="Ângulos do veículo">
+        <button class="pv__dot is-on" type="button" data-i="0" aria-current="true" aria-label="Ver a frente"></button>
+        <button class="pv__dot" type="button" data-i="1" aria-label="Ver frente e lateral direita"></button>
+        <button class="pv__dot" type="button" data-i="2" aria-label="Ver a lateral direita"></button>
+        <button class="pv__dot" type="button" data-i="3" aria-label="Ver traseira e lateral direita"></button>
+        <button class="pv__dot" type="button" data-i="4" aria-label="Ver a traseira"></button>
+        <button class="pv__dot" type="button" data-i="5" aria-label="Ver traseira e lateral esquerda"></button>
+        <button class="pv__dot" type="button" data-i="6" aria-label="Ver a lateral esquerda"></button>
+        <button class="pv__dot" type="button" data-i="7" aria-label="Ver frente e lateral esquerda"></button>
+      </div>
+
+      <!-- Anúncio para leitores de tela: cada troca de ângulo é dita
+           em voz alta sem roubar o foco de quem está navegando. -->
+      <p class="pv__live" id="pvLive" aria-live="polite"></p>
+    </div>
+
+    <div class="pv__foot">
+      <p class="pv__footText">
+        Quer ver este carro de perto? A confirmação do modelo e do período é sempre
+        feita pela nossa equipe.
+      </p>
+      <a class="btn btn--outline" href="#reservar"><span>Reservar este modelo</span></a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     4 · EXPERIÊNCIA DE LOCAÇÃO (demonstração)
      ============================================================ -->
 <section class="bk" id="reservar">
   <div class="container">
@@ -408,6 +554,9 @@
       </p>
     </div>
 
+    <!-- A trilha tem cinco DEGRAUS, e o terceiro cobre as duas
+         decisões de retirada e devolução: elas são o mesmo momento
+         do pedido. Seis caixas aqui só repetiriam o mesmo rótulo. -->
     <div class="bk__steps rv" role="list">
       <div class="bk__step" role="listitem">
         <span class="bk__stepNum">01</span>
@@ -419,15 +568,15 @@
       </div>
       <div class="bk__step" role="listitem">
         <span class="bk__stepNum">03</span>
-        <span class="bk__stepLabel">Escolher a proteção</span>
+        <span class="bk__stepLabel">Retirada e devolução</span>
       </div>
       <div class="bk__step" role="listitem">
         <span class="bk__stepNum">04</span>
-        <span class="bk__stepLabel">Somar os adicionais</span>
+        <span class="bk__stepLabel">Proteção e adicionais</span>
       </div>
       <div class="bk__step" role="listitem">
         <span class="bk__stepNum">05</span>
-        <span class="bk__stepLabel">Enviar a solicitação</span>
+        <span class="bk__stepLabel">Solicitar a reserva</span>
       </div>
     </div>
 
@@ -439,30 +588,79 @@
         <div class="bk__field" role="group" aria-labelledby="bkStep1">
           <p class="bk__legend" id="bkStep1"><span class="bk__legendNum">01</span> Escolha o veículo</p>
           <div class="bk__picker" id="bkPicker" role="radiogroup" aria-label="Escolha o veículo">
-            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Porsche 911" data-img="Public/porsche%20preta.jpg">
+
+            <!-- A ficha de cada carro vem em data-*. A CATEGORIA repete
+                 exatamente o rótulo já publicado no card da frota; câmbio,
+                 lugares e ar são informação genérica coerente com o modelo,
+                 porque a locadora não forneceu ficha técnica. O bloco da
+                 ficha mostra o aviso de que a configuração é confirmada
+                 pela equipe — nada aqui é apresentado como especificação
+                 oficial do veículo. -->
+            <button class="bk__pick" type="button" role="radio" aria-checked="false"
+                    data-model="Porsche 911" data-img="Public/porsche%20preta.jpg"
+                    data-cat="Esportivo" data-cambio="Automático" data-lugares="4" data-ar="Sim">
               <img src="Public/porsche%20preta.jpg" alt="" loading="lazy" />
               <span class="bk__pickName">Porsche 911</span>
             </button>
-            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Porsche Cayenne" data-img="Public/porsche%20cayenne%20preta.webp">
-              <img src="Public/porsche%20cayenne%20preta.webp" alt="" loading="lazy" />
+
+            <button class="bk__pick" type="button" role="radio" aria-checked="false"
+                    data-model="Porsche Cayenne" data-img="Public/porsche-bg-lateral.jpg.webp"
+                    data-cat="SUV de luxo" data-cambio="Automático" data-lugares="5" data-ar="Sim">
+              <img src="Public/porsche-bg-lateral.jpg.webp" alt="" loading="lazy" />
               <span class="bk__pickName">Porsche Cayenne</span>
             </button>
-            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Mercedes-Benz Classe C" data-img="Public/mercedes%20preta.jpg">
+
+            <button class="bk__pick" type="button" role="radio" aria-checked="false"
+                    data-model="Mercedes-Benz Classe C" data-img="Public/mercedes%20preta.jpg"
+                    data-cat="Sedan executivo" data-cambio="Automático" data-lugares="5" data-ar="Sim">
               <img src="Public/mercedes%20preta.jpg" alt="" loading="lazy" />
               <span class="bk__pickName">Mercedes-Benz Classe C</span>
             </button>
-            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Audi A5 Sportback" data-img="Public/audi%20preta.jpg">
+
+            <button class="bk__pick" type="button" role="radio" aria-checked="false"
+                    data-model="Audi A5 Sportback" data-img="Public/audi%20preta.jpg"
+                    data-cat="Sportback" data-cambio="Automático" data-lugares="5" data-ar="Sim">
               <img src="Public/audi%20preta.jpg" alt="" loading="lazy" />
               <span class="bk__pickName">Audi A5 Sportback</span>
             </button>
-            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Hyundai HB20" data-img="Public/OIP%20(1).jpg">
+
+            <button class="bk__pick" type="button" role="radio" aria-checked="false"
+                    data-model="Hyundai HB20" data-img="Public/OIP%20(1).jpg"
+                    data-cat="Hatch" data-cambio="Automático" data-lugares="5" data-ar="Sim">
               <img src="Public/OIP%20(1).jpg" alt="" loading="lazy" />
               <span class="bk__pickName">Hyundai HB20</span>
             </button>
-            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Chevrolet Onix Plus" data-img="Public/Onix-Plus-Branco.jpg">
+
+            <button class="bk__pick" type="button" role="radio" aria-checked="false"
+                    data-model="Chevrolet Onix Plus" data-img="Public/Onix-Plus-Branco.jpg"
+                    data-cat="Sedan" data-cambio="Automático" data-lugares="5" data-ar="Sim">
               <img src="Public/Onix-Plus-Branco.jpg" alt="" loading="lazy" />
               <span class="bk__pickName">Chevrolet Onix Plus</span>
             </button>
+
+          </div>
+
+          <!-- Ficha do veículo escolhido. Nasce vazia: só aparece
+               quando há carro selecionado. -->
+          <div class="bk__info" id="bkInfo" hidden>
+            <div class="bk__infoMedia">
+              <img id="bkInfoImg" src="" alt="" />
+            </div>
+            <div class="bk__infoBody">
+              <span class="bk__infoTag" id="bkInfoTag">Veículo selecionado</span>
+              <h3 class="bk__infoName" id="bkInfoName">—</h3>
+              <dl class="bk__infoFacts">
+                <div><dt>Categoria</dt><dd id="bkInfoCat">—</dd></div>
+                <div><dt>Câmbio</dt><dd id="bkInfoCambio">—</dd></div>
+                <div><dt>Lugares</dt><dd id="bkInfoLugares">—</dd></div>
+                <div><dt>Ar-condicionado</dt><dd id="bkInfoAr">—</dd></div>
+              </dl>
+              <p class="bk__infoPrice">
+                <span class="bk__infoPriceKey">Diária base</span>
+                <span class="bk__infoPriceVal" id="bkInfoDiaria">—</span>
+              </p>
+              <p class="bk__infoNote" id="bkInfoNote"></p>
+            </div>
           </div>
         </div>
 
@@ -520,8 +718,152 @@
           <p class="bk__hint" id="bkDateHint">Escolha as duas datas no calendário para calcular o período.</p>
         </div>
 
+        <!-- ---------- 03 · Retirada e devolução ----------
+             Duas decisões na mesma etapa: como o carro chega e como
+             ele volta. A opção "na locadora" NÃO pede endereço — o
+             único endereço que a Lok Car tem publicamente hoje é a
+             região (Reserva do Paiva / Novo Mundo), não um número de
+             porta; então nada de endereço inventado: a tela avisa
+             que o endereço da unidade vem na confirmação. -->
         <div class="bk__field" role="group" aria-labelledby="bkStep3">
-          <p class="bk__legend" id="bkStep3"><span class="bk__legendNum">03</span> Proteção do veículo</p>
+          <p class="bk__legend" id="bkStep3"><span class="bk__legendNum">03</span> Retirada e devolução</p>
+
+          <p class="bk__ask">Como você quer receber o veículo?</p>
+          <div class="bk__escolha" id="bkReceber" role="radiogroup" aria-labelledby="bkAskReceber">
+            <span class="bk__srOnly" id="bkAskReceber">Como você quer receber o veículo?</span>
+          </div>
+
+          <p class="bk__nota" id="bkReceberNota" hidden></p>
+
+          <!-- Endereço de entrega: só existe quando "Levamos até você" -->
+          <div class="bk__addr" id="bkEndWrap" hidden>
+            <p class="bk__addrTag">Endereço de entrega</p>
+
+            <div class="bk__addrGrid">
+              <div class="bk__input bk__input--cep">
+                <label class="bk__inputLabel" for="bkCep">CEP</label>
+                <input class="bk__text" type="text" id="bkCep" name="cep"
+                       placeholder="00000-000" autocomplete="postal-code"
+                       inputmode="numeric" maxlength="9" />
+              </div>
+
+              <div class="bk__input bk__input--rua">
+                <label class="bk__inputLabel" for="bkRua">Endereço</label>
+                <input class="bk__text" type="text" id="bkRua" name="endereco"
+                       placeholder="Rua, avenida…" autocomplete="address-line1" />
+              </div>
+
+              <div class="bk__input">
+                <label class="bk__inputLabel" for="bkNum">Número</label>
+                <input class="bk__text" type="text" id="bkNum" name="numero" placeholder="000" />
+              </div>
+
+              <div class="bk__input">
+                <label class="bk__inputLabel" for="bkComp">Complemento <span class="bk__optTag">opcional</span></label>
+                <input class="bk__text" type="text" id="bkComp" name="complemento"
+                       placeholder="Apto, bloco…" autocomplete="address-line2" />
+              </div>
+
+              <div class="bk__input">
+                <label class="bk__inputLabel" for="bkBairro">Bairro</label>
+                <input class="bk__text" type="text" id="bkBairro" name="bairro"
+                       placeholder="Bairro" autocomplete="address-level3" />
+              </div>
+
+              <div class="bk__input">
+                <label class="bk__inputLabel" for="bkCidade">Cidade</label>
+                <input class="bk__text" type="text" id="bkCidade" name="cidade"
+                       placeholder="Cidade" autocomplete="address-level2" />
+              </div>
+
+              <div class="bk__input">
+                <label class="bk__inputLabel" for="bkUf">UF</label>
+                <input class="bk__text" type="text" id="bkUf" name="uf" placeholder="PE"
+                       autocomplete="address-level1" maxlength="2" />
+              </div>
+
+              <div class="bk__input bk__input--ref">
+                <label class="bk__inputLabel" for="bkRef">Ponto de referência <span class="bk__optTag">opcional</span></label>
+                <input class="bk__text" type="text" id="bkRef" name="referencia"
+                       placeholder="Algo que ajude a equipe a chegar" />
+              </div>
+            </div>
+
+            <p class="bk__nota">
+              Nesta demonstração o CEP não é consultado automaticamente.
+              Os dados ficam só nesta página, para você ver como o pedido
+              chega para a nossa equipe.
+            </p>
+          </div>
+
+          <hr class="bk__split" />
+
+          <p class="bk__ask">Como deseja devolver o veículo?</p>
+          <div class="bk__escolha" id="bkDevolver" role="radiogroup" aria-labelledby="bkAskDevolver">
+            <span class="bk__srOnly" id="bkAskDevolver">Como deseja devolver o veículo?</span>
+          </div>
+
+          <p class="bk__nota" id="bkDevolverNota" hidden></p>
+
+          <!-- Devolução no endereço: mesma entrega ou outro lugar -->
+          <div class="bk__addr" id="bkDevWrap" hidden>
+            <label class="bk__same" id="bkMesmoWrap" hidden>
+              <input class="bk__sameInput" type="checkbox" id="bkMesmo" checked />
+              <span class="bk__sameBox" aria-hidden="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.6 L10 17.4 L19 7.4" /></svg>
+              </span>
+              <span class="bk__sameText">Usar o mesmo endereço da entrega</span>
+            </label>
+
+            <div class="bk__addrGrid" id="bkDevGrid" hidden>
+              <div class="bk__input bk__input--cep">
+                <label class="bk__inputLabel" for="bkDevCep">CEP</label>
+                <input class="bk__text" type="text" id="bkDevCep" name="dev-cep"
+                       placeholder="00000-000" inputmode="numeric" maxlength="9" />
+              </div>
+
+              <div class="bk__input bk__input--rua">
+                <label class="bk__inputLabel" for="bkDevRua">Endereço</label>
+                <input class="bk__text" type="text" id="bkDevRua" name="dev-endereco"
+                       placeholder="Rua, avenida…" />
+              </div>
+
+              <div class="bk__input">
+                <label class="bk__inputLabel" for="bkDevNum">Número</label>
+                <input class="bk__text" type="text" id="bkDevNum" name="dev-numero" placeholder="000" />
+              </div>
+
+              <div class="bk__input">
+                <label class="bk__inputLabel" for="bkDevComp">Complemento <span class="bk__optTag">opcional</span></label>
+                <input class="bk__text" type="text" id="bkDevComp" name="dev-complemento" placeholder="Apto, bloco…" />
+              </div>
+
+              <div class="bk__input">
+                <label class="bk__inputLabel" for="bkDevBairro">Bairro</label>
+                <input class="bk__text" type="text" id="bkDevBairro" name="dev-bairro" placeholder="Bairro" />
+              </div>
+
+              <div class="bk__input">
+                <label class="bk__inputLabel" for="bkDevCidade">Cidade</label>
+                <input class="bk__text" type="text" id="bkDevCidade" name="dev-cidade" placeholder="Cidade" />
+              </div>
+
+              <div class="bk__input">
+                <label class="bk__inputLabel" for="bkDevUf">UF</label>
+                <input class="bk__text" type="text" id="bkDevUf" name="dev-uf" placeholder="PE" maxlength="2" />
+              </div>
+
+              <div class="bk__input bk__input--ref">
+                <label class="bk__inputLabel" for="bkDevRef">Ponto de referência <span class="bk__optTag">opcional</span></label>
+                <input class="bk__text" type="text" id="bkDevRef" name="dev-referencia"
+                       placeholder="Algo que ajude a equipe a chegar" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bk__field" role="group" aria-labelledby="bkStep4">
+          <p class="bk__legend" id="bkStep4"><span class="bk__legendNum">04</span> Proteção do veículo</p>
           <div class="bk__prots" id="bkProts" role="radiogroup" aria-label="Proteção do veículo"></div>
           <p class="bk__hint">
             Valores por dia, estimados para esta demonstração. Não descrevem
@@ -529,13 +871,20 @@
           </p>
         </div>
 
-        <div class="bk__field" role="group" aria-labelledby="bkStep4">
-          <p class="bk__legend" id="bkStep4"><span class="bk__legendNum">04</span> Serviços adicionais</p>
-          <div class="bk__adds" id="bkAdds"></div>
+        <!-- O que a locação inclui. Lista demonstrativa, avisada como tal. -->
+        <div class="bk__inc rv">
+          <p class="bk__incTag">Sua locação inclui</p>
+          <ul class="bk__incList" id="bkInclusos"></ul>
+          <p class="bk__incNote" id="bkInclusosNote"></p>
         </div>
 
         <div class="bk__field" role="group" aria-labelledby="bkStep5">
-          <p class="bk__legend" id="bkStep5"><span class="bk__legendNum">05</span> Seus dados de contato</p>
+          <p class="bk__legend" id="bkStep5"><span class="bk__legendNum">05</span> Serviços adicionais</p>
+          <div class="bk__adds" id="bkAdds"></div>
+        </div>
+
+        <div class="bk__field bk__field--last" role="group" aria-labelledby="bkStep6">
+          <p class="bk__legend" id="bkStep6"><span class="bk__legendNum">06</span> Seus dados de contato</p>
           <div class="bk__dates">
             <div class="bk__input">
               <label class="bk__inputLabel" for="bkName">Nome</label>
@@ -543,18 +892,39 @@
             </div>
             <div class="bk__input">
               <label class="bk__inputLabel" for="bkPhone">WhatsApp</label>
-              <input class="bk__text" type="tel" id="bkPhone" name="telefone" placeholder="(81) 90000-0000" autocomplete="tel" inputmode="tel" />
+              <input class="bk__text" type="text" id="bkPhone" name="telefone" placeholder="(81) 90000-0000" autocomplete="tel" inputmode="tel" />
             </div>
           </div>
         </div>
 
         <div class="bk__submit">
-          <a class="btn btn--accent bk__send" id="bkSend" href="https://wa.me/5581997530453" target="_blank" rel="noopener" aria-disabled="true">
-            <span>Enviar solicitação</span>
-          </a>
+          <button class="btn btn--accent bk__send" type="button" id="bkSend" aria-disabled="true">
+            <span>Solicitar reserva</span>
+          </button>
+
+          <!-- Confirmação da demonstração. Sem pagamento, sem número
+               de reserva, sem cobrança: nada disso aconteceu. -->
+          <div class="bk__done" id="bkDone" hidden>
+            <p class="bk__doneTitle">Sua solicitação foi registrada para demonstração.</p>
+            <p class="bk__doneText">
+              A equipe Lok Car confirmará disponibilidade, condições e valores
+              antes da contratação. Nenhum pagamento foi feito e nenhum valor
+              foi cobrado.
+            </p>
+            <div class="bk__doneActions">
+              <button class="btn btn--ghost bk__doneBtn" type="button" id="bkDoneCli">
+                <span>Ver na prévia da Área do Cliente</span>
+              </button>
+              <a class="btn btn--outline bk__doneBtn" id="bkDoneWa" href="https://wa.me/5581997530453" target="_blank" rel="noopener">
+                <span>Falar no WhatsApp</span>
+              </a>
+            </div>
+          </div>
+
           <p class="bk__disclaimer">
-            Demonstração do futuro sistema. Nesta versão a solicitação é montada aqui e
-            enviada pelo WhatsApp da Lok Car — ainda não há reserva automática.
+            Demonstração do futuro sistema. Nesta versão a solicitação é montada aqui,
+            fica guardada apenas neste navegador e aparece na prévia da Área do Cliente —
+            ainda não há reserva automática, envio de dados nem pagamento.
           </p>
         </div>
 
@@ -581,6 +951,22 @@
             <dt>Quantidade de dias</dt>
             <dd id="bkSumDays">—</dd>
           </div>
+
+          <!-- Recebimento e devolução entram logo depois do período:
+               é a decisão que muda o resto da conta (taxa de entrega). -->
+          <div class="bk__summaryRow bk__summaryRow--stack">
+            <dt>Forma de recebimento</dt>
+            <dd id="bkSumReceb">—</dd>
+          </div>
+          <div class="bk__summaryRow bk__summaryRow--stack" id="bkSumEndRow">
+            <dt>Endereço de entrega</dt>
+            <dd id="bkSumEnd">—</dd>
+          </div>
+          <div class="bk__summaryRow bk__summaryRow--stack">
+            <dt>Forma de devolução</dt>
+            <dd id="bkSumDev">—</dd>
+          </div>
+
           <div class="bk__summaryRow">
             <dt>Diárias</dt>
             <dd id="bkSumDiarias">—</dd>
@@ -596,6 +982,10 @@
           <div class="bk__summaryRow bk__summaryRow--stack">
             <dt>Serviços adicionais</dt>
             <dd id="bkSumAdds">—</dd>
+          </div>
+          <div class="bk__summaryRow" id="bkSumTaxaRow">
+            <dt>Taxa de entrega</dt>
+            <dd id="bkSumTaxa">—</dd>
           </div>
           <div class="bk__summaryRow bk__summaryRow--sub">
             <dt>Subtotal</dt>
@@ -618,7 +1008,7 @@
 </section>
 
 <!-- ============================================================
-     4 · DESTAQUE DA MARCA
+     5 · DESTAQUE DA MARCA
      ============================================================ -->
 <section class="brand" id="lokcar">
   <div class="container">
@@ -627,8 +1017,11 @@
 
       <div class="brand__media rv rvImg">
         <div class="brand__frame">
-          <img src="Public/porsche%20cayenne%20preta%20parte%20de%20tras.webp"
-               alt="Traseira de veículo premium da frota Lok Car" loading="lazy" decoding="async" />
+          <!-- A foto anterior (traseira) foi apagada de Public/. Esta é
+               a traseira em três-quartos do Cayenne, na mesma proporção
+               do quadro (4:3). -->
+          <img src="Public/porsche-bg-traseira.jpg.webp"
+               alt="Porsche Cayenne preto visto de traseira, três-quartos" loading="lazy" decoding="async" />
         </div>
         <div class="brand__badge">
           <span class="brand__badgeNum">2014</span>
@@ -672,13 +1065,107 @@
 
     </div>
 
-    <div class="brand__more rv">
+    <!-- Os quatro modelos abaixo são os que têm imagem REAL na pasta
+         Public/ e que ainda não aparecem em destaque nesta coluna.
+         A Toyota Corolla e o Jeep Compass saíram porque as fotos
+         deles foram apagadas da pasta — sem arquivo, sem card.
+
+         Os cards usam exatamente o mesmo componente da frota
+         (.vcard), para o hover, a sombra, o brilho e a ida para a
+         reserva serem os mesmos. O que muda é só o preço: o HB20
+         está na configuração central e mostra a faixa de diária;
+         os outros três ainda não têm tabela fechada, então exibem
+         "Sob consulta" — o mesmo rótulo que o resumo da reserva já
+         usa. Nenhum valor foi inventado. -->
+    <div class="brand__more">
       <span class="brand__moreLabel">Também disponível na frota</span>
-      <div class="brand__moreGrid brand__moreGrid--um">
-        <figure class="brand__moreItem">
-          <img src="Public/onix.png" alt="Chevrolet Onix branco" loading="lazy" decoding="async" />
-          <figcaption>Chevrolet Onix · Hatch</figcaption>
-        </figure>
+      <div class="brand__moreGrid">
+
+        <article class="vcard rv" data-model="Mercedes-Benz GLC">
+          <a class="vcard__media" href="#reservar" aria-label="Mercedes-Benz GLC — consultar disponibilidade">
+            <img src="Public/mercedes-glc-branco.webp" alt="Mercedes-Benz GLC branco, visto de frente e lateral" loading="lazy" decoding="async" />
+            <span class="vcard__shine" aria-hidden="true"></span>
+          </a>
+          <div class="vcard__body">
+            <span class="vcard__type">SUV de luxo</span>
+            <h3 class="vcard__name">Mercedes-Benz GLC</h3>
+            <div class="vcard__price">
+              <span class="vcard__priceFrom">Diária</span>
+              <span class="vcard__priceVal">Sob consulta</span>
+            </div>
+            <div class="vcard__foot">
+              <a class="vcard__link" href="#reservar">
+                <span>Tenho interesse</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="vcard rv" data-model="Audi Q8">
+          <a class="vcard__media" href="#reservar" aria-label="Audi Q8 — consultar disponibilidade">
+            <img src="Public/audi-q8-branco.webp" alt="Audi Q8 branco, visto de frente e lateral" loading="lazy" decoding="async" />
+            <span class="vcard__shine" aria-hidden="true"></span>
+          </a>
+          <div class="vcard__body">
+            <span class="vcard__type">SUV de luxo</span>
+            <h3 class="vcard__name">Audi Q8</h3>
+            <div class="vcard__price">
+              <span class="vcard__priceFrom">Diária</span>
+              <span class="vcard__priceVal">Sob consulta</span>
+            </div>
+            <div class="vcard__foot">
+              <a class="vcard__link" href="#reservar">
+                <span>Tenho interesse</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="vcard rv" data-model="Chevrolet Onix">
+          <a class="vcard__media" href="#reservar" aria-label="Chevrolet Onix — consultar disponibilidade">
+            <img src="Public/onix-branco.webp" alt="Chevrolet Onix branco, visto de frente e lateral" loading="lazy" decoding="async" />
+            <span class="vcard__shine" aria-hidden="true"></span>
+          </a>
+          <div class="vcard__body">
+            <span class="vcard__type">Hatch</span>
+            <h3 class="vcard__name">Chevrolet Onix</h3>
+            <div class="vcard__price">
+              <span class="vcard__priceFrom">Diária</span>
+              <span class="vcard__priceVal">Sob consulta</span>
+            </div>
+            <div class="vcard__foot">
+              <a class="vcard__link" href="#reservar">
+                <span>Tenho interesse</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="vcard rv" data-model="Hyundai HB20">
+          <a class="vcard__media" href="#reservar" aria-label="Hyundai HB20 — consultar disponibilidade">
+            <img src="Public/hb20-prata.webp" alt="Hyundai HB20 prata, visto de frente e lateral" loading="lazy" decoding="async" />
+            <span class="vcard__shine" aria-hidden="true"></span>
+          </a>
+          <div class="vcard__body">
+            <span class="vcard__type">Hatch</span>
+            <h3 class="vcard__name">Hyundai HB20</h3>
+            <div class="vcard__price">
+              <span class="vcard__priceFrom">a partir de</span>
+              <span class="vcard__priceVal" data-price-for="Hyundai HB20">R$ 150–220</span>
+              <span class="vcard__priceUnit">/dia</span>
+            </div>
+            <div class="vcard__foot">
+              <a class="vcard__link" href="#reservar">
+                <span>Tenho interesse</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
       </div>
     </div>
 
@@ -686,7 +1173,7 @@
 </section>
 
 <!-- ============================================================
-     5 · CTA FINAL
+     6 · CTA FINAL
      ============================================================ -->
 <section class="cta" id="contato">
   <div class="cta__glow" aria-hidden="true"></div>
@@ -736,17 +1223,7 @@
 
       <div class="ftr__brand">
         <a class="ftr__logo" href="#inicio" aria-label="LOK CAR — Locadora de Veículos">
-          <svg class="ftr__logoMark" viewBox="0 0 260 74" role="img" aria-hidden="true" focusable="false">
-            <g class="logoCar">
-              <path class="logoCar__body" d="M14 60 C14 47 21 41 33 39 L61 28 C71 17 83 11 99 11 L167 11 C185 11 199 17 211 27 L235 33 C247 37 251 45 251 55 L251 60 L14 60 Z" />
-              <path class="logoCar__glass" d="M74 28 L96 16 L140 16 L140 28 Z" />
-              <path class="logoCar__glass" d="M147 28 L147 16 L166 16 C180 16 191 21 201 29 Z" />
-              <circle class="logoCar__tyre" cx="72" cy="60" r="14" />
-              <circle class="logoCar__rim" cx="72" cy="60" r="5.5" />
-              <circle class="logoCar__tyre" cx="201" cy="60" r="14" />
-              <circle class="logoCar__rim" cx="201" cy="60" r="5.5" />
-            </g>
-          </svg>
+          <!-- Sem o desenho de carro, igual ao logo do header. -->
           <span class="ftr__wordmark">LOK CAR</span>
           <span class="ftr__wordmarkSub">Locadora de Veículos</span>
         </a>
@@ -854,7 +1331,7 @@
     </button>
 
     <!-- ---------- Estado 1: login ---------- -->
-    <div class="cli__view cli__view--login" id="cliLoginView">
+    <div class="cli__view cli__view--acesso" id="cliLoginView">
       <header class="cli__head">
         <span class="label">Área do cliente</span>
         <h2 class="cli__title" id="cliTitle">Acesso à sua conta</h2>
@@ -929,8 +1406,14 @@
       </footer>
     </div>
 
-    <!-- ---------- Estado 2: prévia da área do cliente ---------- -->
-    <div class="cli__view cli__view--area" id="cliAreaView" hidden>
+    <!-- ---------- Estado 2: prévia da área do cliente ----------
+         Tudo o que aparece aqui é demonstração. Não há consulta a
+         servidor, não há sessão e não há credencial: a única coisa
+         que atravessa da reserva para cá é o resumo da configuração
+         escolhida, guardado no próprio navegador (ver a seção 7 do
+         app.js). Nenhum dado pessoal é guardado.
+         ------------------------------------------------------------------ -->
+    <div class="cli__view cli__view--painel" id="cliAreaView" hidden>
       <header class="cli__areaHead">
         <div>
           <span class="label">Área do cliente</span>
@@ -939,26 +1422,47 @@
         <span class="cli__pill">Prévia · sem login real</span>
       </header>
 
-      <nav class="cli__tabs" id="cliTabs" aria-label="Seções da área do cliente">
-        <button class="cli__tab is-on" type="button" role="tab" aria-selected="true" data-tab="reservas">Minhas reservas</button>
-        <button class="cli__tab" type="button" role="tab" aria-selected="false" data-tab="historico">Histórico</button>
-        <button class="cli__tab" type="button" role="tab" aria-selected="false" data-tab="dados">Meus dados</button>
-        <button class="cli__tab" type="button" role="tab" aria-selected="false" data-tab="suporte">Suporte</button>
+      <!-- Painel de abertura: quatro cartões de resumo -->
+      <div class="cli__dash" id="cliDash">
+        <div class="cli__dashCard">
+          <span class="cli__dashKey">Reserva atual</span>
+          <span class="cli__dashVal" id="cliDashRes">—</span>
+        </div>
+        <div class="cli__dashCard">
+          <span class="cli__dashKey">Próxima retirada</span>
+          <span class="cli__dashVal" id="cliDashRet">—</span>
+        </div>
+        <div class="cli__dashCard">
+          <span class="cli__dashKey">Status</span>
+          <span class="cli__dashVal" id="cliDashStatus">—</span>
+        </div>
+        <div class="cli__dashCard">
+          <span class="cli__dashKey">Total estimado</span>
+          <span class="cli__dashVal cli__dashVal--accent" id="cliDashTotal">—</span>
+        </div>
+      </div>
+
+      <nav class="cli__tabs" id="cliTabs" role="tablist" aria-label="Seções da área do cliente">
+        <button class="cli__tab is-on" type="button" role="tab" id="cliTab-reservas" aria-selected="true" aria-controls="cliPane-reservas" tabindex="0" data-tab="reservas">Minhas reservas</button>
+        <button class="cli__tab" type="button" role="tab" id="cliTab-historico" aria-selected="false" aria-controls="cliPane-historico" tabindex="-1" data-tab="historico">Histórico</button>
+        <button class="cli__tab" type="button" role="tab" id="cliTab-dados" aria-selected="false" aria-controls="cliPane-dados" tabindex="-1" data-tab="dados">Meus dados</button>
+        <button class="cli__tab" type="button" role="tab" id="cliTab-documentos" aria-selected="false" aria-controls="cliPane-documentos" tabindex="-1" data-tab="documentos">Documentos</button>
+        <button class="cli__tab" type="button" role="tab" id="cliTab-suporte" aria-selected="false" aria-controls="cliPane-suporte" tabindex="-1" data-tab="suporte">Suporte</button>
       </nav>
 
       <div class="cli__areaBody">
 
-        <!-- Reserva atual -->
-        <section class="cli__pane" data-pane="reservas">
-          <article class="cli__res">
-            <div class="cli__resMedia">
-              <span class="cli__resTag">Reserva atual</span>
+        <!-- ---------- Minhas reservas ---------- -->
+        <section class="cli__pane" role="tabpanel" id="cliPane-reservas" aria-labelledby="cliTab-reservas" tabindex="0" data-pane="reservas">
+          <article class="cli__res" id="cliRes">
+            <div class="cli__resMedia" id="cliResMedia">
+              <span class="cli__resTag" id="cliResTag">Exemplo</span>
             </div>
 
             <div class="cli__resBody">
-              <h3 class="cli__resTitle">Veículo de demonstração</h3>
+              <h3 class="cli__resTitle" id="cliResTitle">Veículo de demonstração</h3>
 
-              <dl class="cli__resFacts">
+              <dl class="cli__resFacts" id="cliResFacts">
                 <div>
                   <dt>Período</dt>
                   <dd>Exemplo · 3 dias</dd>
@@ -969,10 +1473,10 @@
                 </div>
               </dl>
 
-              <p class="cli__stub">
-                Reserva fictícia, criada só para ilustrar esta tela. Assim que você
-                solicita pelo site, a solicitação aparece aqui com o veículo e o
-                período escolhidos, e a equipe confirma a disponibilidade.
+              <p class="cli__stub" id="cliResStub">
+                Reserva fictícia, criada só para ilustrar esta tela. Monte uma
+                solicitação no site e ela aparece aqui com o veículo, o período
+                e os valores que você escolheu.
               </p>
             </div>
           </article>
@@ -981,7 +1485,7 @@
             <h4 class="cli__hintTitle">Quer ver o fluxo completo?</h4>
             <p class="cli__hintText">
               Escolha um veículo, defina o período, monte a proteção e os adicionais
-              e envie a solicitação. É o caminho que vai alimentar esta tela.
+              e solicite a reserva. É o caminho que alimenta esta tela.
             </p>
             <button class="btn btn--outline cli__hintBtn" type="button" data-goto-reserva>
               <span>Ir para a reserva</span>
@@ -989,39 +1493,171 @@
           </div>
         </section>
 
-        <!-- Histórico -->
-        <section class="cli__pane" data-pane="historico" hidden>
-          <div class="cli__empty">
-            <h3 class="cli__emptyTitle">Nenhuma locação anterior</h3>
-            <p class="cli__emptyText">
-              Esta é uma prévia. O histórico se forma quando as locações
-              acontecem de verdade.
-            </p>
+        <!-- ---------- Histórico ----------
+             Duas locações de exemplo. Sem nome, sem documento, sem
+             endereço: só o que a tela precisa para mostrar o formato. -->
+        <section class="cli__pane" role="tabpanel" id="cliPane-historico" aria-labelledby="cliTab-historico" tabindex="0" data-pane="historico" hidden>
+          <p class="cli__paneNote">
+            Locações de exemplo, para ilustrar o formato da tela. Nada aqui
+            pertence a uma pessoa real.
+          </p>
+
+          <div class="cli__hist">
+            <article class="cli__histCard">
+              <div class="cli__histTop">
+                <span class="cli__histNum">Reserva demonstrativa #001</span>
+                <span class="cli__status cli__status--ok">Finalizada</span>
+              </div>
+              <dl class="cli__histFacts">
+                <div><dt>Veículo</dt><dd>Hyundai HB20 · Hatch</dd></div>
+                <div><dt>Período</dt><dd>12 fev → 15 fev · 3 dias</dd></div>
+                <div><dt>Total estimado</dt><dd>R$ 564,00</dd></div>
+              </dl>
+              <button class="cli__histMore" type="button" aria-expanded="false">
+                Ver detalhes
+              </button>
+              <div class="cli__histDet" hidden>
+                <dl class="cli__histFacts">
+                  <div><dt>Forma de recebimento</dt><dd>Retirar na locadora</dd></div>
+                  <div><dt>Forma de devolução</dt><dd>Devolver na locadora</dd></div>
+                  <div><dt>Proteção</dt><dd>Proteção Simples — R$ 29,00/dia</dd></div>
+                  <div><dt>Adicionais</dt><dd>Lavagem na devolução</dd></div>
+                </dl>
+              </div>
+            </article>
+
+            <article class="cli__histCard">
+              <div class="cli__histTop">
+                <span class="cli__histNum">Reserva demonstrativa #002</span>
+                <span class="cli__status cli__status--ok">Finalizada</span>
+              </div>
+              <dl class="cli__histFacts">
+                <div><dt>Veículo</dt><dd>Chevrolet Onix Plus · Sedan</dd></div>
+                <div><dt>Período</dt><dd>3 mar → 10 mar · 7 dias</dd></div>
+                <div><dt>Total estimado</dt><dd>R$ 1.848,00</dd></div>
+              </dl>
+              <button class="cli__histMore" type="button" aria-expanded="false">
+                Ver detalhes
+              </button>
+              <div class="cli__histDet" hidden>
+                <dl class="cli__histFacts">
+                  <div><dt>Forma de recebimento</dt><dd>Levamos até você</dd></div>
+                  <div><dt>Forma de devolução</dt><dd>Retirada no endereço · mesmo endereço da entrega</dd></div>
+                  <div><dt>Proteção</dt><dd>Proteção Completa — R$ 99,00/dia</dd></div>
+                  <div><dt>Adicionais</dt><dd>Lavagem premium · Cadeirinha infantil</dd></div>
+                  <div><dt>Taxa de entrega</dt><dd>R$ 80,00</dd></div>
+                </dl>
+              </div>
+            </article>
           </div>
         </section>
 
-        <!-- Meus dados -->
-        <section class="cli__pane" data-pane="dados" hidden>
-          <div class="cli__empty">
-            <h3 class="cli__emptyTitle">Seus dados ficam aqui</h3>
-            <p class="cli__emptyText">
-              Nome, contato e documentos, para agilizar as próximas reservas.
-              Ainda não há nada preenchido — e nada foi guardado nesta demonstração.
-            </p>
+        <!-- ---------- Meus dados ----------
+             Campos com PLACEHOLDER, não com dado fictício: nada aqui
+             pode passar por informação de uma pessoa real. -->
+        <section class="cli__pane" role="tabpanel" id="cliPane-dados" aria-labelledby="cliTab-dados" tabindex="0" data-pane="dados" hidden>
+          <p class="cli__paneNote">
+            Estrutura dos campos da versão final. Nada foi preenchido com dados
+            de uma pessoa real e nada foi guardado nesta demonstração.
+          </p>
+
+          <div class="cli__data">
+            <p class="cli__dataGroup">Dados pessoais</p>
+            <dl class="cli__dataGrid">
+              <div><dt>Nome completo</dt><dd class="cli__ph">Não informado</dd></div>
+              <div><dt>E-mail</dt><dd class="cli__ph">Não informado</dd></div>
+              <div><dt>Telefone</dt><dd class="cli__ph">Não informado</dd></div>
+              <div><dt>CPF</dt><dd class="cli__ph">Não informado</dd></div>
+              <div><dt>Data de nascimento</dt><dd class="cli__ph">Não informado</dd></div>
+            </dl>
+
+            <p class="cli__dataGroup">Endereço</p>
+            <dl class="cli__dataGrid">
+              <div><dt>CEP</dt><dd class="cli__ph">Não informado</dd></div>
+              <div><dt>Rua</dt><dd class="cli__ph">Não informado</dd></div>
+              <div><dt>Número</dt><dd class="cli__ph">Não informado</dd></div>
+              <div><dt>Complemento</dt><dd class="cli__ph">Não informado</dd></div>
+              <div><dt>Bairro</dt><dd class="cli__ph">Não informado</dd></div>
+              <div><dt>Cidade</dt><dd class="cli__ph">Não informado</dd></div>
+              <div><dt>UF</dt><dd class="cli__ph">Não informado</dd></div>
+            </dl>
+
+            <button class="btn btn--outline cli__dataBtn" type="button" id="cliEdit">
+              <span>Editar dados</span>
+            </button>
           </div>
         </section>
 
-        <!-- Suporte -->
-        <section class="cli__pane" data-pane="suporte" hidden>
-          <div class="cli__empty">
-            <h3 class="cli__emptyTitle">Fale com a Lok Car</h3>
-            <p class="cli__emptyText">
-              Atendimento personalizado, por WhatsApp ou Direct.
-            </p>
-            <a class="btn btn--accent cli__hintBtn" href="https://wa.me/5581997530453" target="_blank" rel="noopener">
-              <span>(81) 99753-0453</span>
+        <!-- ---------- Documentos ----------
+             Estrutura pronta, upload desligado: sem servidor não há
+             onde guardar arquivo, e prometer envio seria mentira. -->
+        <section class="cli__pane" role="tabpanel" id="cliPane-documentos" aria-labelledby="cliTab-documentos" tabindex="0" data-pane="documentos" hidden>
+          <p class="cli__paneNote">
+            Estrutura dos documentos da versão final. Os estados abaixo são
+            exemplos — nenhum arquivo foi enviado e nada foi guardado.
+          </p>
+
+          <div class="cli__docs" id="cliDocs">
+            <article class="cli__doc">
+              <div class="cli__docText">
+                <span class="cli__docName">CNH</span>
+                <span class="cli__docDesc">Carteira Nacional de Habilitação do condutor.</span>
+              </div>
+              <span class="cli__status cli__status--off">Não enviado</span>
+            </article>
+
+            <article class="cli__doc">
+              <div class="cli__docText">
+                <span class="cli__docName">Documento de identificação</span>
+                <span class="cli__docDesc">RG ou CNH com foto, para conferência na retirada.</span>
+              </div>
+              <span class="cli__status cli__status--wait">Em análise</span>
+            </article>
+
+            <article class="cli__doc">
+              <div class="cli__docText">
+                <span class="cli__docName">Contrato da locação</span>
+                <span class="cli__docDesc">Gerado pela Lok Car na confirmação da reserva.</span>
+              </div>
+              <span class="cli__status cli__status--ok">Aprovado</span>
+            </article>
+          </div>
+
+          <button class="btn btn--outline cli__dataBtn" type="button" id="cliDocSend">
+            <span>Enviar documento</span>
+          </button>
+          <p class="cli__hintText" id="cliDocNote" aria-live="polite" hidden></p>
+        </section>
+
+        <!-- ---------- Suporte ---------- -->
+        <section class="cli__pane" role="tabpanel" id="cliPane-suporte" aria-labelledby="cliTab-suporte" tabindex="0" data-pane="suporte" hidden>
+          <p class="cli__paneNote">
+            Atendimento personalizado, direto com a nossa equipe.
+          </p>
+
+          <div class="cli__sup">
+            <a class="cli__supCard cli__supCard--main" href="https://wa.me/5581997530453" target="_blank" rel="noopener">
+              <span class="cli__supName">Falar com a Lok Car</span>
+              <span class="cli__supDesc">WhatsApp (81) 99753-0453 — resposta da nossa equipe.</span>
             </a>
+
+            <button class="cli__supCard" type="button" data-sup="duvida">
+              <span class="cli__supName">Dúvidas sobre minha reserva</span>
+              <span class="cli__supDesc">Período, proteção, adicionais e valores.</span>
+            </button>
+
+            <button class="cli__supCard" type="button" data-sup="alterar">
+              <span class="cli__supName">Alterar reserva</span>
+              <span class="cli__supDesc">Datas, veículo ou forma de recebimento.</span>
+            </button>
+
+            <button class="cli__supCard" type="button" data-sup="ajuda">
+              <span class="cli__supName">Solicitar ajuda</span>
+              <span class="cli__supDesc">Qualquer outra coisa que você precisar.</span>
+            </button>
           </div>
+
+          <p class="cli__hintText" id="cliSupNote" aria-live="polite" hidden></p>
         </section>
 
       </div>

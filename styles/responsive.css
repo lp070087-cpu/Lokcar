@@ -46,10 +46,6 @@
     font-size: 1.05rem;
   }
 
-  .hdr__logoMark {
-    width: 66px;
-  }
-
   .brand__grid {
     gap: 3.5rem;
   }
@@ -105,8 +101,10 @@
     left: 1.5rem;
   }
 
+  /* Notebook: quatro cards nesta largura ficariam estreitos demais
+     para a foto do carro respirar. Três é o número certo aqui. */
   .brand__moreGrid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   /* Tablet: marca ocupa a linha toda, as três colunas de
@@ -132,6 +130,17 @@
   .strip__item:nth-child(odd) {
     border-left: none;
     padding-left: 0;
+  }
+}
+
+/* Tablet em pé (769–968px): na faixa de três colunas o card fica
+   estreito demais para a foto e a legenda caberem com folga. Duas
+   é o número certo aqui — melhor dois cards confortáveis do que
+   três apertados. */
+@media (max-width: 968px) and (min-width: 769px) {
+  .brand__moreGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
   }
 }
 
@@ -190,12 +199,10 @@
     padding: 0.75rem 1.25rem;
   }
 
-  .hdr__logoMark {
-    width: 62px;
-  }
-
+  /* Sem o símbolo acima, o nome carrega sozinho o logo no celular:
+     um pouco maior para manter o peso que o conjunto tinha. */
   .hdr__wordmark {
-    font-size: 1rem;
+    font-size: 1.15rem;
   }
 
   .hdr__mobile {
@@ -444,12 +451,67 @@
     grid-template-columns: 1fr;
   }
 
+  /* Retirada e devolução: um card por linha. Em duas colunas os
+     nomes ("Levamos até você", "Retirada no endereço") quebravam
+     em três linhas cada e o par ficava desalinhado. */
+  .bk__escolha {
+    grid-template-columns: 1fr;
+  }
+
+  /* Endereço: em 4 colunas de 375px cada campo ficaria com menos
+     de 70px. Aqui vira duas colunas, e os três campos de texto
+     longo (CEP, endereço e referência) tomam a linha inteira —
+     é a ordem em que a pessoa lê um endereço. */
+  .bk__addrGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bk__input--cep { grid-column: 1 / -1; }
+  .bk__input--rua { grid-column: 1 / -1; }
+  .bk__input--ref { grid-column: 1 / -1; }
+
+  /* Ficha do veículo: foto em faixa no topo, ficha embaixo. */
+  .bk__info {
+    grid-template-columns: 1fr;
+  }
+
+  .bk__infoMedia {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    aspect-ratio: 16 / 9;
+  }
+
+  .bk__incList {
+    grid-template-columns: 1fr;
+  }
+
   .bk__add {
     align-items: flex-start;
   }
 
+  /* O adicional agora é uma linha (card + controle de quantidade).
+     Em tela estreita o controle desce para baixo do card e ocupa a
+     largura toda — em três colunas o texto do adicional sumia. */
+  .bk__addRow {
+    flex-wrap: wrap;
+  }
+
+  .bk__addRow .bk__add {
+    flex: 1 1 100%;
+  }
+
+  .bk__addRow .bk__addQtd {
+    width: 100%;
+    height: 40px;
+    justify-content: center;
+  }
+
   .bk__send {
     max-width: none;
+  }
+
+  .bk__doneActions .btn {
+    flex: 1 1 100%;
   }
 
   .bk__summaryMedia {
@@ -476,14 +538,17 @@
     padding-top: 2.5rem;
   }
 
+  /* Duas colunas na largura de tablet: os cards continuam com
+     tamanho confortável em vez de encolherem para caber quatro. */
   .brand__moreGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.25rem;
   }
 
-  /* Com uma coluna só, o card volta a ocupar a linha inteira. */
-  .brand__moreGrid--um .brand__moreItem {
-    grid-column: auto;
+  /* Nesta largura os nomes cabem em uma linha, e "Sob consulta"
+     também — a reserva de duas linhas viraria um vão vazio. */
+  .brand__more .vcard__name {
+    min-height: 0;
   }
 
   /* CTA */
@@ -613,8 +678,8 @@
     padding: 1.35rem 1.25rem 1.2rem;
   }
 
-  .brand__moreItem figcaption {
-    padding: 0.9rem 1.1rem 1rem;
+  .brand__more .vcard__name {
+    min-height: 0;
   }
 
   .cta__headline {
@@ -700,6 +765,12 @@
     width: 84px;
     flex-shrink: 0;
     aspect-ratio: 4 / 3;
+  }
+
+  /* Em 320–400px dois cards por linha deixariam a foto minúscula.
+     Um por linha, na largura toda, é a solução mais legível. */
+  .brand__moreGrid {
+    grid-template-columns: 1fr;
   }
 
   .hdr__wordmarkSub {

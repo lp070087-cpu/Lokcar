@@ -118,6 +118,20 @@
   display: none;
 }
 
+/* Os dois modificadores de estado existem como gancho explícito de
+   estilo (um por view) em vez de se apoiarem na ordem das classes. */
+.cli__view--acesso,
+.cli__view--painel {
+  display: block;
+}
+
+/* Bloco de título do estado de login. O painel tem o seu próprio
+   cabeçalho (`.cli__areaHead`), com título e selo lado a lado. */
+.cli__head {
+  max-width: 46ch;
+  margin-bottom: 1.75rem;
+}
+
 @keyframes cliView {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: none; }
@@ -639,6 +653,10 @@
   color: var(--tx-2);
 }
 
+.cli__hintText[hidden] {
+  display: none;
+}
+
 .cli__hintBtn {
   max-width: 320px;
 }
@@ -669,6 +687,327 @@
   margin: 1.5rem auto 0;
 }
 
+/* ============================================================
+   PAINEL DE ABERTURA
+   Quatro cartões de resumo acima das abas. Todos puxam do mesmo
+   resumo da reserva; sem reserva, mostram traço.
+   ============================================================ */
+
+.cli__dash {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  margin-top: 1.75rem;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.cli__dashCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.15rem 1.25rem;
+  background: var(--bg-alt);
+  min-width: 0;
+}
+
+.cli__dashKey {
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+}
+
+.cli__dashVal {
+  font-family: var(--f-display);
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--tx);
+  overflow-wrap: anywhere;
+  /* Duas linhas no máximo: o painel tem altura fixa entre os
+     quatro cartões, e um nome de modelo longo ("Mercedes-Benz
+     Classe C") faria um cartão crescer sozinho e desalinhar a
+     grade inteira. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cli__dashVal--accent {
+  color: var(--accent);
+}
+
+/* Nota de topo de aba. Substitui o antigo quadro tracejado de
+   "ainda não há nada aqui" — que só fazia sentido enquanto as
+   abas estavam vazias. */
+.cli__paneNote {
+  margin-bottom: 1.35rem;
+  padding-left: 0.9rem;
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: var(--tx-3);
+  border-left: 2px solid var(--line-accent);
+}
+
+/* ============================================================
+   HISTÓRICO
+   ============================================================ */
+
+.cli__hist {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cli__histCard {
+  padding: 1.35rem 1.4rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+}
+
+.cli__histTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-bottom: 1rem;
+  margin-bottom: 1.15rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.cli__histNum {
+  font-family: var(--f-display);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--tx);
+}
+
+.cli__histFacts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1rem 1.5rem;
+}
+
+.cli__histFacts dt {
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+  margin-bottom: 0.35rem;
+}
+
+.cli__histFacts dd {
+  font-size: 0.86rem;
+  color: var(--tx-2);
+}
+
+.cli__histMore {
+  margin-top: 1.25rem;
+  padding: 0;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color var(--t-med);
+}
+
+.cli__histMore:hover {
+  color: var(--accent);
+}
+
+.cli__histMore[aria-expanded='true'] {
+  color: var(--accent);
+}
+
+.cli__histDet {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line-soft);
+}
+
+.cli__histDet[hidden] {
+  display: none;
+}
+
+/* Estados com cor própria. "Finalizada"/"Aprovado" usam o verde
+   contido que a paleta permite; nada de semáforo berrante. */
+.cli__status--ok {
+  color: #4FBF8B;
+}
+
+.cli__status--ok::before {
+  background: #4FBF8B;
+  box-shadow: none;
+  animation: none;
+}
+
+.cli__status--wait {
+  color: var(--tx-2);
+}
+
+.cli__status--off {
+  color: var(--tx-3);
+}
+
+.cli__status--off::before {
+  background: var(--tx-3);
+  box-shadow: none;
+  animation: none;
+}
+
+/* ============================================================
+   MEUS DADOS
+   ============================================================ */
+
+.cli__data {
+  padding: 1.4rem 1.45rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+}
+
+.cli__dataGroup {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.15rem;
+}
+
+.cli__dataGroup + .cli__dataGrid {
+  margin-bottom: 1.9rem;
+}
+
+.cli__dataGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.15rem 1.5rem;
+}
+
+.cli__dataGrid dt {
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+  margin-bottom: 0.4rem;
+}
+
+.cli__dataGrid dd {
+  font-size: 0.88rem;
+  color: var(--tx-2);
+}
+
+/* O placeholder precisa LER como placeholder: tom mais baixo e
+   itálico, para ninguém confundir com dado preenchido. */
+.cli__ph {
+  font-style: italic;
+  color: #58606F !important;
+}
+
+.cli__dataBtn {
+  margin-top: 1.6rem;
+  max-width: 300px;
+}
+
+/* ============================================================
+   DOCUMENTOS
+   ============================================================ */
+
+.cli__docs {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.cli__doc {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 1.15rem 1.3rem;
+  background: var(--bg-alt);
+}
+
+.cli__docText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.cli__docName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--tx);
+}
+
+.cli__docDesc {
+  font-size: 0.76rem;
+  line-height: 1.5;
+  color: var(--tx-3);
+}
+
+/* ============================================================
+   SUPORTE
+   ============================================================ */
+
+.cli__sup {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.cli__supCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.25rem 1.3rem;
+  text-align: left;
+  background: var(--bg-alt);
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--t-med);
+}
+
+.cli__supCard:hover {
+  background: var(--bg-elev);
+}
+
+.cli__supCard--main {
+  grid-column: 1 / -1;
+  background: var(--bg-elev);
+  border-left: 2px solid var(--accent);
+}
+
+.cli__supName {
+  font-family: var(--f-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--tx);
+}
+
+.cli__supDesc {
+  font-size: 0.76rem;
+  line-height: 1.55;
+  color: var(--tx-3);
+}
+
 .cli__areaFoot {
   display: flex;
   align-items: center;
@@ -687,6 +1026,31 @@
 /* ============================================================
    RESPONSIVO
    ============================================================ */
+
+/* Tablet em pé (769–968px). O painel de prévia tem 780px de
+   largura máxima: numa tela de 800px ele quase encosta nas bordas,
+   e o `padding: 1.5rem` do overlay sozinho já não dá respiro. A
+   partir daqui o painel ocupa a tela útil e as abas ganham
+   rolagem, como no celular — sem esperar até os 768px. */
+@media (max-width: 968px) and (min-width: 769px) {
+  .cli {
+    padding: 1rem;
+  }
+
+  .cli__panel.is-area {
+    max-width: 100%;
+  }
+
+  .cli__tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .cli__tab {
+    flex: 0 0 auto;
+  }
+}
 
 @media (max-width: 768px) {
   .cli {
@@ -749,6 +1113,38 @@
     padding: 1.35rem 1.25rem;
   }
 
+  /* Painel de abertura: dois por linha. Quatro colunas em 375px
+     dariam 80px de cartão — o rótulo "Próxima retirada" quebraria
+     em três linhas dentro dele. */
+  .cli__dash {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cli__sup {
+    grid-template-columns: 1fr;
+  }
+
+  .cli__doc {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
+  }
+
+  .cli__data,
+  .cli__histCard {
+    padding: 1.25rem 1.2rem;
+  }
+
+  .cli__dataGrid,
+  .cli__histFacts {
+    grid-template-columns: 1fr;
+  }
+
+  .cli__dataBtn {
+    max-width: none;
+    width: 100%;
+  }
+
   .cli__areaFoot {
     flex-direction: column;
     align-items: stretch;
@@ -782,5 +1178,23 @@
   .cli__tab {
     padding: 0.7rem 0.7rem;
     letter-spacing: 0.1em;
+  }
+
+  /* Cinco abas em 375px não cabem com o texto inteiro. A faixa
+     inteira rola na horizontal — é a única rolagem lateral do
+     site, e ela fica DENTRO da própria faixa, sem empurrar a
+     página. `-webkit-overflow-scrolling` mantém a inércia. */
+  .cli__tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .cli__tab {
+    flex: 0 0 auto;
+  }
+
+  .cli__dashCard {
+    padding: 1rem 1.05rem;
   }
 }

@@ -1,0 +1,650 @@
+/* ============================================================
+   LOK CAR — viewer.css
+   Visualizador do veículo: oito ângulos reais do carro girando
+   em volta do próprio eixo.
+
+   A MUDANÇA QUE DEFINE ESTE ARQUIVO: os arquivos de agora são
+   fotos COMPLETAS de estúdio. Cada uma já traz o fundo claro, o
+   gradiente do ambiente e a plataforma circular no piso — tudo
+   gravado dentro do quadro.
+
+   Por isso aqui não existe mais nenhuma camada de cenário. Nada
+   de ambiente em CSS, piso, refletores, plataforma, clarão ou
+   halo: qualquer uma delas seria uma SEGUNDA plataforma desenhada
+   por cima da que já está na foto, e o resultado seria borda
+   fantasma e sombra dupla. O cenário que aparece é o da imagem.
+
+   Camadas, de baixo para cima (todas dentro de .pv__stage, que é
+   quem recorta):
+     1  .pv__world / .pv__car   o quadro do ângulo atual
+     2  .pv__sweep              brilho discreto a cada troca
+
+   O que dá a sensação de giro não é mais profundidade entre
+   camadas — é o deslocamento horizontal: a imagem troca conforme
+   a mão anda, e a volta fecha em anel, do 08 para o 01.
+   ============================================================ */
+
+.pv {
+  padding: var(--sec-y) 0;
+  background: var(--bg);
+}
+
+/* ---------- Cabeçalho ---------- */
+.pv__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 400px);
+  gap: 1.5rem 4rem;
+  align-items: end;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.pv__title {
+  font-size: clamp(1.75rem, 3.4vw, 2.6rem);
+  color: var(--tx);
+  margin-top: 1rem;
+  max-width: 20ch;
+}
+
+.pv__note {
+  font-size: 0.86rem;
+  line-height: 1.75;
+  color: var(--tx-3);
+  padding-bottom: 0.35rem;
+}
+
+.pv__note strong {
+  color: var(--tx-2);
+  font-weight: 600;
+}
+
+/* ---------- Caixa do visualizador ---------- */
+.pv__viewer {
+  position: relative;
+  border: 1px solid var(--line);
+  background: var(--bg-card);
+}
+
+.pv__stage {
+  position: relative;
+  overflow: hidden;
+  /* A moldura tem EXATAMENTE a proporção dos arquivos: os oito PNGs
+     são 1905×826, ou seja 2,306. Igualando a moldura à foto, o
+     `object-fit: contain` preenche a caixa inteira sem sobrar faixa
+     de um lado nem de outro, em qualquer largura de tela — o carro
+     aparece no maior tamanho possível, sempre na mesma composição,
+     do celular ao desktop. Nenhum ângulo é recortado e nenhum pneu
+     fica de fora. */
+  aspect-ratio: 1905 / 826;
+  /* A cor de PARTIDA do palco, enquanto a primeira imagem decodifica.
+     É o tom médio das bordas dos oito arquivos, medido arquivo a
+     arquivo (média #D4D9E1, e nenhum frame foge disso: o R vai de
+     206 a 216). Não é um cinza escolhido no olho — é o próprio tom
+     do estúdio das fotos. Combinando, a imagem entra sem que o
+     palco pisque de outra cor no primeiro quadro; e como o fundo é
+     praticamente o mesmo nos oito ângulos, ele também não pisca nas
+     trocas. */
+  background: #D4D9E1;
+  cursor: grab;
+  /* Reserva os gestos horizontais e a pinça para o visualizador,
+     mas deixa a rolagem vertical da página passar por cima do
+     carro — ninguém fica preso na seção. */
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  /* Promove a cena para uma camada própria na GPU: o arrasto passa
+     a custar só composição, sem repintura. */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  /* Contém os z-index internos, para nenhum deles escapar daqui. */
+  isolation: isolate;
+}
+
+.pv__stage:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.pv__viewer.is-grab .pv__stage {
+  cursor: grabbing;
+}
+
+/* ---------- 1 · O carro ----------
+   Uma única camada, com um único arquivo por vez. Ver o comentário
+   do `.pv__world` no index.html para o porquê de não serem duas. */
+.pv__world {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+  /* O respiro: enquanto o visualizador está sozinho, o carro
+     cresce 1,6% e volta, em 24 segundos. É o movimento de câmera
+     que existe para a cena não ficar parada — e é por isso que ele
+     é quase imperceptível. */
+  animation: pvBreathe 24s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@keyframes pvBreathe {
+  0% {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.016) translate3d(0.45%, -0.4%, 0);
+  }
+  100% {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+}
+
+/* Gesto na cena ou zoom acionado: o respiro sai de cena e o
+   controle é todo de quem está mexendo. */
+.pv__world.is-manual {
+  animation: none;
+}
+
+/* A imagem do ângulo. `object-fit: contain` e a moldura na mesma
+   proporção do arquivo (1905×826) fazem `contain` preencher a caixa
+   inteira: não sobra faixa, o carro não estica e nenhum pneu fica
+   de fora, em nenhuma largura de tela.
+
+   SEM FILTRO NENHUM. Nada de `filter`, `blur`, `opacity` parcial,
+   brilho ou contraste: o pedido é que o carro permaneça exatamente
+   como está no arquivo, totalmente nítido. A opacidade é 1 e não é
+   escrita pelo JS em momento nenhum — a troca de ângulo é um corte
+   seco controlado pelo arrasto, não uma dissolvência. */
+.pv__car {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 50%;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  opacity: 1;
+}
+
+/* A antiga passada de luz sumiu daqui: a animação `pvCarIn` mexia na
+   opacidade do carro, e agora o carro não pode ter opacidade mexida
+   — ela é 1 o tempo todo. */
+
+/* ---------- 2 · A passada de luz ----------
+   Disparada a cada troca de ângulo. Não é um corte: é uma luz que
+   varre a lataria enquanto o carro entra.
+
+   Sem `mix-blend-mode` pelo mesmo motivo dito acima — e aqui ele
+   nem faria diferença: sobre um fundo quase preto, compor branco
+   por alfa e compor por `screen` dão praticamente o mesmo pixel. */
+.pv__sweep {
+  position: absolute;
+  inset: -20%;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    102deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.04) 42%,
+    rgba(255, 255, 255, 0.10) 50%,
+    rgba(255, 255, 255, 0.04) 58%,
+    transparent 100%
+  );
+}
+
+.pv__stage.is-sweep .pv__sweep {
+  animation: pvSweep 0.92s cubic-bezier(0.33, 0, 0.3, 1);
+}
+
+/* A varredura toca a CENA, nunca o carro. A animação `pvCarIn`
+   existia aqui e mexia na opacidade da camada do carro a cada troca
+   — ela saiu junto com a segunda camada. Como o carro tem de
+   permanecer 100% nítido e com opacidade cheia o tempo todo, o
+   único brilho que resta é esta luz atravessando por cima, bem
+   mais discreta do que era: sobre a foto clara, um branco forte
+   apagaria a lataria preta em vez de dar brilho a ela. */
+@keyframes pvSweep {
+  0% {
+    transform: translate3d(-118%, 0, 0) rotate(8deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(118%, 0, 0) rotate(8deg);
+    opacity: 0;
+  }
+}
+
+/* ---------- A interface sobre a cena ----------
+   Tudo abaixo é intencionalmente pequeno e discreto. A cena é a
+   protagonista; os controles só precisam existir.
+
+   A FAMÍLIA DE CORES DESTA INTERFACE VIROU DE CABEÇA PARA BAIXO.
+   Ela era clara sobre escuro (texto branco, fundo preto
+   translúcido) porque o showroom era escuro. Sobre o ambiente
+   claro, o mesmo tratamento sumiria: caixa preta sobre branco
+   puxaria o olhar para o canto em vez de para o carro.
+
+   Agora é o inverso e segue a referência: fundo branco
+   translúcido, borda cinza fria, ícone escuro. O `backdrop-filter`
+   continua, mas aqui ele desfoca um fundo branco — o efeito é
+   levemente leitoso, no lugar do vidro fumê de antes. */
+
+.pv__badge {
+  position: absolute;
+  top: 1.15rem;
+  left: 1.25rem;
+  z-index: 9;
+  padding: 0.42rem 0.8rem;
+  font-family: var(--f-sans);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #454C5A;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(120, 130, 148, 0.32);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  /* O rótulo muda de ângulo em ângulo: sem isto, cada troca
+     reposicionaria a caixa conforme o texto novo. */
+  min-width: 7.5rem;
+  text-align: center;
+}
+
+.pv__hint {
+  position: absolute;
+  top: 1.15rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  padding: 0.42rem 0.9rem;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  /* O texto de ajuda NÃO pode competir com o carro. Sobre branco,
+     cinza claro some e cinza escuro briga — este tom fica no meio,
+     legível e sem peso. */
+  color: #6B7383;
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.66);
+  border: 1px solid rgba(120, 130, 148, 0.24);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: opacity 0.5s var(--e-out), visibility 0.5s;
+}
+
+.pv__hintKey {
+  color: #2A3140;
+  font-weight: 600;
+}
+
+.pv__hintDot {
+  width: 3px;
+  height: 3px;
+  margin: 0 0.6rem;
+  border-radius: 999px;
+  background: var(--accent);
+  opacity: 0.85;
+}
+
+/* Some depois do primeiro gesto — a dica existe para ser lida uma
+   vez, não para ocupar a cena para sempre. */
+.pv__hint.is-off {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.pv__hintMobile {
+  display: none;
+}
+
+/* ---------- Ferramentas (zoom e reset) ---------- */
+.pv__tools {
+  position: absolute;
+  top: 1.15rem;
+  right: 1.25rem;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.pv__tool {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  /* Ícone escuro sobre caixa clara — o espelho exato do que era
+     antes. O vermelho da Lokcar continua aparecendo, mas só no
+     hover: sobre o showroom claro ele pesa muito para ficar
+     permanente em três botões. */
+  color: #3A4152;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(120, 130, 148, 0.34);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: color var(--t-med), border-color var(--t-med),
+              background-color var(--t-med);
+}
+
+.pv__tool:hover {
+  color: var(--accent);
+  border-color: var(--line-accent);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.pv__tool svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* O reset se separa dos dois de zoom: é outra intenção. */
+.pv__tool--reset {
+  margin-top: 0.45rem;
+}
+
+/* ---------- Marcas de posição ---------- */
+.pv__dots {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.pv__dot {
+  position: relative;
+  /* A barra tem 18px, mas o alvo de toque tem 30 — o dedo acerta
+     sem que a interface cresça.
+
+     `align-items: flex-end` encosta a barra na BASE da caixa. Isso
+     importa desde que a proporção do palco mudou para 2,306:1: o
+     carro passou a ocupar quase toda a altura, e a faixa de piso
+     livre encolheu para ~25px nas telas pequenas. Com a barra
+     centrada, metade do alvo de toque subia para cima da linha do
+     carro; ancorada embaixo, o que cresce para cima é só a parte
+     invisível do botão, e a barra visível fica no piso — medido em
+     0% de lataria atrás dela, em todas as larguras. */
+  width: 22px;
+  height: 30px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 2px;
+}
+
+.pv__dot::before {
+  content: '';
+  width: 18px;
+  height: 2px;
+  background: rgba(70, 80, 98, 0.26);
+  transition: background-color var(--t-med), transform var(--t-med);
+}
+
+.pv__dot:hover::before {
+  background: rgba(70, 80, 98, 0.52);
+}
+
+.pv__dot.is-on::before {
+  background: var(--accent);
+  transform: scaleX(1.28);
+}
+
+/* ---------- Rodapé da seção ---------- */
+.pv__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.5rem;
+  margin-top: 2.25rem;
+}
+
+.pv__footText {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--tx-2);
+  max-width: 52ch;
+}
+
+/* ---------- Anúncio para leitores de tela ---------- */
+.pv__live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================================================
+   Responsivo
+   ------------------------------------------------------------
+   Fica aqui, e não em responsive.css, para a seção nova carregar
+   junto com o próprio visualizador. Não há conflito: aquele
+   arquivo não tem nenhuma regra `.pv`.
+   ============================================================ */
+
+@media (max-width: 1024px) {
+  .pv__head {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 320px);
+    gap: 1.5rem 2.5rem;
+  }
+
+  .pv__badge {
+    min-width: 6.5rem;
+  }
+}
+
+@media (max-width: 968px) {
+  .pv__head {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  .pv__title {
+    max-width: 100%;
+  }
+
+  .pv__note {
+    padding-bottom: 0;
+    max-width: 60ch;
+  }
+
+  /* ------------------------------------------------------------
+     A PARTIR DAQUI O CARRO NÃO PODE SER DESFOCADO.
+
+     Acima de 968px o palco tem altura de sobra (493px) e todo
+     controle pousa em cima do cenário vazio — medido quadro a
+     quadro, 0% de lataria debaixo de qualquer um deles.
+
+     Abaixo disso o palco encurta rápido, porque a proporção dos
+     arquivos é 2,306:1 (1905×826) e a largura é que manda na
+     altura. Em 375px o palco fica com 343×149 px, o carro ocupa
+     ~67% dessa altura, e sobra uma faixa de piso de apenas 25 px.
+
+     Nessas larguras não existe canto livre grande o bastante para
+     os três controles. Então a prioridade é esta:
+
+       1. NADA de `backdrop-filter`. Ele desfoca justamente o que
+          está atrás da caixa — ou seja, a lataria. Trocando por
+          fundo opaco, o carro atrás da caixa fica escondido, mas
+          o que aparece continua 100% nítido. Desfoque sobre o
+          carro era o único efeito proibido de verdade.
+       2. As MARCAS DE POSIÇÃO — o indicador permanente — descem
+          para o piso, a 0,25rem da base, onde não há carro nenhum
+          em nenhum dos oito ângulos. É o que fica na tela o tempo
+          todo; é o que precisa estar limpo.
+       3. O SELO e a DICA encolhem e ficam no canto. A dica some no
+          primeiro gesto e o selo é um rótulo pequeno: se um dos
+          dois encostar na carroceria nas telas mínimas, encosta
+          como etiqueta opaca — nunca como vidro fumê borrando o
+          carro. */
+
+  .pv__badge,
+  .pv__hint,
+  .pv__tool {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: #FFFFFF;
+  }
+
+  .pv__badge {
+    padding: 0.3rem 0.55rem;
+    font-size: 0.52rem;
+    letter-spacing: 0.14em;
+    min-width: 0;
+  }
+
+  .pv__hint {
+    padding: 0.3rem 0.62rem;
+    font-size: 0.54rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* Entre 601px e 968px a faixa de piso livre vai de 39px (600px) a
+     73px (968px), e o indicador desce para o fundo dela. */
+  .pv__dots {
+    bottom: 0.25rem;
+  }
+
+  .pv__hint {
+    top: auto;
+    bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .pv__foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .pv__foot .btn {
+    width: 100%;
+  }
+
+  /* A dica muda de vocabulário: no toque não há "role", há pinça. */
+  .pv__hintDesktop {
+    display: none;
+  }
+
+  .pv__hintMobile {
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .pv__badge {
+    top: 0.6rem;
+    left: 0.6rem;
+    padding: 0.28rem 0.5rem;
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    min-width: 0;
+  }
+
+  .pv__tools {
+    top: 0.6rem;
+    right: 0.6rem;
+    gap: 0.24rem;
+  }
+
+  .pv__tool {
+    width: 30px;
+    height: 30px;
+  }
+
+  .pv__tool svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* A dica sai do topo, onde cruzaria o capô, e desce para a faixa
+     de piso — a mesma faixa onde estão as marcas, logo acima delas.
+     Nas telas mínimas essa faixa tem só ~25px, então a dica e o
+     indicador se dividem: a dica em cima, as marcas embaixo. Os
+     dois números abaixo não são escolhidos no olho: a 375px o carro
+     termina a y=124 de um palco de 149, e as duas peças cabem
+     exatamente entre y=125 e y=149.
+
+     A dica some no primeiro gesto, mas enquanto está na tela
+     também não encosta na lataria. */
+  .pv__hint {
+    top: auto;
+    bottom: 0.44rem;
+    font-size: 0.5rem;
+    letter-spacing: 0.08em;
+    padding: 0.18rem 0.5rem;
+  }
+
+  .pv__dots {
+    bottom: 0.19rem;
+    gap: 0.05rem;
+  }
+
+  /* A barra visível encolhe e desce para a base da caixa: o alvo de
+     toque continua com 28px de altura, mas o que sobra dele cresce
+     para CIMA, onde é invisível. Assim a única parte que aparece
+     fica na faixa de piso, longe do carro. */
+  .pv__dot {
+    width: 20px;
+  }
+
+  .pv__dot::before {
+    width: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  .pv__hintDot {
+    margin: 0 0.4rem;
+  }
+}
+
+/* ============================================================
+   Movimento reduzido
+   ------------------------------------------------------------
+   O passeio automático, o respiro e a varredura de luz saem de
+   cena. A exploração manual continua inteira: arrastar, girar,
+   aproximar, resetar e navegar pelo teclado seguem funcionando —
+   só param de ser embrulhados em animação.
+
+   O giro do carro NÃO é animação: ele é a resposta direta ao
+   gesto, e continua inteiro. O que sai é a varredura de luz, que
+   é movimento sem gesto.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .pv__sweep,
+  .pv__world {
+    animation: none !important;
+  }
+
+  .pv__sweep {
+    display: none;
+  }
+}

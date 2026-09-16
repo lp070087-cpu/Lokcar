@@ -161,56 +161,42 @@
   margin-bottom: 2.25rem;
 }
 
+/* Quatro colunas iguais. A grade começa e termina exatamente nas
+   bordas do container, então os cards ficam alinhados com o título
+   acima e nenhum sobra para fora da linha. `minmax(0, 1fr)` (e não
+   `1fr`) impede que uma imagem larga estique a coluna. */
 .brand__moreGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.75rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem;
 }
 
-/* Quando sobra um único modelo, a grade de três colunas esticaria
-   o card por toda a largura. Fixando-o na primeira coluna, ele
-   mantém exatamente o mesmo tamanho dos demais. */
-.brand__moreGrid--um .brand__moreItem {
-  grid-column: 1;
+/* ---------- Ajustes dos cards desta faixa ----------
+   Os cards daqui são os MESMOS .vcard da frota (fleet.css): mesmo
+   hover, mesmo brilho, mesmo caminho até a reserva. Só a escala
+   muda — a coluna aqui é mais estreita que na frota, e o corpo do
+   card tem outro conteúdo. As três regras abaixo cuidam disso. */
+
+/* O painel da mídia desce um tom. Na frota ele é um respiro claro
+   logo depois de uma faixa branca; aqui, no meio de uma seção já
+   escura e logo abaixo do quadro da marca, o mesmo branco pesaria
+   demais e competiria com a foto do Cayenne. */
+.brand__more .vcard__media {
+  background: linear-gradient(160deg, #E9EBEF 0%, #D1D5DB 100%);
 }
 
-.brand__moreItem {
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(160deg, #F4F5F7 0%, #DDE1E6 100%);
-  border: 1px solid var(--line);
-  transition: border-color var(--t-med), transform var(--t-med);
+/* Duas linhas reservadas para o nome. "Mercedes-Benz GLC" quebra em
+   duas nesta largura; "Audi Q8" fica em uma. Sem a trava, o preço e
+   o link de um card começariam mais alto que os do vizinho e a
+   fileira perderia o alinhamento — que é justamente o que se quer
+   aqui. A primeira linha fica no topo nos dois casos. */
+.brand__more .vcard__name {
+  min-height: 2.5em;
 }
 
-.brand__moreItem:hover {
-  border-color: var(--line-accent);
-  transform: translateY(-5px);
-}
-
-.brand__moreItem img {
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  object-fit: contain;
-  padding: 8%;
-  transition: transform var(--t-slow);
-}
-
-.brand__moreItem:hover img {
-  transform: scale(1.06);
-}
-
-.brand__moreItem figcaption {
-  padding: 1.1rem 1.35rem 1.25rem;
-  background: var(--bg-card);
-  border-top: 1px solid var(--line);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--tx-2);
-  transition: color var(--t-med);
-}
-
-.brand__moreItem:hover figcaption {
-  color: var(--accent);
+/* Rodapé mais próximo do preço. Na frota o corpo do card é mais
+   largo e 1.5rem de respiro funciona; na coluna estreita ele abria
+   um vão entre o valor e o link. */
+.brand__more .vcard__foot {
+  padding-top: 1.05rem;
 }
