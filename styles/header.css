@@ -301,3 +301,36 @@
   line-height: 1.8;
   color: var(--tx-3);
 }
+
+/* ---------- Acesso à área do cliente ----------
+   Mesmo vocabulário dos outros links do header: caixa alta,
+   tracking largo, sublinhado que cresce no hover. A diferença é
+   o ícone, que dá a ler "conta" sem precisar de um botão novo. */
+.hdr__client {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0;
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tx-2);
+  white-space: nowrap;
+  transition: color var(--t-med);
+}
+
+.hdr__clientIcon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  transition: stroke var(--t-med);
+}
+
+.hdr__client:hover {
+  color: var(--accent);
+}

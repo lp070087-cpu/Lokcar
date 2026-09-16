@@ -39,29 +39,35 @@ Depois acesse: **http://localhost:5173**
 ```
 lokcar-site/
 ├── index.html              # página única: header, hero, frota, reserva, marca, CTA, footer
+├── Public/                 # as imagens originais (P maiúsculo — ver abaixo)
 ├── assets/
 │   └── favicon.svg         # ícone da aba (logo recriada em SVG)
 ├── scripts/
 │   ├── config.js           # TODOS os números da simulação (ver abaixo)
-│   └── app.js              # intro, header, menu mobile, reveal, demo da reserva
+│   └── app.js              # intro, header, menu, reveal, área do cliente, reserva
 └── styles/
     ├── base.css            # tokens, reset, tipografia, botões, utilidades
     ├── intro.css           # abertura cinematográfica da marca
-    ├── header.css          # navegação fixa + menu mobile
+    ├── header.css          # navegação fixa + menu mobile + acesso à área do cliente
     ├── hero.css            # hero + faixa de diferenciais
     ├── fleet.css           # grade de veículos
     ├── booking.css         # demonstração do sistema de reservas
     ├── brand.css           # destaque da marca + modelos complementares
     ├── cta.css             # fechamento e contatos
+    ├── client.css          # área do cliente: login + prévia (demonstração)
     ├── footer.css          # rodapé
     └── responsive.css      # media queries (carregado por último)
 ```
 
-As imagens **não foram duplicadas**: o site lê diretamente a pasta `../Public/`
-existente na raiz do projeto. Isso mantém uma única fonte de verdade para os
-arquivos originais.
+As imagens **não foram duplicadas**: o site lê diretamente a pasta `Public/`
+que fica ao lado do `index.html`, dentro de `lokcar-site/`. Isso mantém uma
+única fonte de verdade para os arquivos originais.
 
-Se um arquivo for renomeado ou removido de `../Public/`, o site perde aquela
+Atenção à capitalização: a pasta é **`Public`**, com P maiúsculo. Em
+Linux/Vercel `Public` e `public` são caminhos diferentes, e renomear a pasta
+quebra todas as imagens do site.
+
+Se um arquivo for renomeado ou removido de `Public/`, o site perde aquela
 imagem — inclusive as fotos dos veículos. Como o caminho da imagem é escrito
 dentro de cada card do `index.html`, trocar ou tirar um carro da frota é uma
 edição no HTML: basta apontar o `<img src>` para o arquivo novo e ajustar o
@@ -115,12 +121,35 @@ logo original (SVG, PDF ou PNG em alta), basta substituir os dois blocos
 
 ---
 
+## A área do cliente (demonstração)
+
+No header (e no menu do celular) existe o acesso **Área do cliente**. Ele abre
+uma tela de login — e-mail, senha com o olho de mostrar/ocultar, "manter
+conectado", "esqueceu sua senha" e o botão Entrar — que dá passagem para uma
+prévia da área logada: minhas reservas, histórico, meus dados e suporte.
+
+**Não existe autenticação.** Não há backend, banco, sessão, cookie nem API.
+Nada é validado, nada é guardado e nada é enviado a lugar nenhum. O botão
+Entrar só confere se os campos estão vazios; qualquer e-mail e qualquer senha
+passam. Nenhuma credencial existe no código, e os textos na tela dizem isso com
+todas as letras.
+
+A reserva que aparece na prévia é fictícia, e é rotulada como tal: o histórico
+e os dados vêm vazios de propósito, porque inventar locação ou dado pessoal de
+cliente seria mentira sobre o negócio.
+
+---
+
 ## A abertura
 
-Ao abrir o site, uma **abertura curta da marca** (cerca de 3 segundos) centraliza
-o nome LOKCAR sobre o fundo escuro e sai em fade, entregando a página no estado
-normal — o banner não é tocado em momento nenhum. Não é uma tela de carregamento:
-não há barra de progresso nem percentual, é uma assinatura da marca.
+Ao abrir o site, uma **abertura curta da marca** (cerca de 4 segundos), em duas
+passadas: primeiro o nome LOKCAR entra desfocado e assenta no lugar; depois um
+fio de luz cresce sob ele e a frase **"Levamos o carro até você."** aparece; por
+fim tudo se dissolve e o site está lá.
+
+Não é uma tela de carregamento: não há barra, porcentagem, spinner nem
+contagem. E não há desenho — nenhum carro, silhueta ou ícone. A abertura é só
+tipografia, luz e movimento, e o banner não é tocado em momento nenhum.
 
 Durante a abertura, as animações de entrada do banner ficam **pausadas** e só
 começam quando ela termina, para as duas não competirem. Quem tem a preferência
@@ -199,10 +228,23 @@ Testado por breakpoints em 1200 / 1150 / 1024 / 968 / 768 / 600 / 400px.
 - imagens preservam o veículo inteiro (`object-fit: contain` nos recortes de catálogo)
 - respeita `prefers-reduced-motion`
 
+### O hero no celular
+
+No desktop a foto do hero é fundo de tela cheia, com o texto por cima. Em pé,
+numa tela estreita, essa mesma composição obrigava a cortar a foto quase toda —
+o carro virava um recorte de porta, e o texto ainda ocupava o quadro inteiro.
+
+Em telas de até 768px o hero se reorganiza: a foto passa a ser uma **faixa no
+topo**, na mesma proporção do arquivo, então o carro aparece inteiro; o texto
+desce para a área escura logo abaixo, com espaçamentos mais curtos; e um
+degradê faz a emenda entre a foto e o fundo. A imagem é a mesma, os textos são
+os mesmos e **o hero do desktop não muda em nada**.
+
 ---
 
 ## Próximos passos (fora do escopo desta versão)
 
-Banco de dados, autenticação, painel administrativo, disponibilidade por data,
-pagamento e contrato digital. Nada disso foi implementado — são as funcionalidades
-a desenvolver caso a proposta seja aprovada.
+Banco de dados, autenticação de verdade, painel administrativo, disponibilidade
+por data, pagamento e contrato digital. Nada disso foi implementado — são as
+funcionalidades a desenvolver caso a proposta seja aprovada. A área do cliente
+que existe hoje é apenas a demonstração descrita acima: a porta, não a casa.

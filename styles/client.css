@@ -1,0 +1,786 @@
+/* ============================================================
+   LOK CAR — client.css
+   Área do cliente: a tela de acesso e a prévia da área logada.
+
+   É uma DEMONSTRAÇÃO. Não existe backend, sessão, cookie, banco
+   nem autenticação — nada aqui valida credencial, guarda senha
+   ou envia dado pessoal. O que existe é a experiência visual.
+
+   A linguagem é a mesma do site: fundo quase preto, bordas de
+   1px, rótulos minúsculos em caixa alta, muito respiro e um
+   único acento. Nada de cartão branco genérico.
+   ============================================================ */
+
+.cli {
+  position: fixed;
+  inset: 0;
+  /* Acima do header (1000) e do menu mobile (1002); abaixo da
+     abertura (2500), que roda antes de tudo. */
+  z-index: 2400;
+  display: flex;
+  /* align-items fica no padrão (stretch) de propósito: o
+     centralizado vertical sai do `margin: auto` do painel, que
+     não corta o topo quando o conteúdo é mais alto que a tela. */
+  justify-content: center;
+  padding: 1.5rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.cli[hidden] {
+  display: none;
+}
+
+.cli__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 8, 12, 0.86);
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  animation: cliFade 0.35s var(--e-out) both;
+}
+
+@keyframes cliFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* O painel troca de largura ao passar do login para a prévia —
+   a transição é o que faz a segunda tela parecer o mesmo lugar
+   crescendo, e não outra tela aparecendo. */
+.cli__panel {
+  position: relative;
+  width: 100%;
+  max-width: 462px;
+  /* o `margin: auto` centraliza na vertical sem cortar o topo */
+  margin: auto;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6);
+  animation: cliPanel 0.5s var(--e-out) both;
+  transition: max-width 0.5s var(--e-out);
+}
+
+.cli__panel.is-area {
+  max-width: 780px;
+}
+
+@keyframes cliPanel {
+  from { opacity: 0; transform: translateY(18px) scale(0.985); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Fio de luz no topo do painel — a mesma assinatura da abertura */
+.cli__panel::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.85;
+}
+
+.cli__close {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--tx-3);
+  transition: color var(--t-med), transform var(--t-med);
+}
+
+.cli__close svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+}
+
+.cli__close:hover {
+  color: var(--tx);
+  transform: rotate(90deg);
+}
+
+/* ---------- Troca de estado (login ⇄ prévia) ---------- */
+.cli__view {
+  padding: 2.75rem 2.5rem 2.25rem;
+  animation: cliView 0.45s var(--e-out) both;
+}
+
+.cli__view[hidden] {
+  display: none;
+}
+
+@keyframes cliView {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.cli__title {
+  font-size: clamp(1.6rem, 3.4vw, 2.05rem);
+  font-weight: 700;
+  line-height: 1.12;
+  color: var(--tx);
+  margin: 0.85rem 0 0;
+}
+
+.cli__title--sm {
+  font-size: clamp(1.4rem, 3vw, 1.75rem);
+}
+
+.cli__lead {
+  margin-top: 0.75rem;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--tx-2);
+}
+
+/* ============================================================
+   LOGIN
+   ============================================================ */
+
+.cli__form {
+  margin-top: 2.25rem;
+}
+
+.cli__field + .cli__field {
+  margin-top: 1.35rem;
+}
+
+.cli__label {
+  display: block;
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+  margin-bottom: 0.6rem;
+}
+
+.cli__input {
+  width: 100%;
+  /* 16px é o mínimo que impede o iOS de dar zoom ao focar */
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--tx);
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  padding: 1rem 1.1rem;
+  transition: border-color var(--t-med), background-color var(--t-med),
+              box-shadow var(--t-med);
+}
+
+.cli__input::placeholder {
+  color: var(--tx-3);
+}
+
+.cli__input:focus {
+  outline: none;
+  border-color: var(--line-accent);
+  background: var(--bg-elev);
+  box-shadow: 0 0 0 3px var(--accent-a08);
+}
+
+/* Campo inválido: borda do acento + mensagem. Não é estado de
+   "erro de credencial" — é só campo vazio, que é o único
+   problema que esta demonstração consegue detectar. */
+.cli__field.is-bad .cli__input {
+  border-color: var(--accent-a55);
+}
+
+.cli__error {
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--accent);
+}
+
+.cli__error[hidden] {
+  display: none;
+}
+
+/* ---------- Senha + olho ---------- */
+.cli__passWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cli__input--pass {
+  /* abre espaço para o olho não cobrir o texto digitado */
+  padding-right: 3.5rem;
+}
+
+.cli__eye {
+  position: absolute;
+  right: 0.3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--tx-3);
+  transition: color var(--t-med);
+}
+
+.cli__eye:hover,
+.cli__eye:focus-visible {
+  color: var(--tx);
+}
+
+.cli__eye svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Escondido = olho aberto (o toque revela). Visível = olho cortado. */
+.cli__eye .cli__eyeOff {
+  display: none;
+}
+
+.cli__eye.is-on .cli__eyeOn {
+  display: none;
+}
+
+.cli__eye.is-on .cli__eyeOff {
+  display: block;
+}
+
+/* ---------- Manter conectado + esqueceu a senha ---------- */
+.cli__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.cli__check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  cursor: pointer;
+  /* área de toque generosa sem inchar a linha */
+  padding: 0.35rem 0.35rem 0.35rem 0;
+  min-height: 44px;
+}
+
+/* O input real fica invisível mas focável: o teclado continua
+   alcançando, e o :focus-visible é transferido para a caixa. */
+.cli__checkInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cli__checkBox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  transition: background-color var(--t-med), border-color var(--t-med);
+}
+
+.cli__checkBox svg {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity var(--t-fast), transform var(--t-fast);
+}
+
+.cli__checkInput:checked + .cli__checkBox {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.cli__checkInput:checked + .cli__checkBox svg {
+  opacity: 1;
+  transform: none;
+}
+
+.cli__checkInput:focus-visible + .cli__checkBox {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.cli__checkText {
+  font-size: 0.86rem;
+  color: var(--tx-2);
+}
+
+.cli__check:hover .cli__checkText {
+  color: var(--tx);
+}
+
+.cli__link {
+  position: relative;
+  padding: 0.35rem 0;
+  font-size: 0.82rem;
+  color: var(--tx-2);
+  white-space: nowrap;
+  transition: color var(--t-med);
+}
+
+.cli__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0.15rem;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.3;
+  transition: opacity var(--t-med), background-color var(--t-med);
+}
+
+.cli__link:hover {
+  color: var(--accent);
+}
+
+.cli__link:hover::after {
+  background: var(--accent);
+  opacity: 1;
+}
+
+/* ---------- Recado da demonstração ---------- */
+.cli__note {
+  margin-top: 1.25rem;
+  padding: 0.85rem 1rem;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--tx-2);
+  background: var(--bg-alt);
+  border-left: 2px solid var(--accent);
+}
+
+.cli__note[hidden] {
+  display: none;
+}
+
+/* ---------- Entrar ---------- */
+.cli__submit {
+  width: 100%;
+  margin-top: 1.75rem;
+}
+
+.cli__foot {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line-soft);
+}
+
+.cli__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  min-height: 44px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+  transition: color var(--t-med);
+}
+
+.cli__back svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform var(--t-med);
+}
+
+.cli__back:hover {
+  color: var(--accent);
+}
+
+.cli__back:hover svg {
+  transform: translateX(-3px);
+}
+
+.cli__demo {
+  margin-top: 0.85rem;
+  font-size: 0.72rem;
+  line-height: 1.6;
+  color: var(--tx-3);
+}
+
+/* ============================================================
+   PRÉVIA DA ÁREA DO CLIENTE
+   ============================================================ */
+
+.cli__areaHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.cli__pill {
+  display: inline-block;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--line-accent);
+  white-space: nowrap;
+}
+
+/* ---------- Abas ----------
+   A rolagem vive só aqui dentro; a página nunca rola de lado. */
+.cli__tabs {
+  display: flex;
+  gap: 0.35rem;
+  margin: 1.85rem 0 0;
+  padding-bottom: 0.15rem;
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.cli__tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.cli__tab {
+  position: relative;
+  flex-shrink: 0;
+  padding: 0.75rem 0.95rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+  white-space: nowrap;
+  transition: color var(--t-med);
+}
+
+.cli__tab::after {
+  content: '';
+  position: absolute;
+  left: 0.95rem;
+  right: 0.95rem;
+  bottom: -1px;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t-med);
+}
+
+.cli__tab:hover {
+  color: var(--tx-2);
+}
+
+.cli__tab.is-on {
+  color: var(--tx);
+}
+
+.cli__tab.is-on::after {
+  transform: scaleX(1);
+}
+
+.cli__areaBody {
+  margin-top: 1.75rem;
+}
+
+.cli__pane[hidden] {
+  display: none;
+}
+
+.cli__pane {
+  animation: cliView 0.4s var(--e-out) both;
+}
+
+/* ---------- Cartão da reserva atual ---------- */
+.cli__res {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  border: 1px solid var(--line);
+  background: var(--bg-alt);
+}
+
+/* Marcador de imagem, não uma foto: nada de desenho de carro.
+   É a moldura onde a foto do veículo escolhido vai entrar. */
+.cli__resMedia {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem;
+  min-height: 150px;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(225, 29, 46, 0.16) 0%, transparent 62%),
+    linear-gradient(150deg, var(--bg-elev) 0%, var(--bg-card) 100%);
+  border-right: 1px solid var(--line);
+}
+
+.cli__resTag {
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.cli__resBody {
+  padding: 1.5rem 1.6rem;
+}
+
+.cli__resTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--tx);
+}
+
+.cli__resFacts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  margin-top: 1.35rem;
+}
+
+.cli__resFacts dt {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tx-3);
+  margin-bottom: 0.45rem;
+}
+
+.cli__resFacts dd {
+  font-size: 0.92rem;
+  color: var(--tx);
+}
+
+/* "Aguardando confirmação": neutro, com o mesmo ponto pulsante
+   do telefone no header. Não é alerta — é espera. */
+.cli__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.86rem;
+  color: var(--tx-2);
+}
+
+.cli__status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0 var(--accent-a55);
+  animation: cliPhonePulse 2.4s var(--e-out) infinite;
+}
+
+@keyframes cliPhonePulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-a55); }
+  50%      { box-shadow: 0 0 0 6px rgba(225, 29, 46, 0); }
+}
+
+.cli__stub {
+  margin-top: 1.4rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line-soft);
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: var(--tx-3);
+}
+
+/* ---------- Convite para o fluxo de reserva ---------- */
+.cli__hintCard {
+  margin-top: 1.25rem;
+  padding: 1.5rem 1.6rem;
+  border: 1px solid var(--line);
+  background: var(--bg-alt);
+}
+
+.cli__hintTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--tx);
+}
+
+.cli__hintText {
+  margin: 0.6rem 0 1.25rem;
+  font-size: 0.86rem;
+  line-height: 1.7;
+  color: var(--tx-2);
+}
+
+.cli__hintBtn {
+  max-width: 320px;
+}
+
+/* ---------- Abas sem conteúdo ainda ---------- */
+.cli__empty {
+  padding: 2.5rem 1.6rem;
+  text-align: center;
+  border: 1px dashed var(--line);
+  background: var(--bg-alt);
+}
+
+.cli__emptyTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--tx);
+}
+
+.cli__emptyText {
+  margin: 0.7rem auto 0;
+  max-width: 46ch;
+  font-size: 0.86rem;
+  line-height: 1.7;
+  color: var(--tx-2);
+}
+
+.cli__empty .cli__hintBtn {
+  margin: 1.5rem auto 0;
+}
+
+.cli__areaFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line-soft);
+}
+
+.cli__signout {
+  min-width: 150px;
+}
+
+/* ============================================================
+   RESPONSIVO
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .cli {
+    padding: 0;
+    align-items: flex-start;
+  }
+
+  .cli__panel {
+    max-width: 100%;
+    /* Ocupa a tela toda. 100svh (e não vh) para o teclado do
+       celular não empurrar o formulário para fora da área
+       visível; sem `max-height`, o conteúdo mais alto que a tela
+       continua rolando por dentro do .cli, sem cortar nada. */
+    margin: 0;
+    min-height: 100svh;
+    border: none;
+    border-top: 1px solid var(--line);
+    animation: none;
+  }
+
+  .cli__panel.is-area {
+    max-width: 100%;
+  }
+
+  .cli__view {
+    padding: 2.5rem 1.5rem 2rem;
+  }
+
+  .cli__close {
+    top: 0.4rem;
+    right: 0.4rem;
+  }
+
+  .cli__row {
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+  }
+
+  .cli__res {
+    grid-template-columns: 1fr;
+  }
+
+  .cli__resMedia {
+    min-height: 118px;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cli__resBody {
+    padding: 1.35rem 1.25rem;
+  }
+
+  .cli__resFacts {
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+  }
+
+  .cli__hintCard,
+  .cli__empty {
+    padding: 1.35rem 1.25rem;
+  }
+
+  .cli__areaFoot {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cli__areaFoot .cli__back {
+    justify-content: center;
+  }
+
+  .cli__signout,
+  .cli__hintBtn {
+    max-width: none;
+    width: 100%;
+  }
+}
+
+@media (max-width: 400px) {
+  .cli__view {
+    padding: 2.25rem 1.15rem 1.75rem;
+  }
+
+  .cli__title {
+    font-size: 1.45rem;
+  }
+
+  .cli__checkText,
+  .cli__link {
+    font-size: 0.8rem;
+  }
+
+  .cli__tab {
+    padding: 0.7rem 0.7rem;
+    letter-spacing: 0.1em;
+  }
+}

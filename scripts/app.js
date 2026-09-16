@@ -38,6 +38,10 @@
      cuidamos do fim dela: liberar a página e deixar as entradas
      do hero rodarem. O bloco é removido do DOM, então nada
      sobra para atrapalhar depois.
+
+     A sequência tem duas passadas — o nome LOKCAR e, depois, a
+     frase. O total é combinado com o CSS: o palco dissolve em
+     2,95s, o fundo em 3,15s e some em 3,90s.
      ========================================================== */
   var intro = document.getElementById('intro');
 
@@ -54,19 +58,18 @@
       /* Sem cerimônia: a página simplesmente está pronta. */
       finishIntro();
     } else {
-      /* 2,9s: a saída do CSS começa em 2,05s e leva 0,85s. */
-      var introMs = 2900;
+      var introMs = 3900;
 
       var introTimer = window.setTimeout(finishIntro, introMs);
 
-      /* Se algo travar, um teto generoso garante que a página
-         nunca fique presa atrás da abertura. */
+      /* Se algo travar, um teto garante que a página nunca fique
+         presa atrás da abertura. */
       window.setTimeout(function () {
         if (intro) {
           window.clearTimeout(introTimer);
           finishIntro();
         }
-      }, 5000);
+      }, 6000);
 
       /* Quem chega por link direto (ex.: #reservar) não deve
          esperar a cerimônia: pula direto ao destino. */
@@ -215,7 +218,273 @@
   }
 
   /* ==========================================================
-     7 · DEMONSTRAÇÃO DA RESERVA
+     7 · ÁREA DO CLIENTE (demonstração)
+
+     ATENÇÃO — não há autenticação nenhuma aqui.
+     Nada é validado, nada é guardado, nada é enviado. O botão
+     "Entrar" só confere se os campos estão vazios e abre a
+     prévia da área logada. Nenhuma credencial existe no código,
+     e nenhuma mensagem promete segurança que não existe.
+     ========================================================== */
+  var cli = document.getElementById('cli');
+
+  if (cli) {
+    var cliPanel    = document.getElementById('cliPanel');
+    var cliLogin    = document.getElementById('cliLoginView');
+    var cliArea     = document.getElementById('cliAreaView');
+    var cliForm     = document.getElementById('cliForm');
+    var cliEmail    = document.getElementById('cliEmail');
+    var cliPass     = document.getElementById('cliPass');
+    var cliEmailErr = document.getElementById('cliEmailError');
+    var cliPassErr  = document.getElementById('cliPassError');
+    var cliEye      = document.getElementById('cliEye');
+    var cliForgot   = document.getElementById('cliForgot');
+    var cliNote     = document.getElementById('cliNote');
+    var cliSignout  = document.getElementById('cliSignout');
+    var cliTabs     = document.getElementById('cliTabs');
+
+    var focoAnterior = null;
+
+    /* ---------- Abrir e fechar ---------- */
+    var abrirCli = function () {
+      focoAnterior = document.activeElement;
+
+      cli.hidden = false;
+      document.body.classList.add('is-locked');
+
+      /* Sempre volta ao login: a prévia é sessão de demonstração,
+         não estado que sobrevive ao fechamento. */
+      mostrarLogin();
+
+      /* O foco vai para o primeiro campo — não para o botão de
+         fechar, que é o que o usuário menos quer agora. */
+      if (cliEmail) cliEmail.focus();
+    };
+
+    var fecharCli = function () {
+      cli.hidden = true;
+      document.body.classList.remove('is-locked');
+
+      if (focoAnterior && typeof focoAnterior.focus === 'function') {
+        focoAnterior.focus();
+      }
+      focoAnterior = null;
+    };
+
+    var mostrarLogin = function () {
+      if (cliLogin) cliLogin.hidden = false;
+      if (cliArea) cliArea.hidden = true;
+      if (cliPanel) cliPanel.classList.remove('is-area');
+      if (cliNote) cliNote.hidden = true;
+      limparErros();
+    };
+
+    var mostrarArea = function () {
+      if (cliLogin) cliLogin.hidden = true;
+      if (cliArea) cliArea.hidden = false;
+      if (cliPanel) cliPanel.classList.add('is-area');
+
+      /* Volta para a primeira aba: quem entra de novo não deve
+         cair numa aba interna que ficou aberta da vez anterior. */
+      trocarAba('reservas');
+
+      var primeiroTab = cliTabs ? cliTabs.querySelector('.cli__tab') : null;
+      if (primeiroTab) primeiroTab.focus();
+    };
+
+    /* ---------- Validação visual (só campo vazio) ---------- */
+    var marcar = function (campo, msg, erro) {
+      if (campo) campo.closest('.cli__field').classList.toggle('is-bad', erro);
+      if (msg) msg.hidden = !erro;
+    };
+
+    var limparErros = function () {
+      if (cliEmail) marcar(cliEmail, cliEmailErr, false);
+      if (cliPass) marcar(cliPass, cliPassErr, false);
+    };
+
+    /* Sem campo no HTML não há o que validar — e o botão não deve
+       abrir a prévia, senão a checagem de vazio deixaria de existir
+       em silêncio. */
+    var validar = function () {
+      if (!cliEmail || !cliPass) return false;
+
+      var semEmail = !cliEmail.value.trim();
+      var semSenha = !cliPass.value;
+
+      marcar(cliEmail, cliEmailErr, semEmail);
+      marcar(cliPass, cliPassErr, semSenha);
+
+      return !semEmail && !semSenha;
+    };
+
+    /* Limpa o aviso assim que a pessoa começa a corrigir */
+    if (cliEmail) {
+      cliEmail.addEventListener('input', function () {
+        if (cliEmail.value.trim()) marcar(cliEmail, cliEmailErr, false);
+      });
+    }
+
+    if (cliPass) {
+      cliPass.addEventListener('input', function () {
+        if (cliPass.value) marcar(cliPass, cliPassErr, false);
+      });
+    }
+
+    /* ---------- Mostrar / ocultar senha ---------- */
+    if (cliEye && cliPass) {
+      cliEye.addEventListener('click', function () {
+        var visivel = cliPass.type === 'password';
+
+        cliPass.type = visivel ? 'text' : 'password';
+        cliEye.classList.toggle('is-on', visivel);
+        cliEye.setAttribute('aria-pressed', String(visivel));
+        cliEye.setAttribute('aria-label', visivel ? 'Ocultar senha' : 'Mostrar senha');
+
+        /* O foco volta para o campo: quem toca no olho normalmente
+           quer continuar digitando. */
+        cliPass.focus();
+      });
+    }
+
+    /* ---------- Entrar ---------- */
+    if (cliForm) {
+      cliForm.addEventListener('submit', function (e) {
+        /* Sem backend: o envio de formulário não deve recarregar
+           a página nem navegar para lugar nenhum. */
+        e.preventDefault();
+
+        if (!validar()) {
+          var primeiro = cliEmail && !cliEmail.value.trim() ? cliEmail : cliPass;
+          if (primeiro) primeiro.focus();
+          return;
+        }
+
+        mostrarArea();
+      });
+    }
+
+    /* ---------- Esqueceu a senha ---------- */
+    if (cliForgot) {
+      cliForgot.addEventListener('click', function () {
+        if (!cliNote) return;
+
+        cliNote.textContent =
+          'Na versão final, enviaremos um link de redefinição para o seu e-mail. ' +
+          'Aqui é apenas demonstração — nenhuma mensagem é enviada.';
+
+        cliNote.hidden = false;
+      });
+    }
+
+    /* ---------- Abas da área do cliente ---------- */
+    var trocarAba = function (nome) {
+      if (cliTabs) {
+        cliTabs.querySelectorAll('.cli__tab').forEach(function (tab) {
+          var ativo = tab.getAttribute('data-tab') === nome;
+          tab.classList.toggle('is-on', ativo);
+          tab.setAttribute('aria-selected', String(ativo));
+        });
+      }
+
+      cli.querySelectorAll('.cli__pane').forEach(function (pane) {
+        pane.hidden = pane.getAttribute('data-pane') !== nome;
+      });
+    };
+
+    if (cliTabs) {
+      cliTabs.addEventListener('click', function (e) {
+        var tab = e.target.closest('.cli__tab');
+        if (tab) trocarAba(tab.getAttribute('data-tab'));
+      });
+    }
+
+    /* ---------- Sair ---------- */
+    if (cliSignout) {
+      cliSignout.addEventListener('click', function () {
+        if (cliPass) cliPass.value = '';
+        if (cliPass) cliPass.type = 'password';
+        if (cliEye) {
+          cliEye.classList.remove('is-on');
+          cliEye.setAttribute('aria-pressed', 'false');
+          cliEye.setAttribute('aria-label', 'Mostrar senha');
+        }
+
+        mostrarLogin();
+
+        if (cliEmail) cliEmail.focus();
+      });
+    }
+
+    /* ---------- Gatilhos: header desktop e menu mobile ---------- */
+    document.querySelectorAll('[data-open-login]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        /* Se o menu mobile estiver aberto, ele sai de cena antes —
+           senão ficaria por cima do overlay. */
+        closeMenu();
+        abrirCli();
+      });
+    });
+
+    /* ---------- Fechar: X, fundo e "Voltar para o site" ---------- */
+    document.querySelectorAll('[data-close-cli]').forEach(function (el) {
+      el.addEventListener('click', fecharCli);
+    });
+
+    /* ---------- Foco preso no painel ----------
+       O overlay se anuncia como modal (`aria-modal="true"`), então
+       precisa se comportar como um: sem isto, o Tab escaparia para
+       os links da página atrás do fundo escurecido — que o leitor
+       de tela já não deveria alcançar. */
+    var focaveis = function () {
+      var lista = cli.querySelectorAll(
+        'a[href], button:not([disabled]), input:not([disabled]), ' +
+        'select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+
+      /* Só o que está de fato visível: os dois estados do painel
+         (login e prévia) convivem no DOM, com `hidden` alternando.
+         getClientRects() é o teste que não mente — devolve vazio
+         para qualquer elemento que não gere caixa, inclusive
+         quando o `hidden` está num ancestral. */
+      return Array.prototype.filter.call(lista, function (el) {
+        return el.getClientRects().length > 0;
+      });
+    };
+
+    document.addEventListener('keydown', function (e) {
+      if (cli.hidden) return;
+
+      if (e.key === 'Escape') {
+        fecharCli();
+        return;
+      }
+
+      if (e.key !== 'Tab') return;
+
+      var itens = focaveis();
+
+      if (itens.length === 0) {
+        e.preventDefault();
+        return;
+      }
+
+      var primeiro = itens[0];
+      var ultimo = itens[itens.length - 1];
+      var ativo = document.activeElement;
+
+      if (e.shiftKey && (ativo === primeiro || !cli.contains(ativo))) {
+        e.preventDefault();
+        ultimo.focus();
+      } else if (!e.shiftKey && (ativo === ultimo || !cli.contains(ativo))) {
+        e.preventDefault();
+        primeiro.focus();
+      }
+    });
+  }
+
+  /* ==========================================================
+     8 · DEMONSTRAÇÃO DA RESERVA
      ========================================================== */
   var picker = document.getElementById('bkPicker');
 
@@ -910,6 +1179,23 @@
   renderAdicionais();
   renderCalendario();
   render();
+
+  /* Só agora a reserva existe de fato — então é agora que o
+     atalho "Ir para a reserva" da área do cliente pode ser
+     ligado (ver seção 7). */
+  var irParaReserva = document.querySelectorAll('[data-goto-reserva]');
+
+  irParaReserva.forEach(function (el) {
+    el.addEventListener('click', function () {
+      var alvo = document.getElementById('reservar');
+
+      fecharCli();
+      if (alvo) alvo.scrollIntoView();
+
+      /* O calendário é o campo que a pessoa veio procurar */
+      abrirCalendario(true);
+    });
+  });
 
   /* Se o visitante chegar por âncora direta em #reservar, o
      calendário já vem aberto — é o campo que ele veio procurar. */

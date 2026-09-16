@@ -28,6 +28,7 @@
 <link rel="stylesheet" href="styles/booking.css" />
 <link rel="stylesheet" href="styles/brand.css" />
 <link rel="stylesheet" href="styles/cta.css" />
+<link rel="stylesheet" href="styles/client.css" />
 <link rel="stylesheet" href="styles/footer.css" />
 <link rel="stylesheet" href="styles/responsive.css" />
 </head>
@@ -36,9 +37,12 @@
 
 <!-- ============================================================
      ABERTURA DE MARCA
-     Assinatura de 2–4s antes de o site aparecer. Não é tela de
-     carregamento: não há barra nem aviso de espera. O JS remove
-     este bloco ao terminar (e imediatamente com movimento
+     Assinatura de ~3,9s antes de o site aparecer, em duas
+     passadas: o nome LOKCAR, depois a frase. Não é tela de
+     carregamento: não há barra nem aviso de espera, e nenhum
+     desenho — só tipografia, luz e movimento.
+
+     O JS remove este bloco ao terminar (na hora, com movimento
      reduzido ativo); se o JS não rodar, ele se retira sozinho
      pelo CSS.
      ============================================================ -->
@@ -49,20 +53,11 @@
   </div>
 
   <div class="intro__stage">
-    <svg class="intro__mark" viewBox="0 0 260 74" aria-hidden="true" focusable="false">
-      <g class="logoCar">
-        <path class="logoCar__body" d="M14 60 C14 47 21 41 33 39 L61 28 C71 17 83 11 99 11 L167 11 C185 11 199 17 211 27 L235 33 C247 37 251 45 251 55 L251 60 L14 60 Z" />
-        <path class="logoCar__glass" d="M74 28 L96 16 L140 16 L140 28 Z" />
-        <path class="logoCar__glass" d="M147 28 L147 16 L166 16 C180 16 191 21 201 29 Z" />
-        <circle class="logoCar__tyre" cx="72" cy="60" r="14" />
-        <circle class="logoCar__rim" cx="72" cy="60" r="5.5" />
-        <circle class="logoCar__tyre" cx="201" cy="60" r="14" />
-        <circle class="logoCar__rim" cx="201" cy="60" r="5.5" />
-      </g>
-    </svg>
     <span class="intro__word">LOKCAR</span>
+
     <span class="intro__line"></span>
-    <span class="intro__sub">Locadora de Veículos</span>
+
+    <p class="intro__frase">Levamos o carro até você.</p>
   </div>
 </div>
 
@@ -82,6 +77,15 @@
       <li><a class="hdr__link" href="#frota">Frota</a></li>
       <li><a class="hdr__link" href="#reservar">Como funciona</a></li>
       <li><a class="hdr__link" href="#lokcar">A Lok Car</a></li>
+      <li>
+        <button class="hdr__client" type="button" data-open-login aria-haspopup="dialog">
+          <svg class="hdr__clientIcon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="8.5" r="3.7" />
+            <path d="M4.8 20.2c0-3.6 3.2-6.1 7.2-6.1s7.2 2.5 7.2 6.1" />
+          </svg>
+          Área do cliente
+        </button>
+      </li>
     </ul>
 
     <a class="hdr__logo" href="#inicio" aria-label="LOK CAR — Locadora de Veículos">
@@ -123,6 +127,9 @@
         <li><a class="hdr__mobileLink" href="#contato">Contato</a></li>
       </ul>
       <div class="hdr__mobileFoot">
+        <button class="btn btn--outline hdr__mobileCta" type="button" data-open-login aria-haspopup="dialog">
+          <span>Área do cliente</span>
+        </button>
         <a class="btn btn--solid hdr__mobileCta" href="https://wa.me/5581997530453" target="_blank" rel="noopener">
           <span>Falar no WhatsApp</span>
         </a>
@@ -144,7 +151,7 @@
 <section class="hero" id="inicio">
   <div class="hero__media">
     <img
-      src="../Public/porsche%20cayenne%20preta%20de%20lado.webp"
+      src="Public/porsche%20cayenne%20preta%20de%20lado.webp"
       alt="Veículo premium de perfil disponível para locação na LOK CAR"
       fetchpriority="high" decoding="async" />
     <div class="hero__scrim" aria-hidden="true"></div>
@@ -237,7 +244,7 @@
 
       <article class="vcard rv" data-model="Porsche 911">
         <a class="vcard__media" href="#reservar" aria-label="Porsche 911 — consultar disponibilidade">
-          <img src="../Public/porsche%20preta.jpg" alt="Porsche 911 preto" loading="lazy" decoding="async" />
+          <img src="Public/porsche%20preta.jpg" alt="Porsche 911 preto" loading="lazy" decoding="async" />
           <span class="vcard__shine" aria-hidden="true"></span>
         </a>
         <div class="vcard__body">
@@ -259,7 +266,7 @@
 
       <article class="vcard rv" data-model="Porsche Cayenne">
         <a class="vcard__media" href="#reservar" aria-label="Porsche Cayenne — consultar disponibilidade">
-          <img src="../Public/porsche%20cayenne%20preta.webp" alt="Porsche Cayenne preto" loading="lazy" decoding="async" />
+          <img src="Public/porsche%20cayenne%20preta.webp" alt="Porsche Cayenne preto" loading="lazy" decoding="async" />
           <span class="vcard__shine" aria-hidden="true"></span>
         </a>
         <div class="vcard__body">
@@ -281,7 +288,7 @@
 
       <article class="vcard rv" data-model="Mercedes-Benz Classe C">
         <a class="vcard__media" href="#reservar" aria-label="Mercedes-Benz Classe C — consultar disponibilidade">
-          <img src="../Public/mercedes%20preta.jpg" alt="Mercedes-Benz Classe C preto" loading="lazy" decoding="async" />
+          <img src="Public/mercedes%20preta.jpg" alt="Mercedes-Benz Classe C preto" loading="lazy" decoding="async" />
           <span class="vcard__shine" aria-hidden="true"></span>
         </a>
         <div class="vcard__body">
@@ -303,7 +310,7 @@
 
       <article class="vcard rv" data-model="Audi A5 Sportback">
         <a class="vcard__media" href="#reservar" aria-label="Audi A5 Sportback — consultar disponibilidade">
-          <img src="../Public/audi%20preta.jpg" alt="Audi A5 Sportback preto" loading="lazy" decoding="async" />
+          <img src="Public/audi%20preta.jpg" alt="Audi A5 Sportback preto" loading="lazy" decoding="async" />
           <span class="vcard__shine" aria-hidden="true"></span>
         </a>
         <div class="vcard__body">
@@ -325,7 +332,7 @@
 
       <article class="vcard rv" data-model="Hyundai HB20">
         <a class="vcard__media" href="#reservar" aria-label="Hyundai HB20 — consultar disponibilidade">
-          <img src="../Public/OIP%20(1).jpg" alt="Hyundai HB20 prata" loading="lazy" decoding="async" />
+          <img src="Public/OIP%20(1).jpg" alt="Hyundai HB20 prata" loading="lazy" decoding="async" />
           <span class="vcard__shine" aria-hidden="true"></span>
         </a>
         <div class="vcard__body">
@@ -347,7 +354,7 @@
 
       <article class="vcard rv" data-model="Chevrolet Onix Plus">
         <a class="vcard__media" href="#reservar" aria-label="Chevrolet Onix Plus — consultar disponibilidade">
-          <img src="../Public/Onix-Plus-Branco.jpg" alt="Chevrolet Onix Plus branco" loading="lazy" decoding="async" />
+          <img src="Public/Onix-Plus-Branco.jpg" alt="Chevrolet Onix Plus branco" loading="lazy" decoding="async" />
           <span class="vcard__shine" aria-hidden="true"></span>
         </a>
         <div class="vcard__body">
@@ -432,28 +439,28 @@
         <div class="bk__field" role="group" aria-labelledby="bkStep1">
           <p class="bk__legend" id="bkStep1"><span class="bk__legendNum">01</span> Escolha o veículo</p>
           <div class="bk__picker" id="bkPicker" role="radiogroup" aria-label="Escolha o veículo">
-            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Porsche 911" data-img="../Public/porsche%20preta.jpg">
-              <img src="../Public/porsche%20preta.jpg" alt="" loading="lazy" />
+            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Porsche 911" data-img="Public/porsche%20preta.jpg">
+              <img src="Public/porsche%20preta.jpg" alt="" loading="lazy" />
               <span class="bk__pickName">Porsche 911</span>
             </button>
-            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Porsche Cayenne" data-img="../Public/porsche%20cayenne%20preta.webp">
-              <img src="../Public/porsche%20cayenne%20preta.webp" alt="" loading="lazy" />
+            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Porsche Cayenne" data-img="Public/porsche%20cayenne%20preta.webp">
+              <img src="Public/porsche%20cayenne%20preta.webp" alt="" loading="lazy" />
               <span class="bk__pickName">Porsche Cayenne</span>
             </button>
-            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Mercedes-Benz Classe C" data-img="../Public/mercedes%20preta.jpg">
-              <img src="../Public/mercedes%20preta.jpg" alt="" loading="lazy" />
+            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Mercedes-Benz Classe C" data-img="Public/mercedes%20preta.jpg">
+              <img src="Public/mercedes%20preta.jpg" alt="" loading="lazy" />
               <span class="bk__pickName">Mercedes-Benz Classe C</span>
             </button>
-            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Audi A5 Sportback" data-img="../Public/audi%20preta.jpg">
-              <img src="../Public/audi%20preta.jpg" alt="" loading="lazy" />
+            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Audi A5 Sportback" data-img="Public/audi%20preta.jpg">
+              <img src="Public/audi%20preta.jpg" alt="" loading="lazy" />
               <span class="bk__pickName">Audi A5 Sportback</span>
             </button>
-            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Hyundai HB20" data-img="../Public/OIP%20(1).jpg">
-              <img src="../Public/OIP%20(1).jpg" alt="" loading="lazy" />
+            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Hyundai HB20" data-img="Public/OIP%20(1).jpg">
+              <img src="Public/OIP%20(1).jpg" alt="" loading="lazy" />
               <span class="bk__pickName">Hyundai HB20</span>
             </button>
-            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Chevrolet Onix Plus" data-img="../Public/Onix-Plus-Branco.jpg">
-              <img src="../Public/Onix-Plus-Branco.jpg" alt="" loading="lazy" />
+            <button class="bk__pick" type="button" role="radio" aria-checked="false" data-model="Chevrolet Onix Plus" data-img="Public/Onix-Plus-Branco.jpg">
+              <img src="Public/Onix-Plus-Branco.jpg" alt="" loading="lazy" />
               <span class="bk__pickName">Chevrolet Onix Plus</span>
             </button>
           </div>
@@ -620,7 +627,7 @@
 
       <div class="brand__media rv rvImg">
         <div class="brand__frame">
-          <img src="../Public/porsche%20cayenne%20preta%20parte%20de%20tras.webp"
+          <img src="Public/porsche%20cayenne%20preta%20parte%20de%20tras.webp"
                alt="Traseira de veículo premium da frota Lok Car" loading="lazy" decoding="async" />
         </div>
         <div class="brand__badge">
@@ -669,7 +676,7 @@
       <span class="brand__moreLabel">Também disponível na frota</span>
       <div class="brand__moreGrid brand__moreGrid--um">
         <figure class="brand__moreItem">
-          <img src="../Public/onix.png" alt="Chevrolet Onix branco" loading="lazy" decoding="async" />
+          <img src="Public/onix.png" alt="Chevrolet Onix branco" loading="lazy" decoding="async" />
           <figcaption>Chevrolet Onix · Hatch</figcaption>
         </figure>
       </div>
@@ -825,6 +832,212 @@
     </svg>
   </span>
 </a>
+
+<!-- ============================================================
+     ÁREA DO CLIENTE — demonstração
+     Um overlay único com dois estados: a tela de login e uma
+     prévia da área do cliente. Não há servidor, banco, sessão nem
+     autenticação: nada aqui valida credencial de verdade, nada é
+     guardado e nenhum dado é enviado a lugar nenhum. O que existe
+     é a experiência visual, para mostrar ao cliente como o futuro
+     sistema vai funcionar.
+     ============================================================ -->
+<div class="cli" id="cli" hidden>
+  <div class="cli__backdrop" data-close-cli></div>
+
+  <div class="cli__panel" id="cliPanel" role="dialog" aria-modal="true" aria-labelledby="cliTitle">
+
+    <button class="cli__close" id="cliClose" type="button" aria-label="Fechar" data-close-cli>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M6 6 L18 18 M18 6 L6 18" />
+      </svg>
+    </button>
+
+    <!-- ---------- Estado 1: login ---------- -->
+    <div class="cli__view cli__view--login" id="cliLoginView">
+      <header class="cli__head">
+        <span class="label">Área do cliente</span>
+        <h2 class="cli__title" id="cliTitle">Acesso à sua conta</h2>
+        <p class="cli__lead">
+          Acompanhe suas reservas, consulte o histórico e fale com a nossa equipe.
+        </p>
+      </header>
+
+      <form class="cli__form" id="cliForm" novalidate>
+        <div class="cli__field">
+          <label class="cli__label" for="cliEmail">E-mail</label>
+          <input class="cli__input" type="email" id="cliEmail" name="email"
+                 placeholder="seuemail@exemplo.com" autocomplete="email"
+                 inputmode="email" spellcheck="false" required />
+          <p class="cli__error" id="cliEmailError" hidden>Informe o seu e-mail.</p>
+        </div>
+
+        <div class="cli__field">
+          <label class="cli__label" for="cliPass">Senha</label>
+          <div class="cli__passWrap">
+            <input class="cli__input cli__input--pass" type="password" id="cliPass" name="senha"
+                   placeholder="Sua senha" autocomplete="current-password" required />
+            <button class="cli__eye" id="cliEye" type="button"
+                    aria-label="Mostrar senha" aria-pressed="false" aria-controls="cliPass">
+              <!-- olho aberto -->
+              <svg class="cli__eyeOn" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M2.2 12 C5 6.9 8.4 4.7 12 4.7 s7 2.2 9.8 7.3 c-2.8 5.1-6.2 7.3-9.8 7.3 s-7-2.2-9.8-7.3 Z" />
+                <circle cx="12" cy="12" r="3.1" />
+              </svg>
+              <!-- olho cortado -->
+              <svg class="cli__eyeOff" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M2.2 12 C5 6.9 8.4 4.7 12 4.7 s7 2.2 9.8 7.3 c-2.8 5.1-6.2 7.3-9.8 7.3 s-7-2.2-9.8-7.3 Z" />
+                <circle cx="12" cy="12" r="3.1" />
+                <path d="M4 20 L20 4" />
+              </svg>
+            </button>
+          </div>
+          <p class="cli__error" id="cliPassError" hidden>Informe a sua senha.</p>
+        </div>
+
+        <div class="cli__row">
+          <label class="cli__check">
+            <input class="cli__checkInput" type="checkbox" id="cliKeep" checked />
+            <span class="cli__checkBox" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M5 12.6 L10 17.4 L19 7.4" />
+              </svg>
+            </span>
+            <span class="cli__checkText">Manter conectado</span>
+          </label>
+
+          <button class="cli__link" type="button" id="cliForgot">Esqueceu sua senha?</button>
+        </div>
+
+        <p class="cli__note" id="cliNote" aria-live="polite" hidden></p>
+
+        <button class="btn btn--accent cli__submit" type="submit" id="cliSubmit">
+          <span>Entrar</span>
+        </button>
+      </form>
+
+      <footer class="cli__foot">
+        <button class="cli__back" type="button" data-close-cli>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 6 L8 12 L14 18" />
+          </svg>
+          Voltar para o site
+        </button>
+        <p class="cli__demo">
+          Demonstração: nenhuma senha é validada, guardada ou enviada.
+        </p>
+      </footer>
+    </div>
+
+    <!-- ---------- Estado 2: prévia da área do cliente ---------- -->
+    <div class="cli__view cli__view--area" id="cliAreaView" hidden>
+      <header class="cli__areaHead">
+        <div>
+          <span class="label">Área do cliente</span>
+          <h2 class="cli__title cli__title--sm" id="cliAreaTitle">Olá, bem-vindo à Lokcar</h2>
+        </div>
+        <span class="cli__pill">Prévia · sem login real</span>
+      </header>
+
+      <nav class="cli__tabs" id="cliTabs" aria-label="Seções da área do cliente">
+        <button class="cli__tab is-on" type="button" role="tab" aria-selected="true" data-tab="reservas">Minhas reservas</button>
+        <button class="cli__tab" type="button" role="tab" aria-selected="false" data-tab="historico">Histórico</button>
+        <button class="cli__tab" type="button" role="tab" aria-selected="false" data-tab="dados">Meus dados</button>
+        <button class="cli__tab" type="button" role="tab" aria-selected="false" data-tab="suporte">Suporte</button>
+      </nav>
+
+      <div class="cli__areaBody">
+
+        <!-- Reserva atual -->
+        <section class="cli__pane" data-pane="reservas">
+          <article class="cli__res">
+            <div class="cli__resMedia">
+              <span class="cli__resTag">Reserva atual</span>
+            </div>
+
+            <div class="cli__resBody">
+              <h3 class="cli__resTitle">Veículo de demonstração</h3>
+
+              <dl class="cli__resFacts">
+                <div>
+                  <dt>Período</dt>
+                  <dd>Exemplo · 3 dias</dd>
+                </div>
+                <div>
+                  <dt>Status da solicitação</dt>
+                  <dd><span class="cli__status">Aguardando confirmação</span></dd>
+                </div>
+              </dl>
+
+              <p class="cli__stub">
+                Reserva fictícia, criada só para ilustrar esta tela. Assim que você
+                solicita pelo site, a solicitação aparece aqui com o veículo e o
+                período escolhidos, e a equipe confirma a disponibilidade.
+              </p>
+            </div>
+          </article>
+
+          <div class="cli__hintCard">
+            <h4 class="cli__hintTitle">Quer ver o fluxo completo?</h4>
+            <p class="cli__hintText">
+              Escolha um veículo, defina o período, monte a proteção e os adicionais
+              e envie a solicitação. É o caminho que vai alimentar esta tela.
+            </p>
+            <button class="btn btn--outline cli__hintBtn" type="button" data-goto-reserva>
+              <span>Ir para a reserva</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Histórico -->
+        <section class="cli__pane" data-pane="historico" hidden>
+          <div class="cli__empty">
+            <h3 class="cli__emptyTitle">Nenhuma locação anterior</h3>
+            <p class="cli__emptyText">
+              Esta é uma prévia. O histórico se forma quando as locações
+              acontecem de verdade.
+            </p>
+          </div>
+        </section>
+
+        <!-- Meus dados -->
+        <section class="cli__pane" data-pane="dados" hidden>
+          <div class="cli__empty">
+            <h3 class="cli__emptyTitle">Seus dados ficam aqui</h3>
+            <p class="cli__emptyText">
+              Nome, contato e documentos, para agilizar as próximas reservas.
+              Ainda não há nada preenchido — e nada foi guardado nesta demonstração.
+            </p>
+          </div>
+        </section>
+
+        <!-- Suporte -->
+        <section class="cli__pane" data-pane="suporte" hidden>
+          <div class="cli__empty">
+            <h3 class="cli__emptyTitle">Fale com a Lok Car</h3>
+            <p class="cli__emptyText">
+              Atendimento personalizado, por WhatsApp ou Direct.
+            </p>
+            <a class="btn btn--accent cli__hintBtn" href="https://wa.me/5581997530453" target="_blank" rel="noopener">
+              <span>(81) 99753-0453</span>
+            </a>
+          </div>
+        </section>
+
+      </div>
+
+      <footer class="cli__areaFoot">
+        <button class="btn btn--outline cli__signout" type="button" id="cliSignout">
+          <span>Sair</span>
+        </button>
+        <button class="cli__back" type="button" data-close-cli>
+          Voltar para o site
+        </button>
+      </footer>
+    </div>
+
+  </div>
+</div>
 
 <script src="scripts/config.js" defer></script>
 <script src="scripts/app.js" defer></script>

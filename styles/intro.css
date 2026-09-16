@@ -1,8 +1,13 @@
 /* ============================================================
    LOK CAR — intro.css
-   Abertura de marca (2–4s): a tela abre no escuro, a marca se
-   desenha e o site aparece por baixo. Não é tela de carregamento
-   — não há barra, porcentagem nem aviso de espera. É assinatura.
+   Abertura de marca (~3,9s), em duas passadas:
+
+     LOKCAR  →  transição  →  "Levamos o carro até você."
+                        →  transição  →  site
+
+   Não é tela de carregamento: não há barra, porcentagem, spinner
+   nem contagem. E não há desenho: a abertura é só tipografia,
+   luz e movimento. O peso vem do tempo, não de elementos.
 
    Enquanto a abertura roda, o corpo recebe .intro-on, que
    SEGURA as entradas do hero. Quando a abertura sai, elas rodam
@@ -21,8 +26,8 @@
   justify-content: center;
   background: var(--bg);
   overflow: hidden;
-  /* sai por volta de 2,9s no total */
-  animation: introOut 0.85s var(--e-out) 2.05s both;
+  /* A saída só começa depois de o texto chegar e dissolver. */
+  animation: introOut 0.75s var(--e-out) 3.15s both;
 }
 
 @keyframes introOut {
@@ -48,13 +53,13 @@
   transform: translate(-50%, -50%);
   background: radial-gradient(circle, rgba(225, 29, 46, 0.16) 0%, transparent 66%);
   opacity: 0;
-  animation: introGlow 2.6s var(--e-out) 0.35s both;
+  animation: introGlow 3.1s var(--e-out) 0.2s both;
 }
 
 @keyframes introGlow {
   0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.82); }
-  45%  { opacity: 1; }
-  100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+  40%  { opacity: 1; }
+  100% { opacity: 0.46; transform: translate(-50%, -50%) scale(1.06); }
 }
 
 .intro__grid {
@@ -68,70 +73,35 @@
   -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0%, transparent 76%);
 }
 
-/* ---------- Palco ---------- */
+/* ---------- Palco ----------
+   A largura é limitada para a frase nunca se esticar demais em
+   telas grandes: a abertura respira, não se espalha. */
 .intro__stage {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.35rem;
+  gap: 1.5rem;
+  width: min(100%, 640px);
   padding: 2rem;
   text-align: center;
-  animation: introStage 1.3s var(--e-out) 0.1s both;
+  /* Dissolve antes do fundo sair: as palavras se desfazem no
+     escuro e o site já está aparecendo por baixo. */
+  animation: introStage 0.7s var(--e-out) 2.95s both;
 }
 
 @keyframes introStage {
-  from { opacity: 0; transform: translateY(16px) scale(0.975); }
-  to   { opacity: 1; transform: none; }
+  from { opacity: 1; transform: none; filter: blur(0); }
+  to   { opacity: 0; transform: translateY(-10px) scale(1.03); filter: blur(6px); }
 }
 
-/* ---------- A marca ---------- */
-.intro__mark {
-  width: clamp(180px, 40vw, 280px);
-  color: var(--tx);
-}
-
-/* O contorno do carro se desenha: assinatura, não spinner.
-   Os estilos base (.logoCar__*) vêm de base.css — aqui só
-   acrescentamos o traçado progressivo. */
-.intro__mark .logoCar__body {
-  stroke-dasharray: 900;
-  stroke-dashoffset: 900;
-  animation: introDraw 1.55s var(--e-out) 0.25s forwards;
-}
-
-.intro__mark .logoCar__glass {
-  opacity: 0;
-  animation: introGlass 0.75s var(--e-out) 1.15s forwards;
-}
-
-.intro__mark .logoCar__tyre {
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
-  animation: introDraw 0.85s var(--e-out) 0.95s forwards;
-}
-
-.intro__mark .logoCar__rim {
-  opacity: 0;
-  animation: introRim 0.6s var(--e-out) 1.55s forwards;
-}
-
-@keyframes introDraw {
-  to { stroke-dashoffset: 0; }
-}
-
-@keyframes introGlass {
-  to { opacity: 0.34; }
-}
-
-@keyframes introRim {
-  to { opacity: 0.5; }
-}
-
-/* ---------- Assinatura ---------- */
+/* ---------- 1 · A marca ----------
+   O nome chega de longe: entra desfocado, com o tracking aberto,
+   e "assenta" na posição final. É o mesmo movimento de uma
+   lente encontrando o foco — daí a sofisticação sem ornamento. */
 .intro__word {
   font-family: var(--f-display);
-  font-size: clamp(1.9rem, 7.5vw, 3.3rem);
+  font-size: clamp(2.1rem, 8.5vw, 3.9rem);
   font-weight: 800;
   line-height: 1;
   color: var(--tx);
@@ -139,39 +109,71 @@
      à direita da última letra, mantendo o conjunto centrado */
   letter-spacing: 0.34em;
   text-indent: 0.34em;
-  animation: introWord 1.6s var(--e-out) 0.3s both;
+  animation: introWord 1.4s var(--e-out) 0.15s both;
 }
 
 @keyframes introWord {
-  from { opacity: 0; letter-spacing: 0.66em; text-indent: 0.66em; }
-  to   { opacity: 1; letter-spacing: 0.34em; text-indent: 0.34em; }
+  from {
+    opacity: 0;
+    filter: blur(14px);
+    letter-spacing: 0.7em;
+    text-indent: 0.7em;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    letter-spacing: 0.34em;
+    text-indent: 0.34em;
+    transform: none;
+  }
 }
 
+/* ---------- Fio de luz ----------
+   Faz a ponte entre o nome e a frase: cresce do centro para as
+   pontas enquanto o nome já está parado. */
 .intro__line {
+  display: block;
   width: 0;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--accent), transparent);
   opacity: 0;
-  animation: introLine 1.1s var(--e-out) 0.9s forwards;
+  animation: introLine 0.85s var(--e-out) 1.15s both;
 }
 
 @keyframes introLine {
   from { width: 0; opacity: 0; }
-  to   { width: clamp(130px, 28vw, 230px); opacity: 1; }
+  to   { width: min(240px, 42vw); opacity: 1; }
 }
 
-.intro__sub {
-  font-size: 0.64rem;
-  font-weight: 600;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--tx-3);
-  animation: introFade 1s var(--e-out) 1.1s both;
+/* ---------- 2 · A frase ----------
+   Chega como uma legenda de cinema: sobe muito pouco, sai do
+   desfoque e é revelada por uma máscara que abre de cima para
+   baixo. Discreta de propósito — quem aparece primeiro é a marca. */
+.intro__frase {
+  max-width: 24ch;
+  font-family: var(--f-sans);
+  font-size: clamp(1rem, 3.6vw, 1.3rem);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0.03em;
+  color: var(--tx-2);
+  animation: introFrase 1.1s var(--e-out) 1.75s both;
 }
 
-@keyframes introFade {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: none; }
+@keyframes introFrase {
+  from {
+    opacity: 0;
+    filter: blur(9px);
+    transform: translateY(12px);
+    clip-path: inset(0 0 112% 0);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+    clip-path: inset(0 0 -12% 0);
+  }
 }
 
 /* ============================================================
@@ -186,14 +188,19 @@
 
 /* Segura as entradas do hero. Pausadas no quadro zero, elas
    ficam invisíveis atrás da abertura; quando .intro-on sai,
-   rodam na ordem escalonada original. */
-.intro-on .hero__media img,
-.intro-on .hero__label,
-.intro-on .hero__headline,
-.intro-on .hero__sub,
-.intro-on .hero__actions,
-.intro-on .hero__meta,
-.intro-on .hero__scroll {
+   rodam na ordem escalonada original.
+
+   O prefixo `.js` é obrigatório: sem JS ninguém remove o
+   `intro-on` do <body>, e as entradas do hero ficariam pausadas
+   no quadro zero — ou seja, invisíveis para sempre. Sem JS, a
+   abertura se retira sozinha pelo CSS e o hero aparece pronto. */
+.js .intro-on .hero__media img,
+.js .intro-on .hero__label,
+.js .intro-on .hero__headline,
+.js .intro-on .hero__sub,
+.js .intro-on .hero__actions,
+.js .intro-on .hero__meta,
+.js .intro-on .hero__scroll {
   animation-play-state: paused;
 }
 
